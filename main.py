@@ -17,14 +17,11 @@ Examples:
 
 
 Todo:
-    * Google Docstring Todos are formatted like this.
-    * Every line is started by a bullet point.
     * If we want to have multi-line Todos, we have
         to indent with 4 spaces. And assignees are added
         like so:.
         assignees: kevin
         labels: devel
-    * Single line todo
 
 
 """
@@ -47,4 +44,4 @@ def unfinished_func():
 
 class useless_class:
     def __init__(self):
-        # TODO (kevin) Write this class.
+        pass
