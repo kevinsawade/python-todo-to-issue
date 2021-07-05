@@ -22,6 +22,16 @@ Todo:
         like so:.
         assignees: kevin
         labels: devel
+    * I will add many.
+    * New lines, so that
+    * (kevin) has to use astparse
+    * To check whether added  bullrt
+    * points will move
+    * out of the todo block.
+    * Which would require to check all
+    * lines starting with the asterisk
+    * I think I will stop now
+    * I will also delete some todos from down there.
 
 
 """
@@ -37,11 +47,18 @@ def unfinished_func():
     """
     # This is a simple in-line comment
     # Function will be passed, but I will also add todos:
-    # TODO Fill the function.
-    #  assignees: kevin
-    #  labels: devel
     pass
 
 class useless_class:
+    """
+    Todo:
+        * Write some more methods.
+
+    """
     def __init__(self):
         pass
+
+    @property
+    def random(self):
+        # TODO (kevin): This property is not random
+        return 2
