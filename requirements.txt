@@ -1,0 +1,3 @@
+GitPython
+sphinxcontrib-napoleon
+unidiff
