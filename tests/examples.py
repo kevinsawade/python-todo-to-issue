@@ -26,23 +26,6 @@ Todo:
         assignees: github_user2, user3
         labels: wontfix, devel
         milestones: alpha
-    * I will add many.
-    * New lines, so that
-    * (kevin) has to use astparse
-    * To check whether added  bullrt
-    * points will move
-    * out of the todo block.
-    * Which would require to check all
-    * lines starting with the asterisk
-    * I think I will stop now
-    * I will also delete some todos from down there.
-    * Multi-line todos should follow google-styleguide like this one.
-        This means a tab should be used indentation inside
-        the docstrings. This will form the body of the issue. Change!.
-        Assignees and labels can be added the same way:
-        assignees: github_user2, user3
-        labels: wontfix, devel
-        milestones: alpha
 
 
 """
@@ -73,7 +56,7 @@ def unfinished_func():
 class useless_class:
     """
     Todo:
-        * (kevinsawade) Write some more methods.
+        * (kevinsawade) Test this function.
 
     """
 
