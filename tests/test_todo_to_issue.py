@@ -41,9 +41,51 @@ class TestTodoToIssue(unittest.TestCase):
         client = GitHubClient(testing=True)
         self.assertTrue(all([issue['title'] != 'TEST AUTO ISSUE' for issue in client.existing_issues]))
 
+    @unittest.skip("Development")
     def test_find_todos(self):
-        from main import TodoParser
-        parser = TodoParser(testing=True)
-        print(parser.issues)
-        self.assertTrue(False)
+        from main import TodoParser, LineStatus
+        parser = TodoParser(testing=1)
+        issues = parser.issues
+        self.assertEqual(issues[0].title, 'Single-line Todo. Add more documentation.')
+        self.assertEqual(issues[1].title, 'We should also add some actual code.')
+        self.assertEqual(issues[3].title, 'I will add many.')
+        self.assertEqual(issues[1].assignees, ['kevinsawade'])
+        self.assertEqual(issues[13].title, 'Multi-line todos should follow google-styleguide like this one.')
+        self.assertEqual(issues[13].assignees, ['github_user2', 'user3'])
+        self.assertEqual(issues[13].labels, ['todo', 'wontfix', 'devel'])
+
+        parser = TodoParser(testing=2)
+        issues = parser.issues
+        deleted = LineStatus.DELETED
+        self.assertEqual(issues[0].title, 'I will add many.')
+        self.assertTrue(issues[0].status is deleted)
+
+    def test_open_and_close_complex_issue(self):
+        from main import GitHubClient, TodoParser, LineStatus
+        parser = TodoParser(testing=1)
+        issue = parser.issues[1]
+        client = GitHubClient(testing=True)
+        client.create_issue(issue)
+        issue.status = LineStatus.DELETED
+        client = GitHubClient(testing=True)
+        self.assertTrue(any([issue['title'] == 'We should also add some actual code.' for issue in client.existing_issues]))
+        client.close_issue(issue)
+        client = GitHubClient(testing=True)
+        self.assertTrue(all([issue['title'] != 'We should also add some actual code.' for issue in client.existing_issues]))
+
+        print(issues[1].__dict__)
+
+    @unittest.skip("Development")
+    def test_duplicate_issue_raise(self):
+        pass
+
+    @unittest.skip("Development")
+    def test_skip_todo(self):
+        from main import extract_todos_from_file
+        with open('main.py', 'r') as f:
+            todos = extract_todos_from_file(f.read())
+        self.assertEqual(todos, [])
+
+
+
 

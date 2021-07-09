@@ -64,6 +64,7 @@ from sphinxcontrib.napoleon import GoogleDocstring
 from sphinxcontrib.napoleon import Config
 napoleon_config = Config(napoleon_use_param=True, napoleon_use_rtype=True)
 from unidiff import PatchSet
+from io import BytesIO, StringIO
 
 ################################################################################
 # Functions
@@ -105,29 +106,40 @@ def get_body(issue, url, line_break):
 
 
 def _get_assignees(lines):
-    for i, line in enumerate(lines):
-        if line.startswith('assignees:'):
-            lines.pop(i)
-            line = line.lstrip('assignees:')
-            assignees = [elem.strip() for elem in line.strip().split(',')]
-    return lines, assignees
+    assignees = []
+    if len(lines) > 1:
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith('assignees:'):
+                lines.pop(i)
+                line = line.lstrip().lstrip('assignees:')
+                assignees = [elem.strip() for elem in line.strip().split(',')]
+        return lines, assignees
+    elif len(lines) == 1:
+        if '(' in lines[0]:
+            s = lines[0]
+            assignees = s[s.find("(")+1:s.find(")")]
+            lines[0] = lines[0].replace('(' + assignees + ')', '')
+            assignees = [elem.strip() for elem in assignees.strip().split(',')]
+        return lines, assignees
 
 
 def _get_labels(lines):
+    labels = []
     for i, line in enumerate(lines):
-        if line.startswith('labels:'):
+        if line.lstrip().startswith('labels:'):
             lines.pop(i)
-            line = line.lstrip('labels:')
+            line = line.lstrip().lstrip('labels:')
             labels = [elem.strip() for elem in line.strip().split(',')]
     return lines, labels
 
 
 def _get_milestone(lines):
+    milestone = None
     for i, line in enumerate(lines):
-        if line.startswith('milestone:'):
+        if line.lstrip().startswith('milestone:'):
             lines.pop(i)
-            line = line.lstrip('milestone:').strip()
-    return lines, line
+            milestone = line.lstrip().lstrip('milestone:').strip()
+    return lines, milestone
 
 ################################################################################
 # Classes
@@ -176,7 +188,7 @@ class Issue:
         status (LineStatus): An instance of the `LineStatus` Enum class.
 
     """
-    def __init__(self, testing=False, **kwargs):
+    def __init__(self, testing=0, **kwargs):
         if testing:
             for key, val in testing_values.items():
                 self.__setattr__(key, val)
@@ -193,7 +205,8 @@ class Issue:
             self.labels.append('todo')
 
     def __str__(self):
-        return self.title + ' ' + ' '.join(self.assignees) + ' ' + str(self.status)
+        string = f"Title: {self.title}, assignees: [{', '.join(self.assignees)}], status: {self.status}]\n"
+        return string
 
     def __repr__(self):
         return self.__str__()
@@ -238,7 +251,7 @@ class GitHubClient():
         issue_headers (dict): A dict to provide to requests.get() as header.
 
     """
-    def __init__(self, testing=False):
+    def __init__(self, testing=0):
         """Instantiate the GitHubClient.
 
         Keyword Args:
@@ -258,6 +271,12 @@ class GitHubClient():
         commits = [i for i in repo.iter_commits()]
         self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
         self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
+        if self.testing == 1:
+            self.sha = '036ef2ca'
+            self.before = '11858e41'
+        elif self.testing == 2:
+            self.sha = '7fae83cc'
+            self.before = '036ef2ca'
 
         # get the token from environment variables
         self.token = os.getenv('INPUT_TOKEN')
@@ -404,19 +423,51 @@ class GitHubClient():
         return None
 
 
-class InlineTodo:
-    """Class that parses in-line todos from git diff hunks."""
-    def __init__(self):
-        pass
-
-    def __bool__(self):
-        return True
-
-
-class DocstringTodo:
+class ToDo:
     """Class that parses google-style docstring todos from git diff hunks."""
-    def __init__(self):
-        pass
+    def __init__(self, line, block, hunk, file):
+        self.line = line
+
+        if line.is_added:
+            self.status = LineStatus.ADDED
+        else:
+            self.status = LineStatus.DELETED
+
+        self.block = block.strip()
+        self.markdown_language = 'python'
+        self.hunk = ''.join([l.value for l in hunk.target_lines()])
+        self.file_name = file.target_file.lstrip('b/')
+        self.target_line = line.target_line_no
+
+        # parse the block
+        self._parse_block()
+
+    def _parse_block(self):
+        lines = self.block.split('\n')
+        lines, self.assignees = _get_assignees(lines)
+        lines, self.labels = _get_labels(lines)
+        lines, self.milestone = _get_milestone(lines)
+        if len(lines) > 1:
+            self.title, self.body = lines[0].lstrip(), '\n'.join(lines[1:])
+        else:
+            self.title = lines[0].lstrip()
+            self.body = ""
+
+    @property
+    def issue(self):
+        issue = Issue(
+            title=self.title,
+            labels=['todo'] + self.labels,
+            assignees=self.assignees,
+            milestone=self.milestone,
+            body=self.body,
+            hunk=self.hunk,
+            file_name=self.file_name,
+            start_line=self.target_line,
+            markdown_language=self.markdown_language,
+            status=self.status
+        )
+        return issue
 
     def __bool__(self):
         return True
@@ -482,7 +533,7 @@ class TodoParser:
         repo (str): A url to the current repo.
 
     """
-    def __init__(self, testing=False):
+    def __init__(self, testing=0):
         """Instantiate the TodoParser class.
 
         Keyword Args:
@@ -504,128 +555,91 @@ class TodoParser:
         commits = [i for i in repo.iter_commits()]
         self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
         self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
+        if self.testing == 1:
+            self.sha = '036ef2ca'
+            self.before = '11858e41'
+        elif self.testing == 2:
+            self.sha = '7fae83cc'
+            self.before = '036ef2ca'
+        commit_now = repo.commit(self.sha)
+        commit_before = repo.commit(self.before)
 
-        if self.testing:
-            import glob
-            diff_files = glob.glob('tests/*diff*.txt')
-            for i, file in enumerate(diff_files):
-                if i == 0:
-                    patchset = PatchSet.from_filename(file)
-                else:
-                    patchset.extend(PatchSet.from_filename(file))
-        else:
-            diff = repo.git.diff(self.before, self.sha)
-            patchset = PatchSet(diff)
+        # get diff
+        self.diff = repo.git.diff(self.before, self.sha)
+        patchset = PatchSet(self.diff)
 
         for file in patchset:
-            todos_before
-            todos_now = extract_todos_from_file(file.target_file, self.testing)
+            file_before = file.source_file.lstrip('a/')
+            file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
+            file_after = file.target_file.lstrip('b/')
+            file_after = StringIO(commit_now.tree[file_after].data_stream.read().decode('utf-8'))
+            with file_before as f:
+                todos_before = extract_todos_from_file(f.read(), self.testing)
+            with file_after as f:
+                todos_now = extract_todos_from_file(f.read(), self.testing)
             for hunk in file:
-                lines = list(hunk.target_lines())
+                lines = list(hunk.source_lines()) + list(hunk.target_lines())
                 for i, line in enumerate(lines):
-                    if todo := is_todo_line(line, file_todos, self.testing):
-                        print(todo)
-
-    def _extract_issue_from_inline_todo(self, line, i, lines, hunk, file):
-        """Checks whether the inline todo is single-line or multi-line."""
-        if lines := is_multiline_todo(line, i, lines):
-            return self._extract_issue_from_multi_line_todo(line, lines, hunk, file)
-        return self._extract_issue_from_single_line_todo(line, hunk, file)
-
-    def _extract_issue_from_docstring_todo(self, line, i, lines, hunk, file):
-        """Uses napoleon to get todo sections of docstrings of changed files"""
-        raise NotImplementedError()
-
-    def _extract_issue_from_single_line_todo(self, line, hunk, file):
-        clean_line = strip_line(line)
-        if clean_line.startswith('('):
-            assignees = [elem.strip() for elem in clean_line[clean_line.index("(") + 1:clean_line.rindex(")")].split(',')]
-            clean_line = clean_line.split(')')[-1]
-        else:
-            assignees = []
-        if line.line_type == '+':
-            status = LineStatus.ADDED
-        else:
-            status = LineStatus.DELETED
-        issue = Issue(
-            title=clean_line,
-            labels=['todo'],
-            assignees=assignees,
-            milestone=None,
-            body="",
-            hunk=hunk.target,
-            file_name=file.target_file,
-            start_line=line.target_line_no,
-            markdown_language='python',
-            status=status
-        )
-        self.issues.append(issue)
-
-    def _extract_issue_from_multi_line_todo(self, line, lines, hunk, file):
-        """Creates issue with info from multi-line todo"""
-        lines, assignees = _get_assignees(lines)
-        lines, labels = _get_labels(lines)
-        lines, milestone = _get_milestone(lines)
-        if line.line_type == '+':
-            status = LineStatus.ADDED
-        else:
-            status = LineStatus.DELETED
-        try:
-            title, body = lines[0], lines[1:]
-        except IndexError:
-            title = lines[0]
-            body = ""
-        issue = Issue(
-            title=title,
-            labels=['todo'] + labels,
-            assignees=assignees,
-            milestone=milestone,
-            body=body,
-            hunk=hunk.target,
-            file_name=file.target_file,
-            start_line=line.target_line_no,
-            markdown_language='python',
-            status=status
-        )
-        self.issues.append(issue)
-
-    def build_issue_from_files(self):
-        pass
+                    if block := is_todo_line(line, todos_before, todos_now, self.testing):
+                        todo = ToDo(line, block, hunk, file)
+                        issue = todo.issue
+                        self.issues.append(issue)
 
 
-def is_todo_line(line, todos, testing=False):
+def is_todo_line(line, todos_before, todos_now, testing=0):
     """Two cases: Line starts with any combination of # Todo, or line starts with
     asterisk and is inside a napoleon docstring todo header.
 
     Also filter out # todo: +SKIP.
 
     Args:
-        line (Unidiff.Line): A line instance.
-        todos (list[str]): Todos from the file.
+        line (unidiff.Line): A line instance.
+        todos_before (list[str]): Todos from the source file.
+        todos_now (list[str]): Todos from the target file.
 
     Keyword Args:
         testing (bool, optional): Set True for Testing. Defaults to False.
 
+    Returns:
+        Union[bool, str]: Either a bool, when line is not a todo line, or a
+            str, when line is a todo line.
+
     """
+    if testing == 2 and line.value == 'I will add many.':
+        print(line)
+        raise Exception("STOP")
+    # check if line has been added or removed
+    if line.is_context:
+        return False
+    elif line.is_added:
+        todos = todos_now
+    else:
+        todos = todos_before
+
+    # check whether line can be a todo line
     if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
-        line = line.value.replace('#', '')
+        stripped_line = strip_line(line.value.replace('#', '', 1))
     elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
-        line = line.value.replace('*', '').strip()
-        check = [line in t for t in todos]
-        if any(check):
-            index = check.index(True)
-            block = todos[index]
-            return block
+        stripped_line = strip_line(line.value.replace('*', '', 1))
     else:
         return False
-    return line.strip()
+
+    # get the complete block
+    # and build complete issue
+    check = [stripped_line in t for t in todos]
+    if any(check):
+        index = check.index(True)
+        block = todos[index]
+        return block
+    else:
+        return False
 
 
-def extract_todos_from_file(file, testing=False):
+def extract_todos_from_file(file, testing=0):
     """Parses a file and extracts todos in google-style formatted docstrings.
 
     Args:
-        file (str): Path to a file.
+        file (str): Contents of file.
 
     Keyword Args:
         testing (bool, optional): If set to True todos containing `# todo: +SKIP`
@@ -635,14 +649,10 @@ def extract_todos_from_file(file, testing=False):
         list[str]: A list containing the todos from this file.
 
     """
-    if testing:
-        file = 'tests/examples_base.py'
-    file = file.replace('b/', '')
 
     # use ast to parse
     docs = []
-    with open(file, 'r') as f:
-        parsed_file = ast.parse(f.read())
+    parsed_file = ast.parse(file)
     try:
         docs.append(ast.get_docstring(parsed_file))
     except Exception as e:
@@ -653,7 +663,7 @@ def extract_todos_from_file(file, testing=False):
         except TypeError:
             pass
 
-    # append todos in list:
+    # append docstring todos to list:
     todos = []
     for doc in docs:
         if doc is None:
@@ -663,39 +673,55 @@ def extract_todos_from_file(file, testing=False):
             if 'Todo:' in block:
                 block = '\n'.join(block.splitlines()[1:])
                 block = block.split('* ')[1:]
-                block = [re.sub(' +', ' ', s) for s in block]
                 if not testing:
                     block = list(filter(lambda x: False if TODO_SKIP_SUBSTRING in x else True, block))
+                block = list(map(strip_line, block))
+                block = list(map(lambda x: x.replace('\n ', '\n'), block))
                 todos.extend(block)
+
+    # get all comments lines starting with hash
+    comments_lines = list(
+        map(
+        lambda x: x.strip().replace('#', '', 1),
+        filter(
+        lambda y: True if y.strip().startswith('#') else False,
+        file.splitlines())))
+
+    # iterate over them.
+    for i, comment_line in enumerate(comments_lines):
+        if comment_line.lower().strip().startswith('todo'):
+            if not testing and TODO_SKIP_SUBSTRING in comment_line:
+                continue
+            block = [strip_line(comment_line)]
+            in_block = True
+            j = i + 1
+            while in_block:
+                try:
+                    todo_body = comments_lines[j].startswith('  ')
+                except IndexError:
+                    in_block = False
+                    continue
+                if todo_body:
+                    block.append(strip_line(comments_lines[j]))
+                    j += 1
+                else:
+                    in_block = False
+            block = '\n'.join(block)
+            todos.append(block)
+
+    # and return
     return todos
-
-
-def is_multiline_todo(line, i, lines):
-    if 'todo' in line.value.lower():
-        out = [strip_line(line, with_todo=True)]
-    else:
-        out = [strip_line(line)]
-    for trailing_line in lines[i + 1:]:
-        if len(strip_line(trailing_line, with_whitespace=False)) - len(strip_line(trailing_line, with_whitespace=False).lstrip()) == 2:
-            out.append(strip_line(trailing_line, with_whitespace=True))
-    if len(out) > 1:
-        return out
-    return False
 
 
 def strip_line(line, with_whitespace=True, with_todo=True):
     if with_whitespace:
-        line = line.value.strip().lstrip('#').lstrip()
+        line = line.strip().lstrip('#').lstrip()
     else:
-        line = line.value.strip().lstrip('#')
+        line = line.strip().lstrip('#')
     if with_todo:
-        return re.sub(r'(?i)todo\s', '', line)
+        return re.sub(r'(?i)todo(\s|\:)', '', line).strip()
     else:
         return line
-
-
-def parse_todo(lines):
-    pass
 
 
 ################################################################################
@@ -712,6 +738,6 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Python code Todos to github issues.")
     parser.add_argument('--testing', dest='testing', action='store_true', help="Whether a testing run is executed and tests will be conducted.")
-    parser.set_defaults(testing=False)
+    parser.set_defaults(testing=0)
     args = parser.parse_args()
     main(testing=args.testing)
