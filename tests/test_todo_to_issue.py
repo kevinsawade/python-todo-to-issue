@@ -16,20 +16,17 @@ class TestTodoToIssue(unittest.TestCase):
     def tearDownClass(cls):
         del os.environ['INPUT_TOKEN']
 
-    @unittest.skip("Avoid too many closed issues during development")
     def test_read_issues(self):
         from main import GitHubClient
         client = GitHubClient(testing=True)
         self.assertTrue(any([issue['title'] == 'TESTING ISSUES' for issue in client.existing_issues]))
         self.assertTrue(any([issue['assignee']['login'] == 'kevinsawade' for issue in client.existing_issues if  issue['assignee'] is not None]))
 
-    @unittest.skip("Avoid too many closed issues during development")
     def test_issue_missing_arguments(self):
         from main import Issue
         with self.assertRaises(TypeError):
             issue = Issue(title='THIS IS A TESTING TITLE')
 
-    @unittest.skip("Avoid too many closed issues during development")
     def test_create_and_close_issue(self):
         from main import GitHubClient, Issue
         client = GitHubClient(testing=True)
@@ -41,7 +38,6 @@ class TestTodoToIssue(unittest.TestCase):
         client = GitHubClient(testing=True)
         self.assertTrue(all([issue['title'] != 'TEST AUTO ISSUE' for issue in client.existing_issues]))
 
-    @unittest.skip("Development")
     def test_find_todos(self):
         from main import TodoParser, LineStatus
         parser = TodoParser(testing=1)
@@ -60,26 +56,53 @@ class TestTodoToIssue(unittest.TestCase):
         self.assertEqual(issues[0].title, 'I will add many.')
         self.assertTrue(issues[0].status is deleted)
 
-    def test_open_and_close_complex_issue(self):
-        from main import GitHubClient, TodoParser, LineStatus
+    def test_unmatched_docstring_quotes(self):
+        from main import TodoParser, get_body
         parser = TodoParser(testing=1)
-        issue = parser.issues[1]
+        issues = parser.issues
+        body = get_body(issues[1], 'url', line_break='\n')
+        self.assertEqual(body.count('"""'), 2)
+
+    def test_open_and_close_complex_issue_one(self):
+        from main import GitHubClient, TodoParser
+        parser = TodoParser(testing=1)
+        issue = parser.issues[-3]
         client = GitHubClient(testing=True)
         client.create_issue(issue)
-        issue.status = LineStatus.DELETED
+        parser = TodoParser(testing=2)
+        issue = parser.issues[-2]
         client = GitHubClient(testing=True)
-        self.assertTrue(any([issue['title'] == 'We should also add some actual code.' for issue in client.existing_issues]))
-        client.close_issue(issue)
+        self.assertTrue(any([issue['title'] == 'Write some more methods.' for issue in client.existing_issues]), msg=client.existing_issues)
+        status_codes = client.close_issue(issue)
         client = GitHubClient(testing=True)
-        self.assertTrue(all([issue['title'] != 'We should also add some actual code.' for issue in client.existing_issues]))
+        self.assertTrue(all([issue['title'] != 'Write some more methods.' for issue in client.existing_issues]), msg=status_codes)
 
-        print(issues[1].__dict__)
+    def test_open_and_close_complex_issue_two(self):
+        from main import GitHubClient, TodoParser
+        parser = TodoParser(testing=1)
+        issue = parser.issues[-5]
+        client = GitHubClient(testing=True)
+        client.create_issue(issue)
+        parser = TodoParser(testing=2)
+        issue = parser.issues[-3]
+        client = GitHubClient(testing=True)
+        self.assertTrue(any([issue['title'] == 'Multi-line todos should follow google-styleguide like this one.' for issue in client.existing_issues]), msg=client.existing_issues)
+        status_codes = client.close_issue(issue)
+        client = GitHubClient(testing=True)
+        self.assertTrue(all([issue['title'] != 'Multi-line todos should follow google-styleguide like this one.' for issue in client.existing_issues]), msg=status_codes)
 
-    @unittest.skip("Development")
     def test_duplicate_issue_raise(self):
-        pass
+        from main import GitHubClient, Issue
+        issue = Issue(testing=True)
+        issue.title = 'TESTING ISSUES'
+        issue.body = ['This is an issue that will be checked when the app runs in testing mode.']
+        client = GitHubClient(testing=True)
+        client.create_issue(issue)
+        client = GitHubClient(testing=True)
+        title = 'TESTING ISSUES'
+        titles = [issue['title'] for issue in client.existing_issues]
+        self.assertEqual(titles.count(title), 1)
 
-    @unittest.skip("Development")
     def test_skip_todo(self):
         from main import extract_todos_from_file
         with open('main.py', 'r') as f:

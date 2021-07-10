@@ -35,7 +35,7 @@
 ################################################################################
 
 
-__all__ = ['main', 'GitHubClient']
+# __all__ = ['main', 'GitHubClient']
 
 
 ################################################################################
@@ -45,9 +45,6 @@ __all__ = ['main', 'GitHubClient']
 
 TODO_CHARS_PATTERN = '[*#]'
 # Thanks to Alastair Mooney's regexes
-LABELS_PATTERN = r'(?<=labels:\s).+'
-ASSIGNEES_PATTERN = r'(?<=assignees:\s).+'
-MILESTONE_PATTERN = r'(?<=milestone:\s).+'
 
 INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\:|\s)(\s|\().*'
 DOCSTRING_TODO_PATTERN = r'\s*\*\s*(\(.*|.*)'
@@ -58,13 +55,12 @@ TODO_SKIP_SUBSTRING = '# todo: +SKIP'
 # Imports
 ################################################################################
 
+
 from enum import Enum
 import ast, os, requests, json, git, re
-from sphinxcontrib.napoleon import GoogleDocstring
-from sphinxcontrib.napoleon import Config
-napoleon_config = Config(napoleon_use_param=True, napoleon_use_rtype=True)
 from unidiff import PatchSet
-from io import BytesIO, StringIO
+from io import StringIO
+
 
 ################################################################################
 # Functions
@@ -82,7 +78,8 @@ def join_lines(issue, line_break):
         str: A string with the formatted issue body.
 
     """
-    return "This issue was automatically created by a github action that converts projects Todos to issues." + '\n\n' + line_break.join(issue.body)
+    annotation = "This issue was automatically created by a github action that converts project Todos to issues."
+    return annotation + '\n\n' + line_break.join(issue.body)
 
 
 def get_body(issue, url, line_break):
@@ -98,11 +95,12 @@ def get_body(issue, url, line_break):
 
     """
     formatted_issue_body = join_lines(issue, line_break)
-    return (formatted_issue_body + '\n\n'
-            + url + '\n\n'
-            + '```' + issue.markdown_language + '\n'
-            + issue.hunk + '\n'
-            + '```')
+    formatted = (formatted_issue_body + '\n\n'
+                 + url + '\n\n'
+                 + '```' + issue.markdown_language + '\n'
+                 + issue.hunk + '\n'
+                 + '```')
+    return formatted
 
 
 def _get_assignees(lines):
@@ -117,7 +115,7 @@ def _get_assignees(lines):
     elif len(lines) == 1:
         if '(' in lines[0]:
             s = lines[0]
-            assignees = s[s.find("(")+1:s.find(")")]
+            assignees = s[s.find("(") + 1:s.find(")")]
             lines[0] = lines[0].replace('(' + assignees + ')', '')
             assignees = [elem.strip() for elem in assignees.strip().split(',')]
         return lines, assignees
@@ -136,10 +134,14 @@ def _get_labels(lines):
 def _get_milestone(lines):
     milestone = None
     for i, line in enumerate(lines):
-        if line.lstrip().startswith('milestone:'):
+        if line.lstrip().startswith(('milestone:', 'milestones:')):
             lines.pop(i)
-            milestone = line.lstrip().lstrip('milestone:').strip()
+            if 'milestone:' in line:
+                milestone = line.lstrip().lstrip('milestone:').strip()
+            elif 'milestones:' in line:
+                milestone = line.lstrip().lstrip('milestones:').strip()
     return lines, milestone
+
 
 ################################################################################
 # Classes
@@ -157,7 +159,8 @@ testing_values = dict(
     labels=['todo'],
     assignees=[],
     milestone=None,
-    body=['This issue is automatically created by Unittests. If this issue is not automatically closed, tests have failed.'],
+    body=[
+        'This issue is automatically created by Unittests. If this issue is not automatically closed, tests have failed.'],
     hunk="# This is the code block that would normally be attached to the issue.\ndef function()\n    return 'Hi!'",
     file_name='main.py',
     start_line='47',
@@ -188,6 +191,7 @@ class Issue:
         status (LineStatus): An instance of the `LineStatus` Enum class.
 
     """
+
     def __init__(self, testing=0, **kwargs):
         if testing:
             for key, val in testing_values.items():
@@ -205,7 +209,7 @@ class Issue:
             self.labels.append('todo')
 
     def __str__(self):
-        string = f"Title: {self.title}, assignees: [{', '.join(self.assignees)}], status: {self.status}]\n"
+        string = f"Title: {self.title}, assignees: [{', '.join(self.assignees)}], milestone: {self.milestone}, status: {self.status}]\n"
         return string
 
     def __repr__(self):
@@ -251,6 +255,7 @@ class GitHubClient():
         issue_headers (dict): A dict to provide to requests.get() as header.
 
     """
+
     def __init__(self, testing=0):
         """Instantiate the GitHubClient.
 
@@ -330,10 +335,10 @@ class GitHubClient():
         # check title
         a = issue.title == other_issue['title']
         if not 'https://github.com/' in other_issue['body']:
-            return False
+            return a
         else:
             # check issue text
-            this_text = join_lines(issue, line_break)
+            this_text = join_lines(issue, line_break).rstrip()
             other_text = other_issue['body'].split('https://github.com')[0].rstrip()
             b = this_text == other_text
 
@@ -390,6 +395,8 @@ class GitHubClient():
         new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
                                           data=json.dumps(new_issue_body))
 
+        return new_issue_request
+
     def close_issue(self, issue):
         """Check to see if this issue can be found on GitHub and if so close it.
         
@@ -410,22 +417,59 @@ class GitHubClient():
                     break
                 issue_number = existing_issue['number']
         else:
-            # The titles match, so we will try and close the issue.
-            update_issue_url = f'{self.repos_url}{self.repo}/issues/{issue_number}'
-            body = {'state': 'closed'}
-            requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
+            if matched == 0 and self.testing:
+                raise Exception(f"Couldn't match issue {issue.title}, {issue.body}")
+            else:
+                # The titles match, so we will try and close the issue.
+                update_issue_url = f'{self.repos_url}{self.repo}/issues/{issue_number}'
+                body = {'state': 'closed'}
+                close_issue_request = requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
 
-            issue_comment_url = f'{self.repos_url}{self.repo}/issues/{issue_number}/comments'
-            body = {'body': f'Closed in {self.sha}'}
-            update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
-                                                 data=json.dumps(body))
-            return update_issue_request.status_code
+                issue_comment_url = f'{self.repos_url}{self.repo}/issues/{issue_number}/comments'
+                body = {'body': f'Closed in {self.sha}'}
+                update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
+                                                     data=json.dumps(body))
+                return update_issue_request.status_code, close_issue_request.status_code
         return None
 
 
 class ToDo:
-    """Class that parses google-style docstring todos from git diff hunks."""
+    """Class that parses google-style docstring todos from git diff hunks.
+
+    Attributes:
+        line (unidiff.Line): The line that triggered this todo.
+        block (list[str]): The lines following the title of multi-line
+            todos. Every line is one string in this list of str.
+        status (LineStatus): The status of the ToDo. Can be ADDED or DELETED>
+        markdown_language (str): What markdown language to use. Defaults to
+            'python'.
+        hunk (unidiff.Hunk): The hunk that contains the line. Will be converted
+            to code block in the issue.
+        file_name (str): The path of the file from which the todo was extracted.
+        target_line (Union[str, int]): The line number from which the
+            todo was raised. Is used to create a permalink url to that line.
+        assignees (list[str]): The assignees of the issue.
+        labels (list[str]): The labels of the issue.
+        milestone (Union[None, str]): The milestone of the issue.
+        title (str): The title of the issue, once the block input
+            argument has been parsed.
+        body (Union[str, list[str]]): The body of the issue. Can be empty string
+            (no body_, or list of str for every line in body.
+
+    """
+
     def __init__(self, line, block, hunk, file):
+        """Instantiate the ToDo Class.
+
+        Args:
+            line (unidiff.Line): The line from which the todo was raised.
+            block (str): The complete indented block, the ToDo was raised from.
+                Including the title.
+            hunk (unidiff.Hunk): The hunk of diff from wich the todo was triggered.
+            file (unidiff.File): The file, from which the diff was
+                extracted.
+
+        """
         self.line = line
 
         if line.is_added:
@@ -436,6 +480,11 @@ class ToDo:
         self.block = block.strip()
         self.markdown_language = 'python'
         self.hunk = ''.join([l.value for l in hunk.target_lines()])
+        if self.hunk.count('"""') == 1:
+            if '"""' in self.hunk[:int(len(self.hunk) / 2)]:
+                self.hunk = self.hunk + '"""\n'
+            else:
+                self.hunk = '"""\n' + self.hunk
         self.file_name = file.target_file.lstrip('b/')
         self.target_line = line.target_line_no
 
@@ -443,12 +492,14 @@ class ToDo:
         self._parse_block()
 
     def _parse_block(self):
+        """Parses the `block` argument and extacts more info."""
         lines = self.block.split('\n')
         lines, self.assignees = _get_assignees(lines)
         lines, self.labels = _get_labels(lines)
         lines, self.milestone = _get_milestone(lines)
         if len(lines) > 1:
             self.title, self.body = lines[0].lstrip(), '\n'.join(lines[1:])
+            self.body = [line.lstrip() for line in self.body.splitlines()]
         else:
             self.title = lines[0].lstrip()
             self.body = ""
@@ -533,6 +584,7 @@ class TodoParser:
         repo (str): A url to the current repo.
 
     """
+
     def __init__(self, testing=0):
         """Instantiate the TodoParser class.
 
@@ -682,10 +734,10 @@ def extract_todos_from_file(file, testing=0):
     # get all comments lines starting with hash
     comments_lines = list(
         map(
-        lambda x: x.strip().replace('#', '', 1),
-        filter(
-        lambda y: True if y.strip().startswith('#') else False,
-        file.splitlines())))
+            lambda x: x.strip().replace('#', '', 1),
+            filter(
+                lambda y: True if y.strip().startswith('#') else False,
+                file.splitlines())))
 
     # iterate over them.
     for i, comment_line in enumerate(comments_lines):
@@ -714,6 +766,22 @@ def extract_todos_from_file(file, testing=0):
 
 
 def strip_line(line, with_whitespace=True, with_todo=True):
+    """Strips line from unwanted whitespace. comments chars, and 'todo'.
+
+    Args:
+        line (str): The line to be stripped.
+
+    Keyword Args:
+        with_whitespace (bool, optional): Whether to strip the whitespace
+            that follows the comment character '#'.
+            Defaults to True.
+        with_todo (bool, optional): Whether to replace case insensitive
+            'todo' strings.
+
+    Returns:
+        str: The stripped line.
+
+    """
     if with_whitespace:
         line = line.strip().lstrip('#').lstrip()
     else:
@@ -736,8 +804,10 @@ def main(testing):
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="Python code Todos to github issues.")
-    parser.add_argument('--testing', dest='testing', action='store_true', help="Whether a testing run is executed and tests will be conducted.")
+    parser.add_argument('--testing', dest='testing', action='store_true',
+                        help="Whether a testing run is executed and tests will be conducted.")
     parser.set_defaults(testing=0)
     args = parser.parse_args()
     main(testing=args.testing)
