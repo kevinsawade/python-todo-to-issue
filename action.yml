@@ -1,6 +1,6 @@
 name: "python-todo-to-issue"
 author: "Kevin Sawade <kevin.sawade@uni-konstanz.de>"
-description: "A github action that converts todos from python files into github issues and closes the issues once the todos have been removed."
+description: "Converts todos from comments and docstrings to issues."
 runs:
   using: "docker"
   image: "Dockerfile"
