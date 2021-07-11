@@ -1,0 +1,14 @@
+name: "python-todo-to-issue"
+author: "Kevin Sawade <kevin.sawade@uni-konstanz.de>"
+description: "A github action that converts todos from python files into github issues and closes the issues once the todos have been removed."
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: "check-square"
+  color: "orange"
+inputs:
+  TESTING:
+    description: "For testing purposes. Let's the workflow run unittests from https://github.com/kevinsawade/python-todo-to-issue/blob/main/tests/test_todo_to_issue.py."
+    required: false
+    default: false
