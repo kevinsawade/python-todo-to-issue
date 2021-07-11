@@ -2,3 +2,4 @@ GitPython
 sphinxcontrib-napoleon
 unidiff
 pdoc3
+requests
