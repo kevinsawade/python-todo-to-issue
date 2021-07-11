@@ -1,5 +1,4 @@
-![Unittests](https://github.com/kevinsawade/
-python-todo-to-issue/actions/workflows/unittest.yml/badge.svg)
+![Unittests](https://github.com/kevinsawade/python-todo-to-issue/actions/workflows/unittest.yml/badge.svg)
 
 # python-todo-to-issue
 
