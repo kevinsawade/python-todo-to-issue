@@ -1,3 +1,4 @@
 GitPython
 sphinxcontrib-napoleon
 unidiff
+pdoc3

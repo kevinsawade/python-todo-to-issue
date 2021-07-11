@@ -4,13 +4,17 @@ import os
 class TestTodoToIssue(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        try:
-            with open('secrets', 'r') as f:
-                gh_token = f.readline()
-        except FileNotFoundError as e:
-            new_exc = Exception("Put a file named `secrets` at repo root and put your github secret (no quotation marks, just plain text) with repo access rights into there. Usually they start with gh_")
-            raise new_exc from e
-        os.environ['INPUT_TOKEN'] = gh_token
+        if 'INPUT_TOKEN' in os.environ:
+            'token already in environ'
+            pass
+        else:
+            try:
+                with open('secrets', 'r') as f:
+                    gh_token = f.readline()
+            except FileNotFoundError as e:
+                new_exc = Exception("Put a file named `secrets` at repo root and put your github secret (no quotation marks, just plain text) with repo access rights into there. Usually they start with gh_")
+                raise new_exc from e
+            os.environ['INPUT_TOKEN'] = gh_token
 
     @classmethod
     def tearDownClass(cls):
@@ -22,11 +26,13 @@ class TestTodoToIssue(unittest.TestCase):
         self.assertTrue(any([issue['title'] == 'TESTING ISSUES' for issue in client.existing_issues]))
         self.assertTrue(any([issue['assignee']['login'] == 'kevinsawade' for issue in client.existing_issues if  issue['assignee'] is not None]))
 
+    @unittest.skip("Devel")
     def test_issue_missing_arguments(self):
         from main import Issue
         with self.assertRaises(TypeError):
             issue = Issue(title='THIS IS A TESTING TITLE')
 
+    @unittest.skip("Devel")
     def test_create_and_close_issue(self):
         from main import GitHubClient, Issue
         client = GitHubClient(testing=True)
@@ -38,6 +44,7 @@ class TestTodoToIssue(unittest.TestCase):
         client = GitHubClient(testing=True)
         self.assertTrue(all([issue['title'] != 'TEST AUTO ISSUE' for issue in client.existing_issues]))
 
+    @unittest.skip("Devel")
     def test_find_todos(self):
         from main import TodoParser, LineStatus
         parser = TodoParser(testing=1)
@@ -56,6 +63,7 @@ class TestTodoToIssue(unittest.TestCase):
         self.assertEqual(issues[0].title, 'I will add many.')
         self.assertTrue(issues[0].status is deleted)
 
+    @unittest.skip("Devel")
     def test_unmatched_docstring_quotes(self):
         from main import TodoParser, get_body
         parser = TodoParser(testing=1)
@@ -63,6 +71,7 @@ class TestTodoToIssue(unittest.TestCase):
         body = get_body(issues[1], 'url', line_break='\n')
         self.assertEqual(body.count('"""'), 2)
 
+    @unittest.skip("Devel")
     def test_open_and_close_complex_issue_one(self):
         from main import GitHubClient, TodoParser
         parser = TodoParser(testing=1)
@@ -77,6 +86,7 @@ class TestTodoToIssue(unittest.TestCase):
         client = GitHubClient(testing=True)
         self.assertTrue(all([issue['title'] != 'Write some more methods.' for issue in client.existing_issues]), msg=status_codes)
 
+    @unittest.skip("Devel")
     def test_open_and_close_complex_issue_two(self):
         from main import GitHubClient, TodoParser
         parser = TodoParser(testing=1)
@@ -91,6 +101,7 @@ class TestTodoToIssue(unittest.TestCase):
         client = GitHubClient(testing=True)
         self.assertTrue(all([issue['title'] != 'Multi-line todos should follow google-styleguide like this one.' for issue in client.existing_issues]), msg=status_codes)
 
+    @unittest.skip("Devel")
     def test_duplicate_issue_raise(self):
         from main import GitHubClient, Issue
         issue = Issue(testing=True)
@@ -103,6 +114,7 @@ class TestTodoToIssue(unittest.TestCase):
         titles = [issue['title'] for issue in client.existing_issues]
         self.assertEqual(titles.count(title), 1)
 
+    @unittest.skip("Devel")
     def test_skip_todo(self):
         from main import extract_todos_from_file
         with open('main.py', 'r') as f:

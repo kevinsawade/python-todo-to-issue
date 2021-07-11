@@ -27,7 +27,92 @@
 # GNU Lesser General Public License for more details.
 #
 # Find the GNU Lesser General Public License under <http://www.gnu.org/licenses/>.
-"""Convert python Todos to github issues.
+"""
+Convert python Todos to github issues
+=====================================
+
+Preface
+-------
+
+This module converts todos from your project to issues on github. I took lots
+of inspiration from Alastair Mooney's <a href="https://github.com/alstr/todo-to-issue-action">todo-to-issue-action</a>,
+which is a much more complete library and allows more languages than just python.
+However, it does not recognize google-style <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google">Todo labels</a>
+, doesn't allow to skip todos (like doctest's skip) and has a proprietary diff
+parser instead of using <a href="https://github.com/matiasb/python-unidiff">unidiff</a>.
+
+Installation
+------------
+
+Use this action via github workflows.
+
+What is regarded as a ToDo?
+---------------------------
+
+First of all: Only todos from commits are used as issues. If you have old Todos
+in your module, you need to remove them, commit and then include them again.
+
+Todos are searched for in comments which start with ``# Todo:``. You can expand
+these comments with the assignee of the issue. For this you put the github
+username of a maintainer, developer or owner of a repo in parentheses. You can
+also write multi-line todos, by indenting them with extra spaces. Using this
+multi-line syntax, you can add labels and milestone to a issue.
+
+```python
+# todo: This is a simple in-line todo. This will be the title of the issue.
+
+# todo (kevinsawade): I will fix this weird contraption.
+
+# Todo: This is the title of a mutli-line issue.
+#  This is the body of the multi-line issue. Here, you can specify
+#  What needs to be done to fix this issue. Issues are automatically
+#  closed, once the issue is removed from the file. You can set assignees,
+#  labels and milestone like so:
+#  assignees: kevinsawade, github_user3
+#  labels: devel, bug
+#  milestone: release
+```
+
+Besides these in-line Todos, Todos from google-style formatted docstrings will
+also be picked up. The general style is the same. Indentation is done via
+4 spaces. Assignees can be put in parentheses or as a line in multi-line todos.
+
+```python
+def myfunc(arg1):
+\"\"\"This is the overview docstring.
+
+This is more detailed info to the function `myfunc`.
+
+Args:
+    arg1 (str): Argument `arg1` should be of type `str`.
+
+Todo:
+    * Single-line todos are introduced as a single bullet-point.
+    * This line becomes the title of the github issue.
+    * (kevinsawade) Assignees are put into parentheses.
+    * Titles for multi-line todos are also bullet-points.
+        But the body is indented according to google's styleguide.
+        Assignees, labels and milestones are added similar to the in-line
+        comments todos.
+        assignees: kevinsawade, github_user2
+        labels: devel, bug
+        milestone: alpha
+
+\"\"\"
+return 'Hello!' + arg1
+```
+
+To skip todos you can add ``# todo: +SKIP`` after the todo-line. This one is not
+case insensitive and only works if you use it verbose.
+
+Classes and Functions
+---------------------
+
+The remainder of this page contains the functions and classes used to run this
+action. These functions and classes contain their own documentation which you
+can use if you only want to use some parts of this code.
+
+
 
 """
 ################################################################################
@@ -57,7 +142,7 @@ TODO_SKIP_SUBSTRING = '# todo: +SKIP'
 
 
 from enum import Enum
-import ast, os, requests, json, git, re
+import ast, os, requests, json, git, re, unittest
 from unidiff import PatchSet
 from io import StringIO
 
@@ -796,10 +881,34 @@ def strip_line(line, with_whitespace=True, with_todo=True):
 # Main
 ################################################################################
 
+
+def run_tests_from_main():
+    """Runs unit-tests when `main()` is called with testing = True."""
+    # load a file with secrets if there
+    try:
+        with open('secrets', 'r') as f:
+            gh_token = f.readline()
+        os.environ['INPUT_TOKEN'] = gh_token
+    except FileNotFoundError:
+        pass
+
+    # run unittests
+    loader = unittest.TestLoader()
+    test_suite = loader.discover(start_dir=os.path.join(os.getcwd(), 'tests'),
+                                 top_level_dir=os.getcwd())
+    runner = unittest.TextTestRunner()
+    result = runner.run(test_suite)
+
+    # raise SystemExit to make action fail
+    if not result.wasSuccessful():
+        raise SystemExit()
+
+
 def main(testing):
     if testing:
-        print("Running in Test Mode")
-    print("Running Main")
+        run_tests_from_main()
+    else:
+        print("Running Main")
 
 
 if __name__ == "__main__":
@@ -808,6 +917,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Python code Todos to github issues.")
     parser.add_argument('--testing', dest='testing', action='store_true',
                         help="Whether a testing run is executed and tests will be conducted.")
-    parser.set_defaults(testing=0)
+    parser.set_defaults(testing=False)
     args = parser.parse_args()
     main(testing=args.testing)
