@@ -20,6 +20,9 @@ class TestTodoToIssue(unittest.TestCase):
     def tearDownClass(cls):
         del os.environ['INPUT_TOKEN']
 
+    def test_fails(self):
+        self.assertTrue(False)
+
     def test_read_issues(self):
         from main import GitHubClient
         client = GitHubClient(testing=True)
