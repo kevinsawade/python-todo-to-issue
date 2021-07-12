@@ -6,22 +6,24 @@ class TestTodoToIssue(unittest.TestCase):
     def setUpClass(cls):
         if 'INPUT_TOKEN' in os.environ:
             'token already in environ'
-            pass
         else:
+            print("Setting environment token.")
             try:
                 with open('secrets', 'r') as f:
-                    gh_token = f.readline()
+                    gh_token = f.readline().rstrip('\n')
             except FileNotFoundError as e:
                 new_exc = Exception("Put a file named `secrets` at repo root and put your github secret (no quotation marks, just plain text) with repo access rights into there. Usually they start with gh_")
                 raise new_exc from e
             os.environ['INPUT_TOKEN'] = gh_token
+        print("Environment token set up.")
+        print("I will attempt to print it. But based on where you run this line from, it will not print")
+        print(f"Here it is ---> {os.environ['INPUT_TOKEN']} <---")
+
 
     @classmethod
     def tearDownClass(cls):
         del os.environ['INPUT_TOKEN']
-
-    def test_fails(self):
-        self.assertTrue(False)
+        print("Deleting environment token.")
 
     def test_read_issues(self):
         from main import GitHubClient

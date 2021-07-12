@@ -354,8 +354,7 @@ class GitHubClient():
 
         # get repo using git-python
         repo = git.Repo('.')
-        remote_url = repo.remotes[0].config_reader.get("url")
-        self.repo = remote_url.lstrip('https://github.com/').rstrip('.git')
+        self._get_repo_url(repo)
 
         # get before and current hash
         commits = [i for i in repo.iter_commits()]
@@ -386,6 +385,14 @@ class GitHubClient():
 
         # get current issues
         self._get_existing_issues()
+
+    def _get_repo_url(self, repo):
+        """Construct repo url from ssh or https repo urls"""
+        remote_url = repo.remotes[0].config_reader.get("url")
+        if '@' not in remote_url:
+            self.repo = remote_url.lstrip('https://github.com/').rstrip('.git')
+        else:
+            self.repo = remote_url.lstrip('git@github.com:').rstrip('.git')
 
     def _get_existing_issues(self, page=1):
         """Populate the existing issues list."""
