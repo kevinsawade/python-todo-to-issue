@@ -145,6 +145,7 @@ from enum import Enum
 import ast, os, requests, json, git, re, unittest
 from unidiff import PatchSet
 from io import StringIO
+from time import sleep
 
 
 ################################################################################
@@ -775,7 +776,7 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
     if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
         stripped_line = strip_line(line.value.replace('#', '', 1))
     elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
-        stripped_line = strip_line(line.value.replace('*', '', 1))
+        stripped_line = strip_line(line.value.replace('*', '', 1), with_todo=False)
     else:
         return False
 
@@ -939,17 +940,19 @@ def main(testing):
         for i, issue in enumerate(issues):
             print(f"Processing issue {issue}.")
             if issue.status == LineStatus.ADDED:
-                status_code = client.create_issue(issue)
-                if status_code == 201:
-                    print('Issue created')
-                else:
-                    print('Issue could not be created')
+                pass
+                # status_code = client.create_issue(issue)
+                # if status_code == 201:
+                #     print('Issue created')
+                # else:
+                #     print('Issue could not be created')
             elif issue.status == LineStatus.DELETED and os.getenv('INPUT_CLOSE_ISSUES') == 'true':
-                status_code = client.close_issue(issue)
-                if status_code == 201:
-                    print('Issue closed')
-                else:
-                    print('Issue could not be closed')
+                pass
+                # status_code = client.close_issue(issue)
+                # if status_code == 201:
+                #     print('Issue closed')
+                # else:
+                #     print('Issue could not be closed')
             # Stagger the requests to be on the safe side.
             sleep(1)
         print("Finished working through the issues.")
