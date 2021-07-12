@@ -906,13 +906,13 @@ def run_tests_from_main():
 
 def main(testing):
     if testing or "INPUT_TESTING" in os.environ:
-        import pprint
+        from pprint import pprint
         pprint(os.environ)
         client = GitHubClient()
         pprint(client.existing_issues)
         run_tests_from_main()
     else:
-        import pprint
+        from pprint import pprint
         pprint(os.environ)
         client = GitHubClient()
         issues = client.existing_issues
