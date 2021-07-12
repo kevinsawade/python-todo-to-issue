@@ -898,19 +898,18 @@ def run_tests_from_main():
                                  top_level_dir=os.getcwd())
     runner = unittest.TextTestRunner()
     result = runner.run(test_suite)
-
-    # raise SystemExit to make action fail
-    if not result.wasSuccessful():
-        raise SystemExit()
+    
+    return result
 
 
 def main(testing):
     if testing or os.getenv('INPUT_TESTING') == 'true':
-        from pprint import pprint
-        pprint(os.environ)
-        client = GitHubClient()
-        pprint(client.existing_issues)
-        run_tests_from_main()
+        if not os.path.isfile('tests/test_todo_to_issue.py'):
+            raise Exception("Please switch the TESTING argument in your workflow.yml file to 'false'. Tests will only run in the python-todo-to-issue repository.")
+        result = run_tests_from_main()
+        if not result.wasSuccessful():
+            print("Tests were not successful. Exiting.")
+            exit(1)
     else:
         print("Running python-todo-to-issue")
         from pprint import pprint
@@ -921,7 +920,6 @@ def main(testing):
         issues = client.existing_issues
         pprint(issues)
         print("Exiting")
-
 
 if __name__ == "__main__":
     import argparse
