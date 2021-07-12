@@ -717,7 +717,13 @@ class TodoParser:
             if file_before == '/dev/null':
                 file_before = StringIO('')
             else:
-                file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
+                try:
+                    file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
+                except KeyError:
+                    print(file_before)
+                    print(type(file_before))
+                    print(file_before == '/dev/null')
+                    raise
             file_after = file.target_file.lstrip('b/')
             if not file_after.endswith('.py'):
                 continue
