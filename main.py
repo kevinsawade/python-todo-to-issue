@@ -776,7 +776,7 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
     if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
         stripped_line = strip_line(line.value.replace('#', '', 1))
     elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
-        stripped_line = strip_line(line.value.replace('*', '', 1))
+        stripped_line = strip_line(line.value.replace('*', '', 1), with_todo=False)
     else:
         return False
 
@@ -831,7 +831,7 @@ def extract_todos_from_file(file, testing=0):
                 block = block.split('* ')[1:]
                 if not testing:
                     block = list(filter(lambda x: False if TODO_SKIP_SUBSTRING in x else True, block))
-                block = list(map(strip_line, block))
+                block = [strip_line(line, with_todo=False) for line in block]
                 block = list(map(lambda x: x.replace('\n ', '\n'), block))
                 todos.extend(block)
 
