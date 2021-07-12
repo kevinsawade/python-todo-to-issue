@@ -47,3 +47,10 @@ jobs:
           INPUT_SHA: ${{ github.sha }}
         run: |
           python -m unittest discover -s tests
+          
+      - name: Run latest-tag 🏷️
+        uses: EndBug/latest-tag@latest
+        with:
+          # If a description is provided, the action will use it to create an annotated tag. If none is given, the action will create a lightweight tag.
+          # Optional
+          description: This is the latest version of kevinsawade/python-todo-to-issue
