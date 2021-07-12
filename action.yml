@@ -15,3 +15,7 @@ inputs:
   TOKEN:
     description: "The GitHub access token."
     required: true
+  CLOSE_ISSUES:
+    description: "Whether to automatically close issues, that have been deleted in source code files."
+    required: false
+    default: true
