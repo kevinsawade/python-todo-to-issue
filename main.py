@@ -716,9 +716,9 @@ class TodoParser:
             file_before = file.source_file.lstrip('a/')
             file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
             file_after = file.target_file.lstrip('b/')
-            file_after = StringIO(commit_now.tree[file_after].data_stream.read().decode('utf-8'))
             if not file_after.endswith('.py'):
                 continue
+            file_after = StringIO(commit_now.tree[file_after].data_stream.read().decode('utf-8'))
             with file_before as f:
                 todos_before = extract_todos_from_file(f.read(), self.testing)
             with file_after as f:
