@@ -354,6 +354,7 @@ class GitHubClient():
 
         # get repo using git-python
         repo = git.Repo('.')
+        print('current repo:', repo)
         self._get_repo_url(repo)
 
         # get before and current hash
