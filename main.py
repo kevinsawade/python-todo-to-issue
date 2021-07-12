@@ -943,19 +943,17 @@ def main(testing):
         for i, issue in enumerate(issues):
             print(f"Processing issue {issue}.")
             if issue.status == LineStatus.ADDED:
-                pass
-                # status_code = client.create_issue(issue)
-                # if status_code == 201:
-                #     print('Issue created')
-                # else:
-                #     print('Issue could not be created')
+                status_code = client.create_issue(issue)
+                if status_code == 201:
+                    print('Issue created')
+                else:
+                    print('Issue could not be created')
             elif issue.status == LineStatus.DELETED and os.getenv('INPUT_CLOSE_ISSUES') == 'true':
-                pass
-                # status_code = client.close_issue(issue)
-                # if status_code == 201:
-                #     print('Issue closed')
-                # else:
-                #     print('Issue could not be closed')
+                status_code = client.close_issue(issue)
+                if status_code == 201:
+                    print('Issue closed')
+                else:
+                    print('Issue could not be closed')
             # Stagger the requests to be on the safe side.
             sleep(1)
         print("Finished working through the issues.")
