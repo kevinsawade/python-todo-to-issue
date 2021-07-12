@@ -714,7 +714,7 @@ class TodoParser:
 
         for file in patchset:
             file_before = file.source_file.lstrip('a/')
-            if file_before == '/dev/null':
+            if file_before == 'dev/null':
                 file_before = StringIO('')
             else:
                 try:
