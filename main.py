@@ -910,6 +910,8 @@ def main(testing):
         if not result.wasSuccessful():
             print("Tests were not successful. Exiting.")
             exit(1)
+        else:
+            print("Tests were successful")
     else:
         print("Running python-todo-to-issue")
         from pprint import pprint
