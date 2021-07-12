@@ -27,18 +27,8 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - name: Pre-run tests
-        run: |
-          ls
-          pwd
-
-      - name: python-todo-to-issue ✔️
-        uses: kevinsawade/python-todo-to-issue@0.0.3
+      - name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
         with:
           TESTING: false
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Past-run tests
-        run: |
-          ls
-          pwd

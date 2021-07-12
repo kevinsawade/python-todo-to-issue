@@ -31,7 +31,6 @@ class TestTodoToIssue(unittest.TestCase):
         print("I will attempt to print it. But based on where you run this line from, it will not print")
         print(f"Here it is ---> {os.environ['INPUT_TOKEN']} <---")
 
-
     @classmethod
     def tearDownClass(cls):
         del os.environ['INPUT_TOKEN']
@@ -132,6 +131,6 @@ class TestTodoToIssue(unittest.TestCase):
     def test_skip_todo(self):
         from main import extract_todos_from_file
         with open('main.py', 'r') as f:
-            todos = extract_todos_from_file(f.read())
+            todos = extract_todos_from_file(f.read().split('# Globals\n')[1])
         self.assertEqual(todos, [])
 

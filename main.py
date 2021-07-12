@@ -44,7 +44,46 @@ parser instead of using <a href="https://github.com/matiasb/python-unidiff">unid
 Installation
 ------------
 
-Use this action via github workflows.
+This repo offers a GitHub action, that can be integrated into your GitHub workflows.
+If you are confident with github actions, you can follow the quickstart on that
+page to quickly set up the latest version of this action. Otherwise you can follow
+these instructions:
+
+- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue.
+- Go to https://github.com/settings/tokens and create a github token with the repo and issue scope. Note that token down.
+- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.
+- Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:
+
+```yaml
+name: Todo-to-Issue
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  todo-to-issue:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+```
+
+All your todos will now be raised as issues, once you push to github.
+
 
 What is regarded as a ToDo?
 ---------------------------
@@ -79,26 +118,26 @@ also be picked up. The general style is the same. Indentation is done via
 
 ```python
 def myfunc(arg1):
-\"\"\"This is the overview docstring.
+    \"\"\"This is the overview docstring.
 
-This is more detailed info to the function `myfunc`.
+    This is more detailed info to the function `myfunc`.
 
-Args:
-    arg1 (str): Argument `arg1` should be of type `str`.
+    Args:
+        arg1 (str): Argument `arg1` should be of type `str`.
 
-Todo:
-    * Single-line todos are introduced as a single bullet-point.
-    * This line becomes the title of the github issue.
-    * (kevinsawade) Assignees are put into parentheses.
-    * Titles for multi-line todos are also bullet-points.
-        But the body is indented according to google's styleguide.
-        Assignees, labels and milestones are added similar to the in-line
-        comments todos.
-        assignees: kevinsawade, github_user2
-        labels: devel, bug
-        milestone: alpha
+    Todo:
+        * Single-line todos are introduced as a single bullet-point.
+        * This line becomes the title of the github issue.
+        * (kevinsawade) Assignees are put into parentheses.
+        * Titles for multi-line todos are also bullet-points.
+            But the body is indented according to google's styleguide.
+            Assignees, labels and milestones are added similar to the in-line
+            comments todos.
+            assignees: kevinsawade, github_user2
+            labels: devel, bug
+            milestone: alpha
 
-\"\"\"
+    \"\"\"
 return 'Hello!' + arg1
 ```
 
@@ -353,19 +392,9 @@ class GitHubClient():
         self.existing_issues = []
         self.testing = testing
 
-        # get repo using git-python
-        if not 'INPUT_REPO' in os.environ:
-            repo = git.Repo('.')
-            self._get_repo_url(repo.remotes[0].config_reader.get("url"))
-            print('Repo initialized from .git', self.repo)
-            commits = [i for i in repo.iter_commits()]
-            self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
-            self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
-        else:
-            self.repo = os.environ['INPUT_REPO']
-            print('Repo initialized from env', self.repo)
-            self.sha = os.environ['INPUT_SHA']
-            self.before = os.environ['INPUT_BEFORE']
+        self.repo = os.environ['INPUT_REPO']
+        self.sha = os.environ['INPUT_SHA']
+        self.before = os.environ['INPUT_BEFORE']
 
         # get before and current hash
         if self.testing == 1:
@@ -380,7 +409,7 @@ class GitHubClient():
 
         # define line break. Can also be \n\n which formats multi-line todos
         # nicer.
-        self.line_breasetk = '\n'
+        self.line_break = '\n'
 
         # set other attributes
         self.base_url = 'https://api.github.com/'
@@ -751,7 +780,7 @@ class TodoParser:
         # read env variables
         self.repo = os.environ['INPUT_REPO']
         self.sha = os.environ['INPUT_SHA']
-        self.before = os.environ['INPUT_BeFORE']
+        self.before = os.environ['INPUT_BEFORE']
 
         # get before and current hash
         if self.testing == 1:
