@@ -937,6 +937,7 @@ def main(testing):
         client = GitHubClient()
         issues = client.existing_issues
         issues = TodoParser().issues
+        print('all issues: ', issues)
         for i, issue in enumerate(issues):
             print(f"Processing issue {issue}.")
             if issue.status == LineStatus.ADDED:
