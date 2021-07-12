@@ -12,3 +12,6 @@ inputs:
     description: "For testing purposes. Let's the workflow run unittests from https://github.com/kevinsawade/python-todo-to-issue/blob/main/tests/test_todo_to_issue.py."
     required: false
     default: false
+  TOKEN:
+    description: "The GitHub access token."
+    required: true
