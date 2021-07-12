@@ -41,9 +41,9 @@ jobs:
           
       - name: Run Unittests 🧪
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          BEFORE: ${{ github.event.before }}
-          SHA: ${{ github.sha }}
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_REPO: ${{ github.repository }}
+          INPUT_BEFORE: ${{ github.event.before }}
+          INPUT_SHA: ${{ github.sha }}
         run: |
           python -m unittest discover -s tests

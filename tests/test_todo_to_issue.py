@@ -9,10 +9,16 @@ class TestTodoToIssue(unittest.TestCase):
         else:
             print("Setting environment token.")
             try:
-                with open('secrets', 'r') as f:
-                    gh_token = f.readline().rstrip('\n')
+                with open('act.vault', 'r') as f:
+                    gh_token = f.readline().rstrip('\n').split('=')[1]
             except FileNotFoundError as e:
-                new_exc = Exception("Put a file named `secrets` at repo root and put your github secret (no quotation marks, just plain text) with repo access rights into there. Usually they start with gh_")
+                s = ("Could not retrieve github token. There are two ways of fixing this.",
+                     "Both of these possibilities include creating a file named `act.vault`",
+                     "At repo root. This unittest class tries to read this file., so make",
+                     "sure that it contains this line: `GITHUB_TOKEN=ghp_******`. If you run:",
+                     "This action within nektos/act, please provide the `act.vault` file with",
+                     "The `--secret-file` option to nektos/act.")
+                new_exc = Exception(s)
                 raise new_exc from e
             os.environ['INPUT_TOKEN'] = gh_token
             print("Environment token set up.")
