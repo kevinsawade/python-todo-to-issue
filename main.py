@@ -905,18 +905,22 @@ def run_tests_from_main():
 
 
 def main(testing):
-    if testing or "INPUT_TESTING" in os.environ:
+    if testing or os.getenv('INPUT_TESTING') == 'true':
         from pprint import pprint
         pprint(os.environ)
         client = GitHubClient()
         pprint(client.existing_issues)
         run_tests_from_main()
     else:
+        print("Running python-todo-to-issue")
         from pprint import pprint
         pprint(os.environ)
+        print('\n')
+        print(os.getenv('INPUT_TOKEN'))
         client = GitHubClient()
         issues = client.existing_issues
         pprint(issues)
+        print("Exiting")
 
 
 if __name__ == "__main__":
