@@ -354,14 +354,20 @@ class GitHubClient():
         self.testing = testing
 
         # get repo using git-python
-        repo = git.Repo('.')
-        print('current repo:', repo)
-        self._get_repo_url(repo)
+        if not 'INPUT_REPO' in os.environ:
+            repo = git.Repo('.')
+            self._get_repo_url(repo.remotes[0].config_reader.get("url"))
+            print('Repo initialized from .git', self.repo)
+            commits = [i for i in repo.iter_commits()]
+            self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
+            self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
+        else:
+            self.repo = os.environ['INPUT_REPO']
+            print('Repo initialized from env', self.repo)
+            self.sha = os.environ['INPUT_SHA']
+            self.before = os.environ['INPUT_BEFORE']
 
         # get before and current hash
-        commits = [i for i in repo.iter_commits()]
-        self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
-        self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
         if self.testing == 1:
             self.sha = '036ef2ca'
             self.before = '11858e41'
@@ -374,7 +380,7 @@ class GitHubClient():
 
         # define line break. Can also be \n\n which formats multi-line todos
         # nicer.
-        self.line_break = '\n'
+        self.line_breasetk = '\n'
 
         # set other attributes
         self.base_url = 'https://api.github.com/'
@@ -388,9 +394,52 @@ class GitHubClient():
         # get current issues
         self._get_existing_issues()
 
-    def _get_repo_url(self, repo):
+    def get_specific_diff(self, before, after):
+        """Get the diff based on specific commits"""
+        diff_url = f'{self.repos_url}{self.repo}/compare/{before}...{after}'
+        diff_headers = {
+            'Accept': 'application/vnd.github.v3.diff',
+            'Authorization': f'token {self.token}'
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception('Could not retrieve diff. Operation will abort.')
+
+    def get_last_diff(self):
+        """Get the last diff based on the SHA of the last two commits."""
+        diff_url = f'{self.repos_url}{self.repo}/compare/{self.before}...{self.sha}'
+        diff_headers = {
+            'Accept': 'application/vnd.github.v3.diff',
+            'Authorization': f'token {self.token}'
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception('Could not retrieve diff. Operation will abort.')
+
+    def get_file_at_commit(self, filepath, commit):
+        """Returns a string, with the file contents at the current hashed commit.
+
+        Args:
+            filepath (str): Path to the file from repo root.
+            commit (str): The short-hash, 7-digit commit.
+
+        Returns:
+              str: The contents of the file.
+
+        """
+        raw_file_url = f'{self.repos_url}{self.repo}/contents/{filepath}?ref={commit}'
+        raw_file_headers = {
+            'Accept': 'application/vnd.github.VERSION.raw',
+            'Authorization': f'token {self.token}'
+        }
+        raw_file_request = requests.get(url=raw_file_url, headers=raw_file_headers)
+        if raw_file_request.status_code == 200:
+            return raw_file_request.text
+
+    def _get_repo_url(self, remote_url):
         """Construct repo url from ssh or https repo urls"""
-        remote_url = repo.remotes[0].config_reader.get("url")
         if '@' not in remote_url:
             self.repo = remote_url.lstrip('https://github.com/').rstrip('.git')
         else:
@@ -679,61 +728,67 @@ class TodoParser:
 
     """
 
-    def __init__(self, testing=0):
+    def __init__(self, testing=0, client=None):
         """Instantiate the TodoParser class.
 
         Keyword Args:
             testing (bool, optional): Whether testing is carried out with this
                 class. Defaults to False.
+            client (GitHubClient): Instance of github client to precent multiple
+                instantiation.
 
         """
         self.testing = testing
         self.issues = []
+        if client is None:
+            self.client = GitHubClient(testing=self.testing)
+        else:
+            self.client = client
         self._parse()
 
     def _parse(self):
         """Parse the diffs and search for todos in added lines."""
-        repo = git.Repo('.')
-        remote_url = repo.remotes[0].config_reader.get("url")
-        self.repo = remote_url.lstrip('https://github.com/').rstrip('.git')
+        # read env variables
+        self.repo = os.environ['INPUT_REPO']
+        self.sha = os.environ['INPUT_SHA']
+        self.before = os.environ['INPUT_BeFORE']
 
         # get before and current hash
-        commits = [i for i in repo.iter_commits()]
-        self.sha = repo.git.rev_parse(commits[0].hexsha, short=True)
-        self.before = repo.git.rev_parse(commits[1].hexsha, short=True)
         if self.testing == 1:
-            self.sha = '036ef2ca'
-            self.before = '11858e41'
+            self.sha = '036ef2c'
+            self.before = '11858e4'
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
         elif self.testing == 2:
-            self.sha = '7fae83cc'
-            self.before = '036ef2ca'
-        commit_now = repo.commit(self.sha)
-        commit_before = repo.commit(self.before)
+            self.sha = '7fae83c'
+            self.before = '036ef2c'
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        else:
+            self.diff = self.client.get_last_diff()
 
-        # get diff
-        self.diff = repo.git.diff(self.before, self.sha)
+        # create patchset from diff
         patchset = PatchSet(self.diff)
 
         for file in patchset:
+            # handle the file before
             file_before = file.source_file.lstrip('a/')
             if file_before == 'dev/null':
                 file_before = StringIO('')
             else:
-                try:
-                    file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
-                except KeyError:
-                    print(file_before)
-                    print(type(file_before))
-                    print(file_before == '/dev/null')
-                    raise
+                file_before = StringIO(self.client.get_file_at_commit(file_before, self.before))
+
+            # handle the file after
             file_after = file.target_file.lstrip('b/')
             if not file_after.endswith('.py'):
                 continue
-            file_after = StringIO(commit_now.tree[file_after].data_stream.read().decode('utf-8'))
+            file_after = StringIO(self.client.get_file_at_commit(file_after, self.sha))
+
+            # parse before and after todos
             with file_before as f:
                 todos_before = extract_todos_from_file(f.read(), self.testing)
             with file_after as f:
                 todos_now = extract_todos_from_file(f.read(), self.testing)
+
+            # iterate over hunks and lines
             for hunk in file:
                 lines = list(hunk.source_lines()) + list(hunk.target_lines())
                 for i, line in enumerate(lines):
@@ -937,7 +992,7 @@ def main(testing):
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
-        todo_parser = TodoParser()
+        todo_parser = TodoParser(client=client)
         print('complete diff: ', todo_parser.diff)
         issues = todo_parser.issues
         print('all issues: ', issues)
