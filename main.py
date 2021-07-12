@@ -937,7 +937,7 @@ def main(testing):
         client = GitHubClient()
         issues = client.existing_issues
         issues = TodoParser()
-        print('complete diff': , todo_parser.diff)
+        print('complete diff: ', todo_parser.diff)
         issues = todo_parser.issues
         print('all issues: ', issues)
         for i, issue in enumerate(issues):
