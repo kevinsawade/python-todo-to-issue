@@ -33,9 +33,9 @@ jobs:
           pwd
 
       - name: python-todo-to-issue ✔️
-        uses: kevinsawade/python-todo-to-issue@0.0.1alpha
+        uses: kevinsawade/python-todo-to-issue@0.0.1
         with:
-          TESTING: true
+          TESTING: false
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Past-run tests
