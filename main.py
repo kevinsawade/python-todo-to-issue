@@ -714,7 +714,10 @@ class TodoParser:
 
         for file in patchset:
             file_before = file.source_file.lstrip('a/')
-            file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
+            if file_before == '/dev/null':
+                file_before = StringIO('')
+            else:
+                file_before = StringIO(commit_before.tree[file_before].data_stream.read().decode('utf-8'))
             file_after = file.target_file.lstrip('b/')
             if not file_after.endswith('.py'):
                 continue

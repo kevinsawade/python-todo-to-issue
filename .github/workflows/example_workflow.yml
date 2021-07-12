@@ -33,7 +33,7 @@ jobs:
           pwd
 
       - name: python-todo-to-issue ✔️
-        uses: kevinsawade/python-todo-to-issue@0.0.1
+        uses: kevinsawade/python-todo-to-issue@0.0.3
         with:
           TESTING: false
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
