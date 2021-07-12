@@ -936,7 +936,9 @@ def main(testing):
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
-        issues = TodoParser().issues
+        issues = TodoParser()
+        print('complete diff': , todo_parser.diff)
+        issues = todo_parser.issues
         print('all issues: ', issues)
         for i, issue in enumerate(issues):
             print(f"Processing issue {issue}.")
