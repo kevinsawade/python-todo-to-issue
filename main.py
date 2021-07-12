@@ -908,7 +908,11 @@ def main(testing):
     if testing:
         run_tests_from_main()
     else:
-        print("Running Main")
+        import pprint
+        pprint(os.environ)
+        client = GitHubClient()
+        issues = client.existing_issues
+        pprint(issues)
 
 
 if __name__ == "__main__":
