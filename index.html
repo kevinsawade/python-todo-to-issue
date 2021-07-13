@@ -1,0 +1,2724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>main API documentation</title>
+<meta name="description" content="Convert python Todos to github issues
+…" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main</code></h1>
+</header>
+<section id="section-intro">
+<h1 id="convert-python-todos-to-github-issues">Convert python Todos to github issues</h1>
+<h2 id="preface">Preface</h2>
+<p>This module converts todos from your project to issues on github. I took lots
+of inspiration from Alastair Mooney's <a href="https://github.com/alstr/todo-to-issue-action">todo-to-issue-action</a>,
+which is a much more complete library and allows more languages than just python.
+However, it does not recognize google-style <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google">Todo labels</a>
+, doesn't allow to skip todos (like doctest's skip) and has a proprietary diff
+parser instead of using <a href="https://github.com/matiasb/python-unidiff">unidiff</a>.</p>
+<h2 id="installation">Installation</h2>
+<p>This repo offers a GitHub action, that can be integrated into your GitHub workflows.
+If you are confident with github actions, you can follow the quickstart on that
+page to quickly set up the latest version of this action. Otherwise you can follow
+these instructions:</p>
+<ul>
+<li>Visit the GitHub marketplace and find the latest version of this action: <a href="https://github.com/marketplace/actions/python-todo-to-issue.">https://github.com/marketplace/actions/python-todo-to-issue.</a></li>
+<li>Go to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and create a github token with the repo and issue scope. Note that token down.</li>
+<li>Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.</li>
+<li>Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:</li>
+</ul>
+<pre><code class="language-yaml">name: Todo-to-Issue
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  todo-to-issue:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+</code></pre>
+<p>All your todos will now be raised as issues, once you push to github.</p>
+<h2 id="what-is-regarded-as-a-todo">What is regarded as a ToDo?</h2>
+<p>First of all: Only todos from commits are used as issues. If you have old Todos
+in your module, you need to remove them, commit and then include them again.</p>
+<p>Todos are searched for in comments which start with <code># Todo:</code>. You can expand
+these comments with the assignee of the issue. For this you put the github
+username of a maintainer, developer or owner of a repo in parentheses. You can
+also write multi-line todos, by indenting them with extra spaces. Using this
+multi-line syntax, you can add labels and milestone to a issue.</p>
+<pre><code class="language-python"># todo: This is a simple in-line todo. This will be the title of the issue.
+
+# todo (kevinsawade): I will fix this weird contraption.
+
+# Todo: This is the title of a mutli-line issue.
+#  This is the body of the multi-line issue. Here, you can specify
+#  What needs to be done to fix this issue. Issues are automatically
+#  closed, once the issue is removed from the file. You can set assignees,
+#  labels and milestone like so:
+#  assignees: kevinsawade, github_user3
+#  labels: devel, bug
+#  milestone: release
+</code></pre>
+<p>Besides these in-line Todos, Todos from google-style formatted docstrings will
+also be picked up. The general style is the same. Indentation is done via
+4 spaces. Assignees can be put in parentheses or as a line in multi-line todos.</p>
+<pre><code class="language-python">def myfunc(arg1):
+    &quot;&quot;&quot;This is the overview docstring.
+
+    This is more detailed info to the function `myfunc`.
+
+    Args:
+        arg1 (str): Argument `arg1` should be of type `str`.
+
+    Todo:
+        * Single-line todos are introduced as a single bullet-point.
+        * This line becomes the title of the github issue.
+        * (kevinsawade) Assignees are put into parentheses.
+        * Titles for multi-line todos are also bullet-points.
+            But the body is indented according to google's styleguide.
+            Assignees, labels and milestones are added similar to the in-line
+            comments todos.
+            assignees: kevinsawade, github_user2
+            labels: devel, bug
+            milestone: alpha
+
+    &quot;&quot;&quot;
+return 'Hello!' + arg1
+</code></pre>
+<p>To skip todos you can add <code># todo: +SKIP</code> after the todo-line. This one is not
+case insensitive and only works if you use it verbose.</p>
+<h2 id="classes-and-functions">Classes And Functions</h2>
+<p>The remainder of this page contains the functions and classes used to run this
+action. These functions and classes contain their own documentation which you
+can use if you only want to use some parts of this code.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# python-todo-to-issue/main.py
+
+# Copyright (c) 2021, Kevin Sawade (kevin.sawade@uni-konstanz.de)
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright
+#   notice, this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright
+#   notice, this list of conditions and the following disclaimer in the
+#   documentation and/or other materials provided with the distribution.
+# * Neither the name of the copyright holders nor the names of any
+#   contributors may be used to endorse or promote products derived
+#   from this software without specific prior written permission.
+#
+# This file is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 2.1
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# Find the GNU Lesser General Public License under &lt;http://www.gnu.org/licenses/&gt;.
+&#34;&#34;&#34;
+Convert python Todos to github issues
+=====================================
+
+Preface
+-------
+
+This module converts todos from your project to issues on github. I took lots
+of inspiration from Alastair Mooney&#39;s &lt;a href=&#34;https://github.com/alstr/todo-to-issue-action&#34;&gt;todo-to-issue-action&lt;/a&gt;,
+which is a much more complete library and allows more languages than just python.
+However, it does not recognize google-style &lt;a href=&#34;https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google&#34;&gt;Todo labels&lt;/a&gt;
+, doesn&#39;t allow to skip todos (like doctest&#39;s skip) and has a proprietary diff
+parser instead of using &lt;a href=&#34;https://github.com/matiasb/python-unidiff&#34;&gt;unidiff&lt;/a&gt;.
+
+Installation
+------------
+
+This repo offers a GitHub action, that can be integrated into your GitHub workflows.
+If you are confident with github actions, you can follow the quickstart on that
+page to quickly set up the latest version of this action. Otherwise you can follow
+these instructions:
+
+- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue.
+- Go to https://github.com/settings/tokens and create a github token with the repo and issue scope. Note that token down.
+- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.
+- Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:
+
+```yaml
+name: Todo-to-Issue
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  todo-to-issue:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+```
+
+All your todos will now be raised as issues, once you push to github.
+
+
+What is regarded as a ToDo?
+---------------------------
+
+First of all: Only todos from commits are used as issues. If you have old Todos
+in your module, you need to remove them, commit and then include them again.
+
+Todos are searched for in comments which start with ``# Todo:``. You can expand
+these comments with the assignee of the issue. For this you put the github
+username of a maintainer, developer or owner of a repo in parentheses. You can
+also write multi-line todos, by indenting them with extra spaces. Using this
+multi-line syntax, you can add labels and milestone to a issue.
+
+```python
+# todo: This is a simple in-line todo. This will be the title of the issue.
+
+# todo (kevinsawade): I will fix this weird contraption.
+
+# Todo: This is the title of a mutli-line issue.
+#  This is the body of the multi-line issue. Here, you can specify
+#  What needs to be done to fix this issue. Issues are automatically
+#  closed, once the issue is removed from the file. You can set assignees,
+#  labels and milestone like so:
+#  assignees: kevinsawade, github_user3
+#  labels: devel, bug
+#  milestone: release
+```
+
+Besides these in-line Todos, Todos from google-style formatted docstrings will
+also be picked up. The general style is the same. Indentation is done via
+4 spaces. Assignees can be put in parentheses or as a line in multi-line todos.
+
+```python
+def myfunc(arg1):
+    \&#34;\&#34;\&#34;This is the overview docstring.
+
+    This is more detailed info to the function `myfunc`.
+
+    Args:
+        arg1 (str): Argument `arg1` should be of type `str`.
+
+    Todo:
+        * Single-line todos are introduced as a single bullet-point.
+        * This line becomes the title of the github issue.
+        * (kevinsawade) Assignees are put into parentheses.
+        * Titles for multi-line todos are also bullet-points.
+            But the body is indented according to google&#39;s styleguide.
+            Assignees, labels and milestones are added similar to the in-line
+            comments todos.
+            assignees: kevinsawade, github_user2
+            labels: devel, bug
+            milestone: alpha
+
+    \&#34;\&#34;\&#34;
+return &#39;Hello!&#39; + arg1
+```
+
+To skip todos you can add ``# todo: +SKIP`` after the todo-line. This one is not
+case insensitive and only works if you use it verbose.
+
+Classes and Functions
+---------------------
+
+The remainder of this page contains the functions and classes used to run this
+action. These functions and classes contain their own documentation which you
+can use if you only want to use some parts of this code.
+
+
+
+&#34;&#34;&#34;
+################################################################################
+# Globals
+################################################################################
+
+
+# __all__ = [&#39;main&#39;, &#39;GitHubClient&#39;]
+
+
+################################################################################
+# Regex Patterns
+################################################################################
+
+
+TODO_CHARS_PATTERN = &#39;[*#]&#39;
+# Thanks to Alastair Mooney&#39;s regexes
+
+INLINE_TODO_PATTERN = r&#39;\s*#\s(?i)todo(\:|\s)(\s|\().*&#39;
+DOCSTRING_TODO_PATTERN = r&#39;\s*\*\s*(\(.*|.*)&#39;
+TODO_SKIP_SUBSTRING = &#39;# todo: +SKIP&#39;
+
+
+################################################################################
+# Imports
+################################################################################
+
+
+from enum import Enum
+import ast, os, requests, json, git, re, unittest
+from unidiff import PatchSet
+from io import StringIO
+from time import sleep
+
+
+################################################################################
+# Functions
+################################################################################
+
+
+def join_lines(issue, line_break):
+    &#34;&#34;&#34;Joins lines using a defined line_break.
+
+    Args:
+        issue (Issue): An `Issue` instance.
+        line_break (str): The line-break used in `GitHubClient`.
+
+    Returns:
+        str: A string with the formatted issue body.
+
+    &#34;&#34;&#34;
+    annotation = &#34;This issue was automatically created by a github action that converts project Todos to issues.&#34;
+    return annotation + &#39;\n\n&#39; + line_break.join(issue.body)
+
+
+def get_body(issue, url, line_break):
+    &#34;&#34;&#34;Constructs a body with issue and url.
+
+    Args:
+        issue (Issue): An `Issue` instance.
+        url (str): The url constructed from `GitHubClient`.
+        line_break (str): The line-break used in `GitHubClient`.
+
+    Returns:
+        str: A string with the body of the issue.
+
+    &#34;&#34;&#34;
+    formatted_issue_body = join_lines(issue, line_break)
+    formatted = (formatted_issue_body + &#39;\n\n&#39;
+                 + url + &#39;\n\n&#39;
+                 + &#39;```&#39; + issue.markdown_language + &#39;\n&#39;
+                 + issue.hunk + &#39;\n&#39;
+                 + &#39;```&#39;)
+    return formatted
+
+
+def _get_assignees(lines):
+    assignees = []
+    if len(lines) &gt; 1:
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith(&#39;assignees:&#39;):
+                lines.pop(i)
+                line = line.lstrip().lstrip(&#39;assignees:&#39;)
+                assignees = [elem.strip() for elem in line.strip().split(&#39;,&#39;)]
+        return lines, assignees
+    elif len(lines) == 1:
+        if &#39;(&#39; in lines[0]:
+            s = lines[0]
+            assignees = s[s.find(&#34;(&#34;) + 1:s.find(&#34;)&#34;)]
+            lines[0] = lines[0].replace(&#39;(&#39; + assignees + &#39;)&#39;, &#39;&#39;)
+            assignees = [elem.strip() for elem in assignees.strip().split(&#39;,&#39;)]
+        return lines, assignees
+
+
+def _get_labels(lines):
+    labels = []
+    for i, line in enumerate(lines):
+        if line.lstrip().startswith(&#39;labels:&#39;):
+            lines.pop(i)
+            line = line.lstrip().lstrip(&#39;labels:&#39;)
+            labels = [elem.strip() for elem in line.strip().split(&#39;,&#39;)]
+    return lines, labels
+
+
+def _get_milestone(lines):
+    milestone = None
+    for i, line in enumerate(lines):
+        if line.lstrip().startswith((&#39;milestone:&#39;, &#39;milestones:&#39;)):
+            lines.pop(i)
+            if &#39;milestone:&#39; in line:
+                milestone = line.lstrip().lstrip(&#39;milestone:&#39;).strip()
+            elif &#39;milestones:&#39; in line:
+                milestone = line.lstrip().lstrip(&#39;milestones:&#39;).strip()
+    return lines, milestone
+
+
+################################################################################
+# Classes
+################################################################################
+
+class LineStatus(Enum):
+    &#34;&#34;&#34;Represents the status of a line in a diff file.&#34;&#34;&#34;
+    ADDED = 0
+    DELETED = 1
+    UNCHANGED = 2
+
+
+testing_values = dict(
+    title=&#39;TEST AUTO ISSUE&#39;,
+    labels=[&#39;todo&#39;],
+    assignees=[],
+    milestone=None,
+    body=[
+        &#39;This issue is automatically created by Unittests. If this issue is not automatically closed, tests have failed.&#39;],
+    hunk=&#34;# This is the code block that would normally be attached to the issue.\ndef function()\n    return &#39;Hi!&#39;&#34;,
+    file_name=&#39;main.py&#39;,
+    start_line=&#39;47&#39;,
+    markdown_language=&#39;python&#39;,
+    status=LineStatus.ADDED
+)
+
+
+class Issue:
+    &#34;&#34;&#34;Issue class, filled with attributes to create issues from.
+
+    Attributes:
+        title (str): The title of the issue.
+        labels (list[str]): Labels, that should be added to the issue. Default
+            labels contains the &#39;todo&#39; label.
+        assignees (list[str]): Can be []. Assignees need to be maintainer
+            of the repository.
+        milestone (Union[str, None]): Can be None. Milestone needs to be one of
+            the already defined milestones in the repo.
+        body (list[str]): The lines of the issue body. The issue body will
+            automatically appended with a useful url and a markdown code block
+            defined in `hunk`.
+        hunk (str): Newline separated string of code, that produced the todo.
+        file_name (str): Name of the file that produced the todo. If file is
+            somewhere, the path starting from repo root needs te be included.
+        start_line (str): The line where the todo comment starts.
+        markdown_language (str): The language of `hunk`.
+        status (LineStatus): An instance of the `LineStatus` Enum class.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0, **kwargs):
+        if testing:
+            for key, val in testing_values.items():
+                self.__setattr__(key, val)
+            return
+
+        for key, val in kwargs.items():
+            self.__setattr__(key, val)
+        for key in testing_values.keys():
+            try:
+                self.__getattribute__(key)
+            except AttributeError:
+                raise TypeError(f&#39;__init__() missing 1 required argument: {key}&#39;)
+        if &#39;todo&#39; not in self.labels:
+            self.labels.append(&#39;todo&#39;)
+
+    def __str__(self):
+        string = f&#34;Title: {self.title}, assignees: [{&#39;, &#39;.join(self.assignees)}], milestone: {self.milestone}, status: {self.status}]\n&#34;
+        return string
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class GitHubClient():
+    &#34;&#34;&#34;Class to interact with GitHub, read and create issues.
+
+    This class interacts with GitHub via api.github.com and reads issues from
+    repositories. The default behavior is, that it uses git-python to get the
+    url of the current remote origin. This name of the repo is usually built
+    like this: user_name/repo_name or org_name/repo_name. git-python is also
+    used to get the sha of the current commit and the previous commit.
+
+    About tokens: To work with private repos and to have the ability to close
+    issues in a repository, this class needs github token, sometimes also called
+    a secret. The secret can be created in your github account. Visit
+    https://github.com/settings/tokens and click &#39;Generate a new token&#39;. Check
+    the &#39;repo&#39; scope and give the token a descriptive name. If the repo lies
+    within an organisation, the token of a user with access rights to the org
+    repo, will suffice.
+
+    About secrets: This token should not fall into the wrong hands. However, in
+    production and in testing the token is needed. In production, the token can
+    be provided as a secret. Add the token as a secret in the settings page of
+    your repo. In testing, the token is provided by placing a file called
+    &#39;secrets&#39; in the repo&#39;s root directory.
+
+    Attributes:
+        existing_issues (list): A list of existing issues.
+        testing (bool): Used, when this class is used in testing. Changes some
+            behaviors.
+        repo (str): A string of &#39;user_name/repo_name&#39; or &#39;org_name/repo_name&#39;
+            which identifies the repo on github.com.
+        sha (str): The 7 character sha hash of the current commit.
+        before (str): The 7 character sha hash of the previous commit.
+        token (str): A github token.
+        base_url (str): A string containing &#39;https://api.github.com/&#39;.
+        repos_url (str): base_url + &#39;repos/&#39;
+        issues_url (str): GitHub API url pointing to a url with the current
+            repo&#39;s issues.
+        issue_headers (dict): A dict to provide to requests.get() as header.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0):
+        &#34;&#34;&#34;Instantiate the GitHubClient.
+
+        Keyword Args:
+            testing (bool, optional): Whether class is used during testing.
+
+        &#34;&#34;&#34;
+        # set some attributes right from the start
+        self.existing_issues = []
+        self.testing = testing
+
+        self.repo = os.environ[&#39;INPUT_REPO&#39;]
+        self.sha = os.environ[&#39;INPUT_SHA&#39;]
+        self.before = os.environ[&#39;INPUT_BEFORE&#39;]
+
+        # get before and current hash
+        if self.testing == 1:
+            self.sha = &#39;036ef2ca&#39;
+            self.before = &#39;11858e41&#39;
+        elif self.testing == 2:
+            self.sha = &#39;7fae83cc&#39;
+            self.before = &#39;036ef2ca&#39;
+
+        # get the token from environment variables
+        self.token = os.getenv(&#39;INPUT_TOKEN&#39;)
+
+        # define line break. Can also be \n\n which formats multi-line todos
+        # nicer.
+        self.line_break = &#39;\n&#39;
+
+        # set other attributes
+        self.base_url = &#39;https://api.github.com/&#39;
+        self.repos_url = f&#39;{self.base_url}repos/&#39;
+        self.issues_url = f&#39;{self.repos_url}{self.repo}/issues&#39;
+        self.issue_headers = {
+            &#39;Content-Type&#39;: &#39;application/json&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+
+        # get current issues
+        self._get_existing_issues()
+
+    def get_specific_diff(self, before, after):
+        &#34;&#34;&#34;Get the diff based on specific commits&#34;&#34;&#34;
+        diff_url = f&#39;{self.repos_url}{self.repo}/compare/{before}...{after}&#39;
+        diff_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)
+
+    def get_last_diff(self):
+        &#34;&#34;&#34;Get the last diff based on the SHA of the last two commits.&#34;&#34;&#34;
+        diff_url = f&#39;{self.repos_url}{self.repo}/compare/{self.before}...{self.sha}&#39;
+        diff_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)
+
+    def get_file_at_commit(self, filepath, commit):
+        &#34;&#34;&#34;Returns a string, with the file contents at the current hashed commit.
+
+        Args:
+            filepath (str): Path to the file from repo root.
+            commit (str): The short-hash, 7-digit commit.
+
+        Returns:
+              str: The contents of the file.
+
+        &#34;&#34;&#34;
+        raw_file_url = f&#39;{self.repos_url}{self.repo}/contents/{filepath}?ref={commit}&#39;
+        raw_file_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.VERSION.raw&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        raw_file_request = requests.get(url=raw_file_url, headers=raw_file_headers)
+        if raw_file_request.status_code == 200:
+            return raw_file_request.text
+
+    def _get_repo_url(self, remote_url):
+        &#34;&#34;&#34;Construct repo url from ssh or https repo urls&#34;&#34;&#34;
+        if &#39;@&#39; not in remote_url:
+            self.repo = remote_url.lstrip(&#39;https://github.com/&#39;).rstrip(&#39;.git&#39;)
+        else:
+            self.repo = remote_url.lstrip(&#39;git@github.com:&#39;).rstrip(&#39;.git&#39;)
+
+    def _get_existing_issues(self, page=1):
+        &#34;&#34;&#34;Populate the existing issues list.&#34;&#34;&#34;
+        params = {
+            &#39;per_page&#39;: 100,
+            &#39;page&#39;: page,
+            &#39;state&#39;: &#39;open&#39;,
+            &#39;labels&#39;: &#39;todo&#39;
+        }
+        list_issues_request = requests.get(self.issues_url, headers=self.issue_headers, params=params)
+        if list_issues_request.status_code == 200:
+            # check
+            self.existing_issues.extend(list_issues_request.json())
+            links = list_issues_request.links
+            if &#39;next&#39; in links:
+                self._get_existing_issues(page + 1)
+
+    @staticmethod
+    def is_same_issue(issue, other_issue, line_break):
+        &#34;&#34;&#34;Compares two issues.
+
+        Args:
+            issue (Issue): Instance of `Issue`.
+            other_issue (dict): Json dict returned from GitHub API of another issue.
+            url_to_line (str): The url built by the `GitHubClient`.
+            line_break (str): The line-break used in `GitHubClient`.
+
+        Returns
+            bool: Whether issues are identical or not.
+
+        &#34;&#34;&#34;
+        # check title
+        a = issue.title == other_issue[&#39;title&#39;]
+        if not &#39;https://github.com/&#39; in other_issue[&#39;body&#39;]:
+            return a
+        else:
+            # check issue text
+            this_text = join_lines(issue, line_break).rstrip()
+            other_text = other_issue[&#39;body&#39;].split(&#39;https://github.com&#39;)[0].rstrip()
+            b = this_text == other_text
+
+        return a and b
+
+    def create_issue(self, issue):
+        &#34;&#34;&#34;Creates issue on github from an Issue class.
+
+        Keyword Args:
+            issue (Issue): An instance of the `Issue` class in this document.
+
+        &#34;&#34;&#34;
+        # truncate issue title if too long
+        title = issue.title
+        if len(title) &gt; 80:
+            title = tile[:80] + &#39;...&#39;
+
+        # define url to line
+        url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
+
+        # construct the issue body
+        body = get_body(issue, url_to_line, self.line_break)
+
+        # Alastair Mooney&#39;s has problems with rebasing. Let&#39;s see how this works out
+        # One could use GitHub&#39;s GraphQL API
+        for existing_issue in self.existing_issues:
+            if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+                # The issue_id matching means the issue issues are identical.
+                print(f&#39;Skipping issue (already exists)&#39;)
+                return
+
+        new_issue_body = {&#39;title&#39;: title, &#39;body&#39;: body, &#39;labels&#39;: issue.labels}
+
+        # check whether milestones are existent
+        if issue.milestone:
+            milestone_url = f&#39;{self.repos_url}{self.repo}/milestones/{issue.milestone}&#39;
+            milestone_request = requests.get(url=milestone_url, headers=self.issue_headers)
+            if milestone_request.status_code == 200:
+                new_issue_body[&#39;milestone&#39;] = issue.milestone
+            else:
+                print(f&#39;Milestone {issue.milestone} does not exist! Dropping this parameter!&#39;)
+
+        # check whether label exists
+        valid_assignees = []
+        for assignee in issue.assignees:
+            assignee_url = f&#39;{self.repos_url}{self.repo}/assignees/{assignee}&#39;
+            assignee_request = requests.get(url=assignee_url, headers=self.issue_headers)
+            if assignee_request.status_code == 204:
+                valid_assignees.append(assignee)
+            else:
+                print(f&#39;Assignee {assignee} does not exist! Dropping this assignee!&#39;)
+        new_issue_body[&#39;assignees&#39;] = valid_assignees
+
+        new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
+                                          data=json.dumps(new_issue_body))
+
+        return new_issue_request
+
+    def close_issue(self, issue):
+        &#34;&#34;&#34;Check to see if this issue can be found on GitHub and if so close it.
+        
+        Keyword Args:
+            issue (Issue): An instance of the `Issue` class in this document.
+            
+        &#34;&#34;&#34;
+        matched = 0
+        issue_number = None
+        for existing_issue in self.existing_issues:
+            # This is admittedly a simple check that may not work in complex scenarios, but we can&#39;t deal with them yet.
+            if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+                print(&#34;matched&#34;)
+                matched += 1
+                # If there are multiple issues with similar titles, don&#39;t try and close any.
+                if matched &gt; 1:
+                    print(f&#39;Skipping issue (multiple matches)&#39;)
+                    break
+                issue_number = existing_issue[&#39;number&#39;]
+        else:
+            if matched == 0 and self.testing:
+                raise Exception(f&#34;Couldn&#39;t match issue {issue.title}, {issue.body}&#34;)
+            else:
+                # The titles match, so we will try and close the issue.
+                update_issue_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}&#39;
+                body = {&#39;state&#39;: &#39;closed&#39;}
+                close_issue_request = requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
+
+                issue_comment_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}/comments&#39;
+                body = {&#39;body&#39;: f&#39;Closed in {self.sha}&#39;}
+                update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
+                                                     data=json.dumps(body))
+                return update_issue_request.status_code, close_issue_request.status_code
+        return None
+
+
+class ToDo:
+    &#34;&#34;&#34;Class that parses google-style docstring todos from git diff hunks.
+
+    Attributes:
+        line (unidiff.Line): The line that triggered this todo.
+        block (list[str]): The lines following the title of multi-line
+            todos. Every line is one string in this list of str.
+        status (LineStatus): The status of the ToDo. Can be ADDED or DELETED&gt;
+        markdown_language (str): What markdown language to use. Defaults to
+            &#39;python&#39;.
+        hunk (unidiff.Hunk): The hunk that contains the line. Will be converted
+            to code block in the issue.
+        file_name (str): The path of the file from which the todo was extracted.
+        target_line (Union[str, int]): The line number from which the
+            todo was raised. Is used to create a permalink url to that line.
+        assignees (list[str]): The assignees of the issue.
+        labels (list[str]): The labels of the issue.
+        milestone (Union[None, str]): The milestone of the issue.
+        title (str): The title of the issue, once the block input
+            argument has been parsed.
+        body (Union[str, list[str]]): The body of the issue. Can be empty string
+            (no body_, or list of str for every line in body.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, line, block, hunk, file):
+        &#34;&#34;&#34;Instantiate the ToDo Class.
+
+        Args:
+            line (unidiff.Line): The line from which the todo was raised.
+            block (str): The complete indented block, the ToDo was raised from.
+                Including the title.
+            hunk (unidiff.Hunk): The hunk of diff from wich the todo was triggered.
+            file (unidiff.File): The file, from which the diff was
+                extracted.
+
+        &#34;&#34;&#34;
+        self.line = line
+
+        if line.is_added:
+            self.status = LineStatus.ADDED
+        else:
+            self.status = LineStatus.DELETED
+
+        self.block = block.strip()
+        self.markdown_language = &#39;python&#39;
+        self.hunk = &#39;&#39;.join([l.value for l in hunk.target_lines()])
+        if self.hunk.count(&#39;&#34;&#34;&#34;&#39;) == 1:
+            if &#39;&#34;&#34;&#34;&#39; in self.hunk[:int(len(self.hunk) / 2)]:
+                self.hunk = self.hunk + &#39;&#34;&#34;&#34;\n&#39;
+            else:
+                self.hunk = &#39;&#34;&#34;&#34;\n&#39; + self.hunk
+        self.file_name = file.target_file.lstrip(&#39;b/&#39;)
+        self.target_line = line.target_line_no
+
+        # parse the block
+        self._parse_block()
+
+    def _parse_block(self):
+        &#34;&#34;&#34;Parses the `block` argument and extacts more info.&#34;&#34;&#34;
+        lines = self.block.split(&#39;\n&#39;)
+        lines, self.assignees = _get_assignees(lines)
+        lines, self.labels = _get_labels(lines)
+        lines, self.milestone = _get_milestone(lines)
+        if len(lines) &gt; 1:
+            self.title, self.body = lines[0].lstrip(), &#39;\n&#39;.join(lines[1:])
+            self.body = [line.lstrip() for line in self.body.splitlines()]
+        else:
+            self.title = lines[0].lstrip()
+            self.body = &#34;&#34;
+
+    @property
+    def issue(self):
+        issue = Issue(
+            title=self.title,
+            labels=[&#39;todo&#39;] + self.labels,
+            assignees=self.assignees,
+            milestone=self.milestone,
+            body=self.body,
+            hunk=self.hunk,
+            file_name=self.file_name,
+            start_line=self.target_line,
+            markdown_language=self.markdown_language,
+            status=self.status
+        )
+        return issue
+
+    def __bool__(self):
+        return True
+
+
+class TodoParser:
+    &#34;&#34;&#34;Class that parses git diffs and looks for todo strings.
+
+    First things first, the Todos can be skipped with a syntax similar to doctest.
+    Adding a comment with # todo: +SKIP to the line skips the todo. The example
+    todos which follow now all contain this SKIP command, because we don&#39;t want
+    this class to raise issues in the explanatory section. Here are examples of
+    how to put todos that will be picked up by this parser:
+
+    Examples:
+        A single commented line starting with todo (case insensitive).::
+
+            # todo: This needs to be looked into. # todo: +SKIP
+
+        Using parentheses, you can assign people to todos. If these people are
+        part of the github repo, they will be assigned to the issue, that is
+        raised from this todo. Please use their github username::
+
+            # todo (tensorflower-gardener): Tensorflow&#39;s bot should fix this. # todo: +SKIP
+
+        With extended syntax you can add existing labels and exisitng milestones
+        to your todos.::
+
+            # todo: This is the title of the todo. # todo: +SKIP
+            #  Further text is indented by a single space. It will appear
+            #  In the body of the issue. You can add assignees, and labels
+            #  with this syntax. The `todo` label will automatically
+            #  added to your labels.
+            #  assignees: github_user, kevinsawade, another_user
+            #  labels: devel, urgent
+            #  milestones: alpha
+
+        Besides these in-comment todos, this class also scans for google-style
+        todo&#39;s in python docstrings.::
+
+            def myfunc(arg1):
+                &#39;&#39;&#39;This is a docstring.
+
+                Args:
+                    arg1: A thing.
+
+                Todo:
+                    * Single-line Todo. Add more documentation. # todo: +SKIP
+                    * (kevinsawade) We should also add some actual code. # todo: +SKIP
+                    * Multi-line todos should follow google-styleguide. # todo: +SKIP
+                        This means a tab should be used indentation inside
+                        the docstrings. This will form the body of the issue.
+                        Assignees and labels can be added the same way:
+                        assignees: github_user2, user3
+                        labels: wontfix, devel
+                        milestones: alpha
+
+                &#39;&#39;&#39;
+
+    Attributes:
+        issues (list[Issue]): A list of Issue instances.
+        testing (bool): Whether testing is carried out.
+        repo (str): A url to the current repo.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0, client=None):
+        &#34;&#34;&#34;Instantiate the TodoParser class.
+
+        Keyword Args:
+            testing (bool, optional): Whether testing is carried out with this
+                class. Defaults to False.
+            client (GitHubClient): Instance of github client to precent multiple
+                instantiation.
+
+        &#34;&#34;&#34;
+        self.testing = testing
+        self.issues = []
+        if client is None:
+            self.client = GitHubClient(testing=self.testing)
+        else:
+            self.client = client
+        self._parse()
+
+    def _parse(self):
+        &#34;&#34;&#34;Parse the diffs and search for todos in added lines.&#34;&#34;&#34;
+        # read env variables
+        self.repo = os.environ[&#39;INPUT_REPO&#39;]
+        self.sha = os.environ[&#39;INPUT_SHA&#39;]
+        self.before = os.environ[&#39;INPUT_BEFORE&#39;]
+
+        # get before and current hash
+        if self.testing == 1:
+            self.sha = &#39;036ef2c&#39;
+            self.before = &#39;11858e4&#39;
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        elif self.testing == 2:
+            self.sha = &#39;7fae83c&#39;
+            self.before = &#39;036ef2c&#39;
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        else:
+            self.diff = self.client.get_last_diff()
+
+        # create patchset from diff
+        patchset = PatchSet(self.diff)
+
+        for file in patchset:
+            # handle the file before
+            file_before = file.source_file.lstrip(&#39;a/&#39;)
+            if file_before == &#39;dev/null&#39;:
+                file_before = StringIO(&#39;&#39;)
+            else:
+                file_before = StringIO(self.client.get_file_at_commit(file_before, self.before))
+
+            # handle the file after
+            file_after = file.target_file.lstrip(&#39;b/&#39;)
+            if not file_after.endswith(&#39;.py&#39;):
+                continue
+            file_after = StringIO(self.client.get_file_at_commit(file_after, self.sha))
+
+            # parse before and after todos
+            with file_before as f:
+                todos_before = extract_todos_from_file(f.read(), self.testing)
+            with file_after as f:
+                todos_now = extract_todos_from_file(f.read(), self.testing)
+
+            # iterate over hunks and lines
+            for hunk in file:
+                lines = list(hunk.source_lines()) + list(hunk.target_lines())
+                for i, line in enumerate(lines):
+                    if block := is_todo_line(line, todos_before, todos_now, self.testing):
+                        todo = ToDo(line, block, hunk, file)
+                        issue = todo.issue
+                        self.issues.append(issue)
+
+
+def is_todo_line(line, todos_before, todos_now, testing=0):
+    &#34;&#34;&#34;Two cases: Line starts with any combination of # Todo, or line starts with
+    asterisk and is inside a napoleon docstring todo header.
+
+    Also filter out # todo: +SKIP.
+
+    Args:
+        line (unidiff.Line): A line instance.
+        todos_before (list[str]): Todos from the source file.
+        todos_now (list[str]): Todos from the target file.
+
+    Keyword Args:
+        testing (bool, optional): Set True for Testing. Defaults to False.
+
+    Returns:
+        Union[bool, str]: Either a bool, when line is not a todo line, or a
+            str, when line is a todo line.
+
+    &#34;&#34;&#34;
+    if testing == 2 and line.value == &#39;I will add many.&#39;:
+        print(line)
+        raise Exception(&#34;STOP&#34;)
+    # check if line has been added or removed
+    if line.is_context:
+        return False
+    elif line.is_added:
+        todos = todos_now
+    else:
+        todos = todos_before
+
+    # check whether line can be a todo line
+    if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+        stripped_line = strip_line(line.value.replace(&#39;#&#39;, &#39;&#39;, 1))
+    elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+        stripped_line = strip_line(line.value.replace(&#39;*&#39;, &#39;&#39;, 1), with_todo=False)
+    else:
+        return False
+
+    # get the complete block
+    # and build complete issue
+    check = [stripped_line in t for t in todos]
+    if any(check):
+        index = check.index(True)
+        block = todos[index]
+        return block
+    else:
+        return False
+
+
+def extract_todos_from_file(file, testing=0):
+    &#34;&#34;&#34;Parses a file and extracts todos in google-style formatted docstrings.
+
+    Args:
+        file (str): Contents of file.
+
+    Keyword Args:
+        testing (bool, optional): If set to True todos containing `# todo: +SKIP`
+            will be disregarded. Defaults to False.
+
+    Returns:
+        list[str]: A list containing the todos from this file.
+
+    &#34;&#34;&#34;
+
+    # use ast to parse
+    docs = []
+    parsed_file = ast.parse(file)
+    try:
+        docs.append(ast.get_docstring(parsed_file))
+    except Exception as e:
+        raise Exception(&#34;Exclude this specific exception&#34;) from e
+    for node in parsed_file.body:
+        try:
+            docs.append(ast.get_docstring(node))
+        except TypeError:
+            pass
+
+    # append docstring todos to list:
+    todos = []
+    for doc in docs:
+        if doc is None:
+            continue
+        blocks = doc.split(&#39;\n\n&#39;)
+        for block in blocks:
+            if &#39;Todo:&#39; in block:
+                block = &#39;\n&#39;.join(block.splitlines()[1:])
+                block = block.split(&#39;* &#39;)[1:]
+                if not testing:
+                    block = list(filter(lambda x: False if TODO_SKIP_SUBSTRING in x else True, block))
+                block = [strip_line(line, with_todo=False) for line in block]
+                block = list(map(lambda x: x.replace(&#39;\n &#39;, &#39;\n&#39;), block))
+                todos.extend(block)
+
+    # get all comments lines starting with hash
+    comments_lines = list(
+        map(
+            lambda x: x.strip().replace(&#39;#&#39;, &#39;&#39;, 1),
+            filter(
+                lambda y: True if y.strip().startswith(&#39;#&#39;) else False,
+                file.splitlines())))
+
+    # iterate over them.
+    for i, comment_line in enumerate(comments_lines):
+        if comment_line.lower().strip().startswith(&#39;todo&#39;):
+            if not testing and TODO_SKIP_SUBSTRING in comment_line:
+                continue
+            block = [strip_line(comment_line)]
+            in_block = True
+            j = i + 1
+            while in_block:
+                try:
+                    todo_body = comments_lines[j].startswith(&#39;  &#39;)
+                except IndexError:
+                    in_block = False
+                    continue
+                if todo_body:
+                    block.append(strip_line(comments_lines[j]))
+                    j += 1
+                else:
+                    in_block = False
+            block = &#39;\n&#39;.join(block)
+            todos.append(block)
+
+    # and return
+    return todos
+
+
+def strip_line(line, with_whitespace=True, with_todo=True):
+    &#34;&#34;&#34;Strips line from unwanted whitespace. comments chars, and &#39;todo&#39;.
+
+    Args:
+        line (str): The line to be stripped.
+
+    Keyword Args:
+        with_whitespace (bool, optional): Whether to strip the whitespace
+            that follows the comment character &#39;#&#39;.
+            Defaults to True.
+        with_todo (bool, optional): Whether to replace case insensitive
+            &#39;todo&#39; strings.
+
+    Returns:
+        str: The stripped line.
+
+    &#34;&#34;&#34;
+    if with_whitespace:
+        line = line.strip().lstrip(&#39;#&#39;).lstrip()
+    else:
+        line = line.strip().lstrip(&#39;#&#39;)
+    if with_todo:
+        return re.sub(r&#39;(?i)todo(\s|\:)&#39;, &#39;&#39;, line).strip()
+    else:
+        return line
+
+
+################################################################################
+# Main
+################################################################################
+
+
+def run_tests_from_main():
+    &#34;&#34;&#34;Runs unit-tests when `main()` is called with testing = True.&#34;&#34;&#34;
+    # load a file with secrets if there
+    try:
+        with open(&#39;secrets&#39;, &#39;r&#39;) as f:
+            gh_token = f.readline()
+        os.environ[&#39;INPUT_TOKEN&#39;] = gh_token
+    except FileNotFoundError:
+        pass
+
+    # run unittests
+    loader = unittest.TestLoader()
+    test_suite = loader.discover(start_dir=os.path.join(os.getcwd(), &#39;tests&#39;),
+                                 top_level_dir=os.getcwd())
+    runner = unittest.TextTestRunner()
+    result = runner.run(test_suite)
+    
+    return result
+
+
+def main(testing):
+    if testing or os.getenv(&#39;INPUT_TESTING&#39;) == &#39;true&#39;:
+        if not os.path.isfile(&#39;tests/test_todo_to_issue.py&#39;):
+            raise Exception(&#34;Please switch the TESTING argument in your workflow.yml file to &#39;false&#39;. Tests will only run in the python-todo-to-issue repository.&#34;)
+        result = run_tests_from_main()
+        if not result.wasSuccessful():
+            print(&#34;Tests were not successful. Exiting.&#34;)
+            exit(1)
+        else:
+            print(&#34;Tests were successful&#34;)
+    else:
+        print(&#34;Running python-todo-to-issue&#34;)
+        from pprint import pprint
+        client = GitHubClient()
+        issues = client.existing_issues
+        todo_parser = TodoParser(client=client)
+        print(&#39;complete diff: &#39;, todo_parser.diff)
+        issues = todo_parser.issues
+        print(&#39;all issues: &#39;, issues)
+        for i, issue in enumerate(issues):
+            print(f&#34;Processing issue {issue}.&#34;)
+            if issue.status == LineStatus.ADDED:
+                status_code = client.create_issue(issue)
+                if status_code == 201:
+                    print(&#39;Issue created&#39;)
+                else:
+                    print(&#39;Issue could not be created&#39;)
+            elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
+                status_code = client.close_issue(issue)
+                if status_code == 201:
+                    print(&#39;Issue closed&#39;)
+                else:
+                    print(&#39;Issue could not be closed&#39;)
+            # Stagger the requests to be on the safe side.
+            sleep(1)
+        print(&#34;Finished working through the issues.&#34;)
+
+if __name__ == &#34;__main__&#34;:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=&#34;Python code Todos to github issues.&#34;)
+    parser.add_argument(&#39;--testing&#39;, dest=&#39;testing&#39;, action=&#39;store_true&#39;,
+                        help=&#34;Whether a testing run is executed and tests will be conducted.&#34;)
+    parser.set_defaults(testing=False)
+    args = parser.parse_args()
+    main(testing=args.testing)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="main.extract_todos_from_file"><code class="name flex">
+<span>def <span class="ident">extract_todos_from_file</span></span>(<span>file, testing=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parses a file and extracts todos in google-style formatted docstrings.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file</code></strong> :&ensp;<code>str</code></dt>
+<dd>Contents of file.</dd>
+</dl>
+<p>Keyword Args:
+testing (bool, optional): If set to True todos containing <code># todo: +SKIP</code>
+will be disregarded. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>A list containing the todos from this file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extract_todos_from_file(file, testing=0):
+    &#34;&#34;&#34;Parses a file and extracts todos in google-style formatted docstrings.
+
+    Args:
+        file (str): Contents of file.
+
+    Keyword Args:
+        testing (bool, optional): If set to True todos containing `# todo: +SKIP`
+            will be disregarded. Defaults to False.
+
+    Returns:
+        list[str]: A list containing the todos from this file.
+
+    &#34;&#34;&#34;
+
+    # use ast to parse
+    docs = []
+    parsed_file = ast.parse(file)
+    try:
+        docs.append(ast.get_docstring(parsed_file))
+    except Exception as e:
+        raise Exception(&#34;Exclude this specific exception&#34;) from e
+    for node in parsed_file.body:
+        try:
+            docs.append(ast.get_docstring(node))
+        except TypeError:
+            pass
+
+    # append docstring todos to list:
+    todos = []
+    for doc in docs:
+        if doc is None:
+            continue
+        blocks = doc.split(&#39;\n\n&#39;)
+        for block in blocks:
+            if &#39;Todo:&#39; in block:
+                block = &#39;\n&#39;.join(block.splitlines()[1:])
+                block = block.split(&#39;* &#39;)[1:]
+                if not testing:
+                    block = list(filter(lambda x: False if TODO_SKIP_SUBSTRING in x else True, block))
+                block = [strip_line(line, with_todo=False) for line in block]
+                block = list(map(lambda x: x.replace(&#39;\n &#39;, &#39;\n&#39;), block))
+                todos.extend(block)
+
+    # get all comments lines starting with hash
+    comments_lines = list(
+        map(
+            lambda x: x.strip().replace(&#39;#&#39;, &#39;&#39;, 1),
+            filter(
+                lambda y: True if y.strip().startswith(&#39;#&#39;) else False,
+                file.splitlines())))
+
+    # iterate over them.
+    for i, comment_line in enumerate(comments_lines):
+        if comment_line.lower().strip().startswith(&#39;todo&#39;):
+            if not testing and TODO_SKIP_SUBSTRING in comment_line:
+                continue
+            block = [strip_line(comment_line)]
+            in_block = True
+            j = i + 1
+            while in_block:
+                try:
+                    todo_body = comments_lines[j].startswith(&#39;  &#39;)
+                except IndexError:
+                    in_block = False
+                    continue
+                if todo_body:
+                    block.append(strip_line(comments_lines[j]))
+                    j += 1
+                else:
+                    in_block = False
+            block = &#39;\n&#39;.join(block)
+            todos.append(block)
+
+    # and return
+    return todos</code></pre>
+</details>
+</dd>
+<dt id="main.get_body"><code class="name flex">
+<span>def <span class="ident">get_body</span></span>(<span>issue, url, line_break)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructs a body with issue and url.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>issue</code></strong> :&ensp;<code><a title="main.Issue" href="#main.Issue">Issue</a></code></dt>
+<dd>An <code><a title="main.Issue" href="#main.Issue">Issue</a></code> instance.</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url constructed from <code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code>.</dd>
+<dt><strong><code>line_break</code></strong> :&ensp;<code>str</code></dt>
+<dd>The line-break used in <code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>A string with the body of the issue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_body(issue, url, line_break):
+    &#34;&#34;&#34;Constructs a body with issue and url.
+
+    Args:
+        issue (Issue): An `Issue` instance.
+        url (str): The url constructed from `GitHubClient`.
+        line_break (str): The line-break used in `GitHubClient`.
+
+    Returns:
+        str: A string with the body of the issue.
+
+    &#34;&#34;&#34;
+    formatted_issue_body = join_lines(issue, line_break)
+    formatted = (formatted_issue_body + &#39;\n\n&#39;
+                 + url + &#39;\n\n&#39;
+                 + &#39;```&#39; + issue.markdown_language + &#39;\n&#39;
+                 + issue.hunk + &#39;\n&#39;
+                 + &#39;```&#39;)
+    return formatted</code></pre>
+</details>
+</dd>
+<dt id="main.is_todo_line"><code class="name flex">
+<span>def <span class="ident">is_todo_line</span></span>(<span>line, todos_before, todos_now, testing=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Two cases: Line starts with any combination of # Todo, or line starts with
+asterisk and is inside a napoleon docstring todo header.</p>
+<p>Also filter out # todo: +SKIP.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>line</code></strong> :&ensp;<code>unidiff.Line</code></dt>
+<dd>A line instance.</dd>
+<dt><strong><code>todos_before</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>Todos from the source file.</dd>
+<dt><strong><code>todos_now</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>Todos from the target file.</dd>
+</dl>
+<p>Keyword Args:
+testing (bool, optional): Set True for Testing. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[bool, str]</code></dt>
+<dd>Either a bool, when line is not a todo line, or a
+str, when line is a todo line.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_todo_line(line, todos_before, todos_now, testing=0):
+    &#34;&#34;&#34;Two cases: Line starts with any combination of # Todo, or line starts with
+    asterisk and is inside a napoleon docstring todo header.
+
+    Also filter out # todo: +SKIP.
+
+    Args:
+        line (unidiff.Line): A line instance.
+        todos_before (list[str]): Todos from the source file.
+        todos_now (list[str]): Todos from the target file.
+
+    Keyword Args:
+        testing (bool, optional): Set True for Testing. Defaults to False.
+
+    Returns:
+        Union[bool, str]: Either a bool, when line is not a todo line, or a
+            str, when line is a todo line.
+
+    &#34;&#34;&#34;
+    if testing == 2 and line.value == &#39;I will add many.&#39;:
+        print(line)
+        raise Exception(&#34;STOP&#34;)
+    # check if line has been added or removed
+    if line.is_context:
+        return False
+    elif line.is_added:
+        todos = todos_now
+    else:
+        todos = todos_before
+
+    # check whether line can be a todo line
+    if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+        stripped_line = strip_line(line.value.replace(&#39;#&#39;, &#39;&#39;, 1))
+    elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+        stripped_line = strip_line(line.value.replace(&#39;*&#39;, &#39;&#39;, 1), with_todo=False)
+    else:
+        return False
+
+    # get the complete block
+    # and build complete issue
+    check = [stripped_line in t for t in todos]
+    if any(check):
+        index = check.index(True)
+        block = todos[index]
+        return block
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="main.join_lines"><code class="name flex">
+<span>def <span class="ident">join_lines</span></span>(<span>issue, line_break)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Joins lines using a defined line_break.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>issue</code></strong> :&ensp;<code><a title="main.Issue" href="#main.Issue">Issue</a></code></dt>
+<dd>An <code><a title="main.Issue" href="#main.Issue">Issue</a></code> instance.</dd>
+<dt><strong><code>line_break</code></strong> :&ensp;<code>str</code></dt>
+<dd>The line-break used in <code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>A string with the formatted issue body.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def join_lines(issue, line_break):
+    &#34;&#34;&#34;Joins lines using a defined line_break.
+
+    Args:
+        issue (Issue): An `Issue` instance.
+        line_break (str): The line-break used in `GitHubClient`.
+
+    Returns:
+        str: A string with the formatted issue body.
+
+    &#34;&#34;&#34;
+    annotation = &#34;This issue was automatically created by a github action that converts project Todos to issues.&#34;
+    return annotation + &#39;\n\n&#39; + line_break.join(issue.body)</code></pre>
+</details>
+</dd>
+<dt id="main.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>testing)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(testing):
+    if testing or os.getenv(&#39;INPUT_TESTING&#39;) == &#39;true&#39;:
+        if not os.path.isfile(&#39;tests/test_todo_to_issue.py&#39;):
+            raise Exception(&#34;Please switch the TESTING argument in your workflow.yml file to &#39;false&#39;. Tests will only run in the python-todo-to-issue repository.&#34;)
+        result = run_tests_from_main()
+        if not result.wasSuccessful():
+            print(&#34;Tests were not successful. Exiting.&#34;)
+            exit(1)
+        else:
+            print(&#34;Tests were successful&#34;)
+    else:
+        print(&#34;Running python-todo-to-issue&#34;)
+        from pprint import pprint
+        client = GitHubClient()
+        issues = client.existing_issues
+        todo_parser = TodoParser(client=client)
+        print(&#39;complete diff: &#39;, todo_parser.diff)
+        issues = todo_parser.issues
+        print(&#39;all issues: &#39;, issues)
+        for i, issue in enumerate(issues):
+            print(f&#34;Processing issue {issue}.&#34;)
+            if issue.status == LineStatus.ADDED:
+                status_code = client.create_issue(issue)
+                if status_code == 201:
+                    print(&#39;Issue created&#39;)
+                else:
+                    print(&#39;Issue could not be created&#39;)
+            elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
+                status_code = client.close_issue(issue)
+                if status_code == 201:
+                    print(&#39;Issue closed&#39;)
+                else:
+                    print(&#39;Issue could not be closed&#39;)
+            # Stagger the requests to be on the safe side.
+            sleep(1)
+        print(&#34;Finished working through the issues.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="main.run_tests_from_main"><code class="name flex">
+<span>def <span class="ident">run_tests_from_main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Runs unit-tests when <code><a title="main.main" href="#main.main">main()</a></code> is called with testing = True.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_tests_from_main():
+    &#34;&#34;&#34;Runs unit-tests when `main()` is called with testing = True.&#34;&#34;&#34;
+    # load a file with secrets if there
+    try:
+        with open(&#39;secrets&#39;, &#39;r&#39;) as f:
+            gh_token = f.readline()
+        os.environ[&#39;INPUT_TOKEN&#39;] = gh_token
+    except FileNotFoundError:
+        pass
+
+    # run unittests
+    loader = unittest.TestLoader()
+    test_suite = loader.discover(start_dir=os.path.join(os.getcwd(), &#39;tests&#39;),
+                                 top_level_dir=os.getcwd())
+    runner = unittest.TextTestRunner()
+    result = runner.run(test_suite)
+    
+    return result</code></pre>
+</details>
+</dd>
+<dt id="main.strip_line"><code class="name flex">
+<span>def <span class="ident">strip_line</span></span>(<span>line, with_whitespace=True, with_todo=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Strips line from unwanted whitespace. comments chars, and 'todo'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>line</code></strong> :&ensp;<code>str</code></dt>
+<dd>The line to be stripped.</dd>
+</dl>
+<p>Keyword Args:
+with_whitespace (bool, optional): Whether to strip the whitespace
+that follows the comment character '#'.
+Defaults to True.
+with_todo (bool, optional): Whether to replace case insensitive
+'todo' strings.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The stripped line.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def strip_line(line, with_whitespace=True, with_todo=True):
+    &#34;&#34;&#34;Strips line from unwanted whitespace. comments chars, and &#39;todo&#39;.
+
+    Args:
+        line (str): The line to be stripped.
+
+    Keyword Args:
+        with_whitespace (bool, optional): Whether to strip the whitespace
+            that follows the comment character &#39;#&#39;.
+            Defaults to True.
+        with_todo (bool, optional): Whether to replace case insensitive
+            &#39;todo&#39; strings.
+
+    Returns:
+        str: The stripped line.
+
+    &#34;&#34;&#34;
+    if with_whitespace:
+        line = line.strip().lstrip(&#39;#&#39;).lstrip()
+    else:
+        line = line.strip().lstrip(&#39;#&#39;)
+    if with_todo:
+        return re.sub(r&#39;(?i)todo(\s|\:)&#39;, &#39;&#39;, line).strip()
+    else:
+        return line</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="main.GitHubClient"><code class="flex name class">
+<span>class <span class="ident">GitHubClient</span></span>
+<span>(</span><span>testing=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class to interact with GitHub, read and create issues.</p>
+<p>This class interacts with GitHub via api.github.com and reads issues from
+repositories. The default behavior is, that it uses git-python to get the
+url of the current remote origin. This name of the repo is usually built
+like this: user_name/repo_name or org_name/repo_name. git-python is also
+used to get the sha of the current commit and the previous commit.</p>
+<p>About tokens: To work with private repos and to have the ability to close
+issues in a repository, this class needs github token, sometimes also called
+a secret. The secret can be created in your github account. Visit
+<a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and click 'Generate a new token'. Check
+the 'repo' scope and give the token a descriptive name. If the repo lies
+within an organisation, the token of a user with access rights to the org
+repo, will suffice.</p>
+<p>About secrets: This token should not fall into the wrong hands. However, in
+production and in testing the token is needed. In production, the token can
+be provided as a secret. Add the token as a secret in the settings page of
+your repo. In testing, the token is provided by placing a file called
+'secrets' in the repo's root directory.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>existing_issues</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of existing issues.</dd>
+<dt><strong><code>testing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Used, when this class is used in testing. Changes some
+behaviors.</dd>
+<dt><strong><code>repo</code></strong> :&ensp;<code>str</code></dt>
+<dd>A string of 'user_name/repo_name' or 'org_name/repo_name'
+which identifies the repo on github.com.</dd>
+<dt><strong><code>sha</code></strong> :&ensp;<code>str</code></dt>
+<dd>The 7 character sha hash of the current commit.</dd>
+<dt><strong><code>before</code></strong> :&ensp;<code>str</code></dt>
+<dd>The 7 character sha hash of the previous commit.</dd>
+<dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
+<dd>A github token.</dd>
+<dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>A string containing 'https://api.github.com/'.</dd>
+<dt><strong><code>repos_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>base_url + 'repos/'</dd>
+<dt><strong><code>issues_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>GitHub API url pointing to a url with the current
+repo's issues.</dd>
+<dt><strong><code>issue_headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>A dict to provide to requests.get() as header.</dd>
+</dl>
+<p>Instantiate the GitHubClient.</p>
+<p>Keyword Args:
+testing (bool, optional): Whether class is used during testing.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GitHubClient():
+    &#34;&#34;&#34;Class to interact with GitHub, read and create issues.
+
+    This class interacts with GitHub via api.github.com and reads issues from
+    repositories. The default behavior is, that it uses git-python to get the
+    url of the current remote origin. This name of the repo is usually built
+    like this: user_name/repo_name or org_name/repo_name. git-python is also
+    used to get the sha of the current commit and the previous commit.
+
+    About tokens: To work with private repos and to have the ability to close
+    issues in a repository, this class needs github token, sometimes also called
+    a secret. The secret can be created in your github account. Visit
+    https://github.com/settings/tokens and click &#39;Generate a new token&#39;. Check
+    the &#39;repo&#39; scope and give the token a descriptive name. If the repo lies
+    within an organisation, the token of a user with access rights to the org
+    repo, will suffice.
+
+    About secrets: This token should not fall into the wrong hands. However, in
+    production and in testing the token is needed. In production, the token can
+    be provided as a secret. Add the token as a secret in the settings page of
+    your repo. In testing, the token is provided by placing a file called
+    &#39;secrets&#39; in the repo&#39;s root directory.
+
+    Attributes:
+        existing_issues (list): A list of existing issues.
+        testing (bool): Used, when this class is used in testing. Changes some
+            behaviors.
+        repo (str): A string of &#39;user_name/repo_name&#39; or &#39;org_name/repo_name&#39;
+            which identifies the repo on github.com.
+        sha (str): The 7 character sha hash of the current commit.
+        before (str): The 7 character sha hash of the previous commit.
+        token (str): A github token.
+        base_url (str): A string containing &#39;https://api.github.com/&#39;.
+        repos_url (str): base_url + &#39;repos/&#39;
+        issues_url (str): GitHub API url pointing to a url with the current
+            repo&#39;s issues.
+        issue_headers (dict): A dict to provide to requests.get() as header.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0):
+        &#34;&#34;&#34;Instantiate the GitHubClient.
+
+        Keyword Args:
+            testing (bool, optional): Whether class is used during testing.
+
+        &#34;&#34;&#34;
+        # set some attributes right from the start
+        self.existing_issues = []
+        self.testing = testing
+
+        self.repo = os.environ[&#39;INPUT_REPO&#39;]
+        self.sha = os.environ[&#39;INPUT_SHA&#39;]
+        self.before = os.environ[&#39;INPUT_BEFORE&#39;]
+
+        # get before and current hash
+        if self.testing == 1:
+            self.sha = &#39;036ef2ca&#39;
+            self.before = &#39;11858e41&#39;
+        elif self.testing == 2:
+            self.sha = &#39;7fae83cc&#39;
+            self.before = &#39;036ef2ca&#39;
+
+        # get the token from environment variables
+        self.token = os.getenv(&#39;INPUT_TOKEN&#39;)
+
+        # define line break. Can also be \n\n which formats multi-line todos
+        # nicer.
+        self.line_break = &#39;\n&#39;
+
+        # set other attributes
+        self.base_url = &#39;https://api.github.com/&#39;
+        self.repos_url = f&#39;{self.base_url}repos/&#39;
+        self.issues_url = f&#39;{self.repos_url}{self.repo}/issues&#39;
+        self.issue_headers = {
+            &#39;Content-Type&#39;: &#39;application/json&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+
+        # get current issues
+        self._get_existing_issues()
+
+    def get_specific_diff(self, before, after):
+        &#34;&#34;&#34;Get the diff based on specific commits&#34;&#34;&#34;
+        diff_url = f&#39;{self.repos_url}{self.repo}/compare/{before}...{after}&#39;
+        diff_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)
+
+    def get_last_diff(self):
+        &#34;&#34;&#34;Get the last diff based on the SHA of the last two commits.&#34;&#34;&#34;
+        diff_url = f&#39;{self.repos_url}{self.repo}/compare/{self.before}...{self.sha}&#39;
+        diff_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        diff_request = requests.get(url=diff_url, headers=diff_headers)
+        if diff_request.status_code == 200:
+            return diff_request.text
+        raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)
+
+    def get_file_at_commit(self, filepath, commit):
+        &#34;&#34;&#34;Returns a string, with the file contents at the current hashed commit.
+
+        Args:
+            filepath (str): Path to the file from repo root.
+            commit (str): The short-hash, 7-digit commit.
+
+        Returns:
+              str: The contents of the file.
+
+        &#34;&#34;&#34;
+        raw_file_url = f&#39;{self.repos_url}{self.repo}/contents/{filepath}?ref={commit}&#39;
+        raw_file_headers = {
+            &#39;Accept&#39;: &#39;application/vnd.github.VERSION.raw&#39;,
+            &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+        }
+        raw_file_request = requests.get(url=raw_file_url, headers=raw_file_headers)
+        if raw_file_request.status_code == 200:
+            return raw_file_request.text
+
+    def _get_repo_url(self, remote_url):
+        &#34;&#34;&#34;Construct repo url from ssh or https repo urls&#34;&#34;&#34;
+        if &#39;@&#39; not in remote_url:
+            self.repo = remote_url.lstrip(&#39;https://github.com/&#39;).rstrip(&#39;.git&#39;)
+        else:
+            self.repo = remote_url.lstrip(&#39;git@github.com:&#39;).rstrip(&#39;.git&#39;)
+
+    def _get_existing_issues(self, page=1):
+        &#34;&#34;&#34;Populate the existing issues list.&#34;&#34;&#34;
+        params = {
+            &#39;per_page&#39;: 100,
+            &#39;page&#39;: page,
+            &#39;state&#39;: &#39;open&#39;,
+            &#39;labels&#39;: &#39;todo&#39;
+        }
+        list_issues_request = requests.get(self.issues_url, headers=self.issue_headers, params=params)
+        if list_issues_request.status_code == 200:
+            # check
+            self.existing_issues.extend(list_issues_request.json())
+            links = list_issues_request.links
+            if &#39;next&#39; in links:
+                self._get_existing_issues(page + 1)
+
+    @staticmethod
+    def is_same_issue(issue, other_issue, line_break):
+        &#34;&#34;&#34;Compares two issues.
+
+        Args:
+            issue (Issue): Instance of `Issue`.
+            other_issue (dict): Json dict returned from GitHub API of another issue.
+            url_to_line (str): The url built by the `GitHubClient`.
+            line_break (str): The line-break used in `GitHubClient`.
+
+        Returns
+            bool: Whether issues are identical or not.
+
+        &#34;&#34;&#34;
+        # check title
+        a = issue.title == other_issue[&#39;title&#39;]
+        if not &#39;https://github.com/&#39; in other_issue[&#39;body&#39;]:
+            return a
+        else:
+            # check issue text
+            this_text = join_lines(issue, line_break).rstrip()
+            other_text = other_issue[&#39;body&#39;].split(&#39;https://github.com&#39;)[0].rstrip()
+            b = this_text == other_text
+
+        return a and b
+
+    def create_issue(self, issue):
+        &#34;&#34;&#34;Creates issue on github from an Issue class.
+
+        Keyword Args:
+            issue (Issue): An instance of the `Issue` class in this document.
+
+        &#34;&#34;&#34;
+        # truncate issue title if too long
+        title = issue.title
+        if len(title) &gt; 80:
+            title = tile[:80] + &#39;...&#39;
+
+        # define url to line
+        url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
+
+        # construct the issue body
+        body = get_body(issue, url_to_line, self.line_break)
+
+        # Alastair Mooney&#39;s has problems with rebasing. Let&#39;s see how this works out
+        # One could use GitHub&#39;s GraphQL API
+        for existing_issue in self.existing_issues:
+            if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+                # The issue_id matching means the issue issues are identical.
+                print(f&#39;Skipping issue (already exists)&#39;)
+                return
+
+        new_issue_body = {&#39;title&#39;: title, &#39;body&#39;: body, &#39;labels&#39;: issue.labels}
+
+        # check whether milestones are existent
+        if issue.milestone:
+            milestone_url = f&#39;{self.repos_url}{self.repo}/milestones/{issue.milestone}&#39;
+            milestone_request = requests.get(url=milestone_url, headers=self.issue_headers)
+            if milestone_request.status_code == 200:
+                new_issue_body[&#39;milestone&#39;] = issue.milestone
+            else:
+                print(f&#39;Milestone {issue.milestone} does not exist! Dropping this parameter!&#39;)
+
+        # check whether label exists
+        valid_assignees = []
+        for assignee in issue.assignees:
+            assignee_url = f&#39;{self.repos_url}{self.repo}/assignees/{assignee}&#39;
+            assignee_request = requests.get(url=assignee_url, headers=self.issue_headers)
+            if assignee_request.status_code == 204:
+                valid_assignees.append(assignee)
+            else:
+                print(f&#39;Assignee {assignee} does not exist! Dropping this assignee!&#39;)
+        new_issue_body[&#39;assignees&#39;] = valid_assignees
+
+        new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
+                                          data=json.dumps(new_issue_body))
+
+        return new_issue_request
+
+    def close_issue(self, issue):
+        &#34;&#34;&#34;Check to see if this issue can be found on GitHub and if so close it.
+        
+        Keyword Args:
+            issue (Issue): An instance of the `Issue` class in this document.
+            
+        &#34;&#34;&#34;
+        matched = 0
+        issue_number = None
+        for existing_issue in self.existing_issues:
+            # This is admittedly a simple check that may not work in complex scenarios, but we can&#39;t deal with them yet.
+            if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+                print(&#34;matched&#34;)
+                matched += 1
+                # If there are multiple issues with similar titles, don&#39;t try and close any.
+                if matched &gt; 1:
+                    print(f&#39;Skipping issue (multiple matches)&#39;)
+                    break
+                issue_number = existing_issue[&#39;number&#39;]
+        else:
+            if matched == 0 and self.testing:
+                raise Exception(f&#34;Couldn&#39;t match issue {issue.title}, {issue.body}&#34;)
+            else:
+                # The titles match, so we will try and close the issue.
+                update_issue_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}&#39;
+                body = {&#39;state&#39;: &#39;closed&#39;}
+                close_issue_request = requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
+
+                issue_comment_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}/comments&#39;
+                body = {&#39;body&#39;: f&#39;Closed in {self.sha}&#39;}
+                update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
+                                                     data=json.dumps(body))
+                return update_issue_request.status_code, close_issue_request.status_code
+        return None</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="main.GitHubClient.is_same_issue"><code class="name flex">
+<span>def <span class="ident">is_same_issue</span></span>(<span>issue, other_issue, line_break)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Compares two issues.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>issue</code></strong> :&ensp;<code><a title="main.Issue" href="#main.Issue">Issue</a></code></dt>
+<dd>Instance of <code><a title="main.Issue" href="#main.Issue">Issue</a></code>.</dd>
+<dt><strong><code>other_issue</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Json dict returned from GitHub API of another issue.</dd>
+<dt><strong><code>url_to_line</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url built by the <code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code>.</dd>
+<dt><strong><code>line_break</code></strong> :&ensp;<code>str</code></dt>
+<dd>The line-break used in <code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code>.</dd>
+</dl>
+<p>Returns
+bool: Whether issues are identical or not.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def is_same_issue(issue, other_issue, line_break):
+    &#34;&#34;&#34;Compares two issues.
+
+    Args:
+        issue (Issue): Instance of `Issue`.
+        other_issue (dict): Json dict returned from GitHub API of another issue.
+        url_to_line (str): The url built by the `GitHubClient`.
+        line_break (str): The line-break used in `GitHubClient`.
+
+    Returns
+        bool: Whether issues are identical or not.
+
+    &#34;&#34;&#34;
+    # check title
+    a = issue.title == other_issue[&#39;title&#39;]
+    if not &#39;https://github.com/&#39; in other_issue[&#39;body&#39;]:
+        return a
+    else:
+        # check issue text
+        this_text = join_lines(issue, line_break).rstrip()
+        other_text = other_issue[&#39;body&#39;].split(&#39;https://github.com&#39;)[0].rstrip()
+        b = this_text == other_text
+
+    return a and b</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.GitHubClient.close_issue"><code class="name flex">
+<span>def <span class="ident">close_issue</span></span>(<span>self, issue)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check to see if this issue can be found on GitHub and if so close it.</p>
+<p>Keyword Args:
+issue (Issue): An instance of the <code><a title="main.Issue" href="#main.Issue">Issue</a></code> class in this document.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close_issue(self, issue):
+    &#34;&#34;&#34;Check to see if this issue can be found on GitHub and if so close it.
+    
+    Keyword Args:
+        issue (Issue): An instance of the `Issue` class in this document.
+        
+    &#34;&#34;&#34;
+    matched = 0
+    issue_number = None
+    for existing_issue in self.existing_issues:
+        # This is admittedly a simple check that may not work in complex scenarios, but we can&#39;t deal with them yet.
+        if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+            print(&#34;matched&#34;)
+            matched += 1
+            # If there are multiple issues with similar titles, don&#39;t try and close any.
+            if matched &gt; 1:
+                print(f&#39;Skipping issue (multiple matches)&#39;)
+                break
+            issue_number = existing_issue[&#39;number&#39;]
+    else:
+        if matched == 0 and self.testing:
+            raise Exception(f&#34;Couldn&#39;t match issue {issue.title}, {issue.body}&#34;)
+        else:
+            # The titles match, so we will try and close the issue.
+            update_issue_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}&#39;
+            body = {&#39;state&#39;: &#39;closed&#39;}
+            close_issue_request = requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
+
+            issue_comment_url = f&#39;{self.repos_url}{self.repo}/issues/{issue_number}/comments&#39;
+            body = {&#39;body&#39;: f&#39;Closed in {self.sha}&#39;}
+            update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
+                                                 data=json.dumps(body))
+            return update_issue_request.status_code, close_issue_request.status_code
+    return None</code></pre>
+</details>
+</dd>
+<dt id="main.GitHubClient.create_issue"><code class="name flex">
+<span>def <span class="ident">create_issue</span></span>(<span>self, issue)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates issue on github from an Issue class.</p>
+<p>Keyword Args:
+issue (Issue): An instance of the <code><a title="main.Issue" href="#main.Issue">Issue</a></code> class in this document.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_issue(self, issue):
+    &#34;&#34;&#34;Creates issue on github from an Issue class.
+
+    Keyword Args:
+        issue (Issue): An instance of the `Issue` class in this document.
+
+    &#34;&#34;&#34;
+    # truncate issue title if too long
+    title = issue.title
+    if len(title) &gt; 80:
+        title = tile[:80] + &#39;...&#39;
+
+    # define url to line
+    url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
+
+    # construct the issue body
+    body = get_body(issue, url_to_line, self.line_break)
+
+    # Alastair Mooney&#39;s has problems with rebasing. Let&#39;s see how this works out
+    # One could use GitHub&#39;s GraphQL API
+    for existing_issue in self.existing_issues:
+        if self.__class__.is_same_issue(issue, existing_issue, self.line_break):
+            # The issue_id matching means the issue issues are identical.
+            print(f&#39;Skipping issue (already exists)&#39;)
+            return
+
+    new_issue_body = {&#39;title&#39;: title, &#39;body&#39;: body, &#39;labels&#39;: issue.labels}
+
+    # check whether milestones are existent
+    if issue.milestone:
+        milestone_url = f&#39;{self.repos_url}{self.repo}/milestones/{issue.milestone}&#39;
+        milestone_request = requests.get(url=milestone_url, headers=self.issue_headers)
+        if milestone_request.status_code == 200:
+            new_issue_body[&#39;milestone&#39;] = issue.milestone
+        else:
+            print(f&#39;Milestone {issue.milestone} does not exist! Dropping this parameter!&#39;)
+
+    # check whether label exists
+    valid_assignees = []
+    for assignee in issue.assignees:
+        assignee_url = f&#39;{self.repos_url}{self.repo}/assignees/{assignee}&#39;
+        assignee_request = requests.get(url=assignee_url, headers=self.issue_headers)
+        if assignee_request.status_code == 204:
+            valid_assignees.append(assignee)
+        else:
+            print(f&#39;Assignee {assignee} does not exist! Dropping this assignee!&#39;)
+    new_issue_body[&#39;assignees&#39;] = valid_assignees
+
+    new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
+                                      data=json.dumps(new_issue_body))
+
+    return new_issue_request</code></pre>
+</details>
+</dd>
+<dt id="main.GitHubClient.get_file_at_commit"><code class="name flex">
+<span>def <span class="ident">get_file_at_commit</span></span>(<span>self, filepath, commit)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a string, with the file contents at the current hashed commit.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filepath</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the file from repo root.</dd>
+<dt><strong><code>commit</code></strong> :&ensp;<code>str</code></dt>
+<dd>The short-hash, 7-digit commit.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The contents of the file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_file_at_commit(self, filepath, commit):
+    &#34;&#34;&#34;Returns a string, with the file contents at the current hashed commit.
+
+    Args:
+        filepath (str): Path to the file from repo root.
+        commit (str): The short-hash, 7-digit commit.
+
+    Returns:
+          str: The contents of the file.
+
+    &#34;&#34;&#34;
+    raw_file_url = f&#39;{self.repos_url}{self.repo}/contents/{filepath}?ref={commit}&#39;
+    raw_file_headers = {
+        &#39;Accept&#39;: &#39;application/vnd.github.VERSION.raw&#39;,
+        &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+    }
+    raw_file_request = requests.get(url=raw_file_url, headers=raw_file_headers)
+    if raw_file_request.status_code == 200:
+        return raw_file_request.text</code></pre>
+</details>
+</dd>
+<dt id="main.GitHubClient.get_last_diff"><code class="name flex">
+<span>def <span class="ident">get_last_diff</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the last diff based on the SHA of the last two commits.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_last_diff(self):
+    &#34;&#34;&#34;Get the last diff based on the SHA of the last two commits.&#34;&#34;&#34;
+    diff_url = f&#39;{self.repos_url}{self.repo}/compare/{self.before}...{self.sha}&#39;
+    diff_headers = {
+        &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+        &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+    }
+    diff_request = requests.get(url=diff_url, headers=diff_headers)
+    if diff_request.status_code == 200:
+        return diff_request.text
+    raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)</code></pre>
+</details>
+</dd>
+<dt id="main.GitHubClient.get_specific_diff"><code class="name flex">
+<span>def <span class="ident">get_specific_diff</span></span>(<span>self, before, after)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the diff based on specific commits</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_specific_diff(self, before, after):
+    &#34;&#34;&#34;Get the diff based on specific commits&#34;&#34;&#34;
+    diff_url = f&#39;{self.repos_url}{self.repo}/compare/{before}...{after}&#39;
+    diff_headers = {
+        &#39;Accept&#39;: &#39;application/vnd.github.v3.diff&#39;,
+        &#39;Authorization&#39;: f&#39;token {self.token}&#39;
+    }
+    diff_request = requests.get(url=diff_url, headers=diff_headers)
+    if diff_request.status_code == 200:
+        return diff_request.text
+    raise Exception(&#39;Could not retrieve diff. Operation will abort.&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.Issue"><code class="flex name class">
+<span>class <span class="ident">Issue</span></span>
+<span>(</span><span>testing=0, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Issue class, filled with attributes to create issues from.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>The title of the issue.</dd>
+<dt><strong><code>labels</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>Labels, that should be added to the issue. Default
+labels contains the 'todo' label.</dd>
+<dt><strong><code>assignees</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>Can be []. Assignees need to be maintainer
+of the repository.</dd>
+<dt><strong><code>milestone</code></strong> :&ensp;<code>Union[str, None]</code></dt>
+<dd>Can be None. Milestone needs to be one of
+the already defined milestones in the repo.</dd>
+<dt><strong><code>body</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>The lines of the issue body. The issue body will
+automatically appended with a useful url and a markdown code block
+defined in <code>hunk</code>.</dd>
+<dt><strong><code>hunk</code></strong> :&ensp;<code>str</code></dt>
+<dd>Newline separated string of code, that produced the todo.</dd>
+<dt><strong><code>file_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the file that produced the todo. If file is
+somewhere, the path starting from repo root needs te be included.</dd>
+<dt><strong><code>start_line</code></strong> :&ensp;<code>str</code></dt>
+<dd>The line where the todo comment starts.</dd>
+<dt><strong><code>markdown_language</code></strong> :&ensp;<code>str</code></dt>
+<dd>The language of <code>hunk</code>.</dd>
+<dt><strong><code>status</code></strong> :&ensp;<code><a title="main.LineStatus" href="#main.LineStatus">LineStatus</a></code></dt>
+<dd>An instance of the <code><a title="main.LineStatus" href="#main.LineStatus">LineStatus</a></code> Enum class.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Issue:
+    &#34;&#34;&#34;Issue class, filled with attributes to create issues from.
+
+    Attributes:
+        title (str): The title of the issue.
+        labels (list[str]): Labels, that should be added to the issue. Default
+            labels contains the &#39;todo&#39; label.
+        assignees (list[str]): Can be []. Assignees need to be maintainer
+            of the repository.
+        milestone (Union[str, None]): Can be None. Milestone needs to be one of
+            the already defined milestones in the repo.
+        body (list[str]): The lines of the issue body. The issue body will
+            automatically appended with a useful url and a markdown code block
+            defined in `hunk`.
+        hunk (str): Newline separated string of code, that produced the todo.
+        file_name (str): Name of the file that produced the todo. If file is
+            somewhere, the path starting from repo root needs te be included.
+        start_line (str): The line where the todo comment starts.
+        markdown_language (str): The language of `hunk`.
+        status (LineStatus): An instance of the `LineStatus` Enum class.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0, **kwargs):
+        if testing:
+            for key, val in testing_values.items():
+                self.__setattr__(key, val)
+            return
+
+        for key, val in kwargs.items():
+            self.__setattr__(key, val)
+        for key in testing_values.keys():
+            try:
+                self.__getattribute__(key)
+            except AttributeError:
+                raise TypeError(f&#39;__init__() missing 1 required argument: {key}&#39;)
+        if &#39;todo&#39; not in self.labels:
+            self.labels.append(&#39;todo&#39;)
+
+    def __str__(self):
+        string = f&#34;Title: {self.title}, assignees: [{&#39;, &#39;.join(self.assignees)}], milestone: {self.milestone}, status: {self.status}]\n&#34;
+        return string
+
+    def __repr__(self):
+        return self.__str__()</code></pre>
+</details>
+</dd>
+<dt id="main.LineStatus"><code class="flex name class">
+<span>class <span class="ident">LineStatus</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents the status of a line in a diff file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LineStatus(Enum):
+    &#34;&#34;&#34;Represents the status of a line in a diff file.&#34;&#34;&#34;
+    ADDED = 0
+    DELETED = 1
+    UNCHANGED = 2</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.LineStatus.ADDED"><code class="name">var <span class="ident">ADDED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.LineStatus.DELETED"><code class="name">var <span class="ident">DELETED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.LineStatus.UNCHANGED"><code class="name">var <span class="ident">UNCHANGED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="main.ToDo"><code class="flex name class">
+<span>class <span class="ident">ToDo</span></span>
+<span>(</span><span>line, block, hunk, file)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class that parses google-style docstring todos from git diff hunks.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>line</code></strong> :&ensp;<code>unidiff.Line</code></dt>
+<dd>The line that triggered this todo.</dd>
+<dt><strong><code>block</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>The lines following the title of multi-line
+todos. Every line is one string in this list of str.</dd>
+<dt><strong><code>status</code></strong> :&ensp;<code><a title="main.LineStatus" href="#main.LineStatus">LineStatus</a></code></dt>
+<dd>The status of the ToDo. Can be ADDED or DELETED&gt;</dd>
+<dt><strong><code>markdown_language</code></strong> :&ensp;<code>str</code></dt>
+<dd>What markdown language to use. Defaults to
+'python'.</dd>
+<dt><strong><code>hunk</code></strong> :&ensp;<code>unidiff.Hunk</code></dt>
+<dd>The hunk that contains the line. Will be converted
+to code block in the issue.</dd>
+<dt><strong><code>file_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path of the file from which the todo was extracted.</dd>
+<dt><strong><code>target_line</code></strong> :&ensp;<code>Union[str, int]</code></dt>
+<dd>The line number from which the
+todo was raised. Is used to create a permalink url to that line.</dd>
+<dt><strong><code>assignees</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>The assignees of the issue.</dd>
+<dt><strong><code>labels</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>The labels of the issue.</dd>
+<dt><strong><code>milestone</code></strong> :&ensp;<code>Union[None, str]</code></dt>
+<dd>The milestone of the issue.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>The title of the issue, once the block input
+argument has been parsed.</dd>
+<dt><strong><code>body</code></strong> :&ensp;<code>Union[str, list[str]]</code></dt>
+<dd>The body of the issue. Can be empty string
+(no body_, or list of str for every line in body.</dd>
+</dl>
+<p>Instantiate the ToDo Class.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>line</code></strong> :&ensp;<code>unidiff.Line</code></dt>
+<dd>The line from which the todo was raised.</dd>
+<dt><strong><code>block</code></strong> :&ensp;<code>str</code></dt>
+<dd>The complete indented block, the ToDo was raised from.
+Including the title.</dd>
+<dt><strong><code>hunk</code></strong> :&ensp;<code>unidiff.Hunk</code></dt>
+<dd>The hunk of diff from wich the todo was triggered.</dd>
+<dt><strong><code>file</code></strong> :&ensp;<code>unidiff.File</code></dt>
+<dd>The file, from which the diff was
+extracted.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ToDo:
+    &#34;&#34;&#34;Class that parses google-style docstring todos from git diff hunks.
+
+    Attributes:
+        line (unidiff.Line): The line that triggered this todo.
+        block (list[str]): The lines following the title of multi-line
+            todos. Every line is one string in this list of str.
+        status (LineStatus): The status of the ToDo. Can be ADDED or DELETED&gt;
+        markdown_language (str): What markdown language to use. Defaults to
+            &#39;python&#39;.
+        hunk (unidiff.Hunk): The hunk that contains the line. Will be converted
+            to code block in the issue.
+        file_name (str): The path of the file from which the todo was extracted.
+        target_line (Union[str, int]): The line number from which the
+            todo was raised. Is used to create a permalink url to that line.
+        assignees (list[str]): The assignees of the issue.
+        labels (list[str]): The labels of the issue.
+        milestone (Union[None, str]): The milestone of the issue.
+        title (str): The title of the issue, once the block input
+            argument has been parsed.
+        body (Union[str, list[str]]): The body of the issue. Can be empty string
+            (no body_, or list of str for every line in body.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, line, block, hunk, file):
+        &#34;&#34;&#34;Instantiate the ToDo Class.
+
+        Args:
+            line (unidiff.Line): The line from which the todo was raised.
+            block (str): The complete indented block, the ToDo was raised from.
+                Including the title.
+            hunk (unidiff.Hunk): The hunk of diff from wich the todo was triggered.
+            file (unidiff.File): The file, from which the diff was
+                extracted.
+
+        &#34;&#34;&#34;
+        self.line = line
+
+        if line.is_added:
+            self.status = LineStatus.ADDED
+        else:
+            self.status = LineStatus.DELETED
+
+        self.block = block.strip()
+        self.markdown_language = &#39;python&#39;
+        self.hunk = &#39;&#39;.join([l.value for l in hunk.target_lines()])
+        if self.hunk.count(&#39;&#34;&#34;&#34;&#39;) == 1:
+            if &#39;&#34;&#34;&#34;&#39; in self.hunk[:int(len(self.hunk) / 2)]:
+                self.hunk = self.hunk + &#39;&#34;&#34;&#34;\n&#39;
+            else:
+                self.hunk = &#39;&#34;&#34;&#34;\n&#39; + self.hunk
+        self.file_name = file.target_file.lstrip(&#39;b/&#39;)
+        self.target_line = line.target_line_no
+
+        # parse the block
+        self._parse_block()
+
+    def _parse_block(self):
+        &#34;&#34;&#34;Parses the `block` argument and extacts more info.&#34;&#34;&#34;
+        lines = self.block.split(&#39;\n&#39;)
+        lines, self.assignees = _get_assignees(lines)
+        lines, self.labels = _get_labels(lines)
+        lines, self.milestone = _get_milestone(lines)
+        if len(lines) &gt; 1:
+            self.title, self.body = lines[0].lstrip(), &#39;\n&#39;.join(lines[1:])
+            self.body = [line.lstrip() for line in self.body.splitlines()]
+        else:
+            self.title = lines[0].lstrip()
+            self.body = &#34;&#34;
+
+    @property
+    def issue(self):
+        issue = Issue(
+            title=self.title,
+            labels=[&#39;todo&#39;] + self.labels,
+            assignees=self.assignees,
+            milestone=self.milestone,
+            body=self.body,
+            hunk=self.hunk,
+            file_name=self.file_name,
+            start_line=self.target_line,
+            markdown_language=self.markdown_language,
+            status=self.status
+        )
+        return issue
+
+    def __bool__(self):
+        return True</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="main.ToDo.issue"><code class="name">var <span class="ident">issue</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def issue(self):
+    issue = Issue(
+        title=self.title,
+        labels=[&#39;todo&#39;] + self.labels,
+        assignees=self.assignees,
+        milestone=self.milestone,
+        body=self.body,
+        hunk=self.hunk,
+        file_name=self.file_name,
+        start_line=self.target_line,
+        markdown_language=self.markdown_language,
+        status=self.status
+    )
+    return issue</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.TodoParser"><code class="flex name class">
+<span>class <span class="ident">TodoParser</span></span>
+<span>(</span><span>testing=0, client=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class that parses git diffs and looks for todo strings.</p>
+<p>First things first, the Todos can be skipped with a syntax similar to doctest.
+Adding a comment with # todo: +SKIP to the line skips the todo. The example
+todos which follow now all contain this SKIP command, because we don't want
+this class to raise issues in the explanatory section. Here are examples of
+how to put todos that will be picked up by this parser:</p>
+<h2 id="examples">Examples</h2>
+<p>A single commented line starting with todo (case insensitive).::</p>
+<pre><code># todo: This needs to be looked into. # todo: +SKIP
+</code></pre>
+<p>Using parentheses, you can assign people to todos. If these people are
+part of the github repo, they will be assigned to the issue, that is
+raised from this todo. Please use their github username::</p>
+<pre><code># todo (tensorflower-gardener): Tensorflow's bot should fix this. # todo: +SKIP
+</code></pre>
+<p>With extended syntax you can add existing labels and exisitng milestones
+to your todos.::</p>
+<pre><code># todo: This is the title of the todo. # todo: +SKIP
+#  Further text is indented by a single space. It will appear
+#  In the body of the issue. You can add assignees, and labels
+#  with this syntax. The &lt;code&gt;todo&lt;/code&gt; label will automatically
+#  added to your labels.
+#  assignees: github_user, kevinsawade, another_user
+#  labels: devel, urgent
+#  milestones: alpha
+</code></pre>
+<p>Besides these in-comment todos, this class also scans for google-style
+todo's in python docstrings.::</p>
+<pre><code>def myfunc(arg1):
+    '''This is a docstring.
+
+    Args:
+        arg1: A thing.
+
+    Todo:
+        * Single-line Todo. Add more documentation. # todo: +SKIP
+        * (kevinsawade) We should also add some actual code. # todo: +SKIP
+        * Multi-line todos should follow google-styleguide. # todo: +SKIP
+            This means a tab should be used indentation inside
+            the docstrings. This will form the body of the issue.
+            Assignees and labels can be added the same way:
+            assignees: github_user2, user3
+            labels: wontfix, devel
+            milestones: alpha
+
+    '''
+</code></pre>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>issues</code></strong> :&ensp;<code>list[<a title="main.Issue" href="#main.Issue">Issue</a>]</code></dt>
+<dd>A list of Issue instances.</dd>
+<dt><strong><code>testing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether testing is carried out.</dd>
+<dt><strong><code>repo</code></strong> :&ensp;<code>str</code></dt>
+<dd>A url to the current repo.</dd>
+</dl>
+<p>Instantiate the TodoParser class.</p>
+<p>Keyword Args:
+testing (bool, optional): Whether testing is carried out with this
+class. Defaults to False.
+client (GitHubClient): Instance of github client to precent multiple
+instantiation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TodoParser:
+    &#34;&#34;&#34;Class that parses git diffs and looks for todo strings.
+
+    First things first, the Todos can be skipped with a syntax similar to doctest.
+    Adding a comment with # todo: +SKIP to the line skips the todo. The example
+    todos which follow now all contain this SKIP command, because we don&#39;t want
+    this class to raise issues in the explanatory section. Here are examples of
+    how to put todos that will be picked up by this parser:
+
+    Examples:
+        A single commented line starting with todo (case insensitive).::
+
+            # todo: This needs to be looked into. # todo: +SKIP
+
+        Using parentheses, you can assign people to todos. If these people are
+        part of the github repo, they will be assigned to the issue, that is
+        raised from this todo. Please use their github username::
+
+            # todo (tensorflower-gardener): Tensorflow&#39;s bot should fix this. # todo: +SKIP
+
+        With extended syntax you can add existing labels and exisitng milestones
+        to your todos.::
+
+            # todo: This is the title of the todo. # todo: +SKIP
+            #  Further text is indented by a single space. It will appear
+            #  In the body of the issue. You can add assignees, and labels
+            #  with this syntax. The `todo` label will automatically
+            #  added to your labels.
+            #  assignees: github_user, kevinsawade, another_user
+            #  labels: devel, urgent
+            #  milestones: alpha
+
+        Besides these in-comment todos, this class also scans for google-style
+        todo&#39;s in python docstrings.::
+
+            def myfunc(arg1):
+                &#39;&#39;&#39;This is a docstring.
+
+                Args:
+                    arg1: A thing.
+
+                Todo:
+                    * Single-line Todo. Add more documentation. # todo: +SKIP
+                    * (kevinsawade) We should also add some actual code. # todo: +SKIP
+                    * Multi-line todos should follow google-styleguide. # todo: +SKIP
+                        This means a tab should be used indentation inside
+                        the docstrings. This will form the body of the issue.
+                        Assignees and labels can be added the same way:
+                        assignees: github_user2, user3
+                        labels: wontfix, devel
+                        milestones: alpha
+
+                &#39;&#39;&#39;
+
+    Attributes:
+        issues (list[Issue]): A list of Issue instances.
+        testing (bool): Whether testing is carried out.
+        repo (str): A url to the current repo.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, testing=0, client=None):
+        &#34;&#34;&#34;Instantiate the TodoParser class.
+
+        Keyword Args:
+            testing (bool, optional): Whether testing is carried out with this
+                class. Defaults to False.
+            client (GitHubClient): Instance of github client to precent multiple
+                instantiation.
+
+        &#34;&#34;&#34;
+        self.testing = testing
+        self.issues = []
+        if client is None:
+            self.client = GitHubClient(testing=self.testing)
+        else:
+            self.client = client
+        self._parse()
+
+    def _parse(self):
+        &#34;&#34;&#34;Parse the diffs and search for todos in added lines.&#34;&#34;&#34;
+        # read env variables
+        self.repo = os.environ[&#39;INPUT_REPO&#39;]
+        self.sha = os.environ[&#39;INPUT_SHA&#39;]
+        self.before = os.environ[&#39;INPUT_BEFORE&#39;]
+
+        # get before and current hash
+        if self.testing == 1:
+            self.sha = &#39;036ef2c&#39;
+            self.before = &#39;11858e4&#39;
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        elif self.testing == 2:
+            self.sha = &#39;7fae83c&#39;
+            self.before = &#39;036ef2c&#39;
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        else:
+            self.diff = self.client.get_last_diff()
+
+        # create patchset from diff
+        patchset = PatchSet(self.diff)
+
+        for file in patchset:
+            # handle the file before
+            file_before = file.source_file.lstrip(&#39;a/&#39;)
+            if file_before == &#39;dev/null&#39;:
+                file_before = StringIO(&#39;&#39;)
+            else:
+                file_before = StringIO(self.client.get_file_at_commit(file_before, self.before))
+
+            # handle the file after
+            file_after = file.target_file.lstrip(&#39;b/&#39;)
+            if not file_after.endswith(&#39;.py&#39;):
+                continue
+            file_after = StringIO(self.client.get_file_at_commit(file_after, self.sha))
+
+            # parse before and after todos
+            with file_before as f:
+                todos_before = extract_todos_from_file(f.read(), self.testing)
+            with file_after as f:
+                todos_now = extract_todos_from_file(f.read(), self.testing)
+
+            # iterate over hunks and lines
+            for hunk in file:
+                lines = list(hunk.source_lines()) + list(hunk.target_lines())
+                for i, line in enumerate(lines):
+                    if block := is_todo_line(line, todos_before, todos_now, self.testing):
+                        todo = ToDo(line, block, hunk, file)
+                        issue = todo.issue
+                        self.issues.append(issue)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#convert-python-todos-to-github-issues">Convert python Todos to github issues</a><ul>
+<li><a href="#preface">Preface</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#what-is-regarded-as-a-todo">What is regarded as a ToDo?</a></li>
+<li><a href="#classes-and-functions">Classes and Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="main.extract_todos_from_file" href="#main.extract_todos_from_file">extract_todos_from_file</a></code></li>
+<li><code><a title="main.get_body" href="#main.get_body">get_body</a></code></li>
+<li><code><a title="main.is_todo_line" href="#main.is_todo_line">is_todo_line</a></code></li>
+<li><code><a title="main.join_lines" href="#main.join_lines">join_lines</a></code></li>
+<li><code><a title="main.main" href="#main.main">main</a></code></li>
+<li><code><a title="main.run_tests_from_main" href="#main.run_tests_from_main">run_tests_from_main</a></code></li>
+<li><code><a title="main.strip_line" href="#main.strip_line">strip_line</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="main.GitHubClient" href="#main.GitHubClient">GitHubClient</a></code></h4>
+<ul class="two-column">
+<li><code><a title="main.GitHubClient.close_issue" href="#main.GitHubClient.close_issue">close_issue</a></code></li>
+<li><code><a title="main.GitHubClient.create_issue" href="#main.GitHubClient.create_issue">create_issue</a></code></li>
+<li><code><a title="main.GitHubClient.get_file_at_commit" href="#main.GitHubClient.get_file_at_commit">get_file_at_commit</a></code></li>
+<li><code><a title="main.GitHubClient.get_last_diff" href="#main.GitHubClient.get_last_diff">get_last_diff</a></code></li>
+<li><code><a title="main.GitHubClient.get_specific_diff" href="#main.GitHubClient.get_specific_diff">get_specific_diff</a></code></li>
+<li><code><a title="main.GitHubClient.is_same_issue" href="#main.GitHubClient.is_same_issue">is_same_issue</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.Issue" href="#main.Issue">Issue</a></code></h4>
+</li>
+<li>
+<h4><code><a title="main.LineStatus" href="#main.LineStatus">LineStatus</a></code></h4>
+<ul class="">
+<li><code><a title="main.LineStatus.ADDED" href="#main.LineStatus.ADDED">ADDED</a></code></li>
+<li><code><a title="main.LineStatus.DELETED" href="#main.LineStatus.DELETED">DELETED</a></code></li>
+<li><code><a title="main.LineStatus.UNCHANGED" href="#main.LineStatus.UNCHANGED">UNCHANGED</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.ToDo" href="#main.ToDo">ToDo</a></code></h4>
+<ul class="">
+<li><code><a title="main.ToDo.issue" href="#main.ToDo.issue">issue</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.TodoParser" href="#main.TodoParser">TodoParser</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
