@@ -2,13 +2,16 @@
 
 Dateformat: yyyy-mm-dd
 
-[1.0.0] - 2021-07-12
+[1.0.0] - 2021-07-13
 
-unidiff now only passes .py files to ast. Workflow seems to be set up./
-Issues are created as expected.
-GitHub tagging still a bit borked. Had to release 1.0.0, because 0.0.1 results in the wrong/old action being run via nektos/act.
+# Initial Release
 
-[0.0.1] - 2021-07-12
+## Added
+Parses diffs, and gets files at defined commits via api.github.com.
+Recognizes in-line todos and google-docstring style todos.
+Opens and closes issues.
+Tags working.
+Assignees working.
 
-First release. Unittests are passing. Added a Dockerfile and an action.yml.
-Getting ready to create release and publish the action on the GitHub Marketplace.
+## Needs fixing
+Milestones not working.
