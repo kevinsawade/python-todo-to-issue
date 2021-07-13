@@ -49,9 +49,9 @@ If you are confident with github actions, you can follow the quickstart on that
 page to quickly set up the latest version of this action. Otherwise you can follow
 these instructions:
 
-- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue.
-- Go to https://github.com/settings/tokens and create a github token with the repo and issue scope. Note that token down.
-- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.
+- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue-action.
+- If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: https://github.com/settings/tokens
+- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like CUSTOM_ISSUE_TOKEN.
 - Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:
 
 ```yaml
@@ -76,13 +76,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Issues ✔️
-        uses: kevinsawade/python-todo-to-issue@latest
+        uses: kevinsawade/python-todo-to-issue@1.0.0
         with:
+          # GitHub Bot will open the issues:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Provide a custom secret
+          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}
 
 ```
 
-All your todos will now be raised as issues, once you push to github.
+All your todos will be converted to issues, once you push to github.
 
 
 What is regarded as a ToDo?
@@ -140,6 +143,9 @@ def myfunc(arg1):
     \"\"\"
 return 'Hello!' + arg1
 ```
+
+Excluding Todos from being turned into issues
+---------------------------------------------
 
 To skip todos you can add ``# todo: +SKIP`` after the todo-line. This one is not
 case insensitive and only works if you use it verbose.
@@ -1029,16 +1035,16 @@ def main(testing):
             print(f"Processing issue {issue}.")
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print('Issue created')
                 else:
-                    print('Issue could not be created')
+                    print(f'Issue could not be created. The status code is {status_code}')
             elif issue.status == LineStatus.DELETED and os.getenv('INPUT_CLOSE_ISSUES') == 'true':
                 status_code = client.close_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print('Issue closed')
                 else:
-                    print('Issue could not be closed')
+                    print(f'Issue could not be closed. The status code is {status_code}')
             # Stagger the requests to be on the safe side.
             sleep(1)
         print("Finished working through the issues.")
