@@ -37,9 +37,9 @@ If you are confident with github actions, you can follow the quickstart on that
 page to quickly set up the latest version of this action. Otherwise you can follow
 these instructions:</p>
 <ul>
-<li>Visit the GitHub marketplace and find the latest version of this action: <a href="https://github.com/marketplace/actions/python-todo-to-issue.">https://github.com/marketplace/actions/python-todo-to-issue.</a></li>
-<li>Go to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and create a github token with the repo and issue scope. Note that token down.</li>
-<li>Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.</li>
+<li>Visit the GitHub marketplace and find the latest version of this action: <a href="https://github.com/marketplace/actions/python-todo-to-issue-action.">https://github.com/marketplace/actions/python-todo-to-issue-action.</a></li>
+<li>If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a></li>
+<li>Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like CUSTOM_ISSUE_TOKEN.</li>
 <li>Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:</li>
 </ul>
 <pre><code class="language-yaml">name: Todo-to-Issue
@@ -63,12 +63,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Issues ✔️
-        uses: kevinsawade/python-todo-to-issue@latest
+        uses: kevinsawade/python-todo-to-issue@1.0.0
         with:
+          # GitHub Bot will open the issues:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Provide a custom secret
+          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}
 
 </code></pre>
-<p>All your todos will now be raised as issues, once you push to github.</p>
+<p>All your todos will be converted to issues, once you push to github.</p>
 <h2 id="what-is-regarded-as-a-todo">What is regarded as a ToDo?</h2>
 <p>First of all: Only todos from commits are used as issues. If you have old Todos
 in your module, you need to remove them, commit and then include them again.</p>
@@ -116,6 +119,7 @@ also be picked up. The general style is the same. Indentation is done via
     &quot;&quot;&quot;
 return 'Hello!' + arg1
 </code></pre>
+<h2 id="excluding-todos-from-being-turned-into-issues">Excluding Todos From Being Turned Into Issues</h2>
 <p>To skip todos you can add <code># todo: +SKIP</code> after the todo-line. This one is not
 case insensitive and only works if you use it verbose.</p>
 <h2 id="classes-and-functions">Classes And Functions</h2>
@@ -177,9 +181,9 @@ If you are confident with github actions, you can follow the quickstart on that
 page to quickly set up the latest version of this action. Otherwise you can follow
 these instructions:
 
-- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue.
-- Go to https://github.com/settings/tokens and create a github token with the repo and issue scope. Note that token down.
-- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like GITHUB_TOKEN.
+- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue-action.
+- If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: https://github.com/settings/tokens
+- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like CUSTOM_ISSUE_TOKEN.
 - Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:
 
 ```yaml
@@ -204,13 +208,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Issues ✔️
-        uses: kevinsawade/python-todo-to-issue@latest
+        uses: kevinsawade/python-todo-to-issue@1.0.0
         with:
+          # GitHub Bot will open the issues:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Provide a custom secret
+          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}
 
 ```
 
-All your todos will now be raised as issues, once you push to github.
+All your todos will be converted to issues, once you push to github.
 
 
 What is regarded as a ToDo?
@@ -268,6 +275,9 @@ def myfunc(arg1):
     \&#34;\&#34;\&#34;
 return &#39;Hello!&#39; + arg1
 ```
+
+Excluding Todos from being turned into issues
+---------------------------------------------
 
 To skip todos you can add ``# todo: +SKIP`` after the todo-line. This one is not
 case insensitive and only works if you use it verbose.
@@ -1157,16 +1167,16 @@ def main(testing):
             print(f&#34;Processing issue {issue}.&#34;)
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print(&#39;Issue created&#39;)
                 else:
-                    print(&#39;Issue could not be created&#39;)
+                    print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
             elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
                 status_code = client.close_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print(&#39;Issue closed&#39;)
                 else:
-                    print(&#39;Issue could not be closed&#39;)
+                    print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)
@@ -1478,16 +1488,16 @@ str, when line is a todo line.</dd>
             print(f&#34;Processing issue {issue}.&#34;)
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print(&#39;Issue created&#39;)
                 else:
-                    print(&#39;Issue could not be created&#39;)
+                    print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
             elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
                 status_code = client.close_issue(issue)
-                if status_code == 201:
+                if status_code.status_code == 201:
                     print(&#39;Issue closed&#39;)
                 else:
-                    print(&#39;Issue could not be closed&#39;)
+                    print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)</code></pre>
@@ -2662,6 +2672,7 @@ instantiation.</p></div>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#what-is-regarded-as-a-todo">What is regarded as a ToDo?</a></li>
+<li><a href="#excluding-todos-from-being-turned-into-issues">Excluding Todos from being turned into issues</a></li>
 <li><a href="#classes-and-functions">Classes and Functions</a></li>
 </ul>
 </li>
