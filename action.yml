@@ -1,6 +1,6 @@
-name: "python-todo-to-issue"
+name: "Python todo to issue action"
 author: "Kevin Sawade <kevin.sawade@uni-konstanz.de>"
-description: "Converts todos from comments and docstrings to issues."
+description: "Converts todos from comments and google-style docstrings to issues."
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -8,26 +8,26 @@ branding:
   icon: "check-square"
   color: "orange"
 inputs:
-  TESTING:
+  testing:
     description: "For testing purposes. Let's the workflow run unittests from https://github.com/kevinsawade/python-todo-to-issue/blob/main/tests/test_todo_to_issue.py."
     required: false
     default: false
-  TOKEN:
+  token:
     description: "The GitHub access token."
     required: true
-  CLOSE_ISSUES:
+  close_issues:
     description: "Whether to automatically close issues, that have been deleted in source code files."
     required: false
     default: true
-   REPO:
+   repo:
     description: "The path to the repository where the action will be used, e.g. 'kevinsawade/my-repo' (automatically set)"
     required: false
     default: "${{ github.repository }}"
-  BEFORE:
+  before:
     description: "The SHA of the last pushed commit (automatically set)"
     required: false
     default: "${{ github.event.before }}"
-  SHA:
+  sha:
     description: "The SHA of the latest commit (automatically set)"
     required: false
     default: "${{ github.sha }}"
