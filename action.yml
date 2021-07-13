@@ -17,17 +17,17 @@ inputs:
     required: true
   CLOSE_ISSUES:
     description: "Whether to automatically close issues, that have been deleted in source code files."
-    required: true
+    required: false
     default: true
    REPO:
     description: "The path to the repository where the action will be used, e.g. 'kevinsawade/my-repo' (automatically set)"
-    required: true
+    required: false
     default: "${{ github.repository }}"
   BEFORE:
     description: "The SHA of the last pushed commit (automatically set)"
-    required: true
+    required: false
     default: "${{ github.event.before }}"
   SHA:
     description: "The SHA of the latest commit (automatically set)"
-    required: true
+    required: false
     default: "${{ github.sha }}"
