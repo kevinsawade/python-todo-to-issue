@@ -1,0 +1,11 @@
+create-issues:
+    runs-on: ubuntu-latest
+    needs: unittests
+    strategy:
+        matrix:
+          python-version: [3.9]
+    steps:
+      - name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
