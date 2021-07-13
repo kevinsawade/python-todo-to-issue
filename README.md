@@ -6,7 +6,6 @@ A repository containing a github action that scans diffs for todos and creates i
 
 # Quickstart
 
-- Create a token with the issue scope and add it as a repository secret. Let's say, we call it GITHUB_TOKEN
 - Create a file at `.github/workflows/todo-to-issue.yml` with this content:
 
 ```yaml
