@@ -9,7 +9,7 @@ branding:
   color: "orange"
 inputs:
   testing:
-    description: "For testing purposes. Let's the workflow run unittests from https://github.com/kevinsawade/python-todo-to-issue/blob/main/tests/test_todo_to_issue.py."
+    description: "For testing purposes. Let's the workflow run unittests"
     required: false
     default: false
   token:
@@ -20,14 +20,14 @@ inputs:
     required: false
     default: true
    repo:
-    description: "The path to the repository where the action will be used, e.g. 'kevinsawade/my-repo' (automatically set)"
+    description: "The path to the repository where the action will be used, e.g. 'kevinsawade/my-repo'."
     required: false
     default: "${{ github.repository }}"
   before:
-    description: "The SHA of the last pushed commit (automatically set)"
+    description: "The SHA of the last pushed commit."
     required: false
     default: "${{ github.event.before }}"
   sha:
-    description: "The SHA of the latest commit (automatically set)"
+    description: "The SHA of the latest commit."
     required: false
     default: "${{ github.sha }}"
