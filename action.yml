@@ -8,26 +8,26 @@ branding:
   icon: "check-square"
   color: "orange"
 inputs:
-  testing:
+  TESTING:
     description: "For testing purposes. Let's the workflow run unittests"
     required: false
     default: false
-  token:
+  TOKEN:
     description: "The GitHub access token."
     required: true
-  close_issues:
+  CLOSE_ISSUES:
     description: "Whether to automatically close issues, that have been deleted in source code files."
     required: false
     default: true
-   repo:
+   REPO:
     description: "The path to the repository where the action will be used, e.g. 'kevinsawade/my-repo'."
     required: false
     default: "${{ github.repository }}"
-  before:
+  BEFORE:
     description: "The SHA of the last pushed commit."
     required: false
     default: "${{ github.event.before }}"
-  sha:
+  SHA:
     description: "The SHA of the latest commit."
     required: false
     default: "${{ github.sha }}"
