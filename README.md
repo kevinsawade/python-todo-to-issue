@@ -2,7 +2,7 @@
 
 # python-todo-to-issue
 
-A repository containing a github workflow/action that scans diffs for todos and creates issues from them.
+A repository containing a github action that scans diffs for todos and creates issues from them. This action only works for python files. I took inspiration from Alastair Mooney's todo to issue action (https://github.com/alstr/todo-to-issue-action) and added capabilities for checking google-style docstrings for todos. Please also check out his repository if you want to use this feature for other languages than python.
 
 # Quickstart
 
