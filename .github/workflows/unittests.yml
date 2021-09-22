@@ -45,6 +45,7 @@ jobs:
           INPUT_REPO: ${{ github.repository }}
           INPUT_BEFORE: ${{ github.event.before }}
           INPUT_SHA: ${{ github.sha }}
+          INCLUDE_TODO_AFTER_CODE_LINE: ${{ false }}
         run: |
           python -m unittest discover -s tests
           

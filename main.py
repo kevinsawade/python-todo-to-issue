@@ -76,7 +76,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Issues ✔️
-        uses: kevinsawade/python-todo-to-issue@1.0.0
+        uses: kevinsawade/python-todo-to-issue@latest
         with:
           # GitHub Bot will open the issues:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -176,7 +176,8 @@ can use if you only want to use some parts of this code.
 TODO_CHARS_PATTERN = '[*#]'
 # Thanks to Alastair Mooney's regexes
 
-INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\:|\s)(\s|\().*'
+# INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\:|\s)(\s|\().*'
+INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\S|\s)(\s|\S|\().*'
 DOCSTRING_TODO_PATTERN = r'\s*\*\s*(\(.*|.*)'
 TODO_SKIP_SUBSTRING = '# todo: +SKIP'
 
@@ -787,6 +788,7 @@ class TodoParser:
         self.repo = os.environ['INPUT_REPO']
         self.sha = os.environ['INPUT_SHA']
         self.before = os.environ['INPUT_BEFORE']
+        self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
 
         # get before and current hash
         if self.testing == 1:
@@ -796,6 +798,10 @@ class TodoParser:
         elif self.testing == 2:
             self.sha = '7fae83c'
             self.before = '036ef2c'
+            self.diff = self.client.get_specific_diff(self.before, self.sha)
+        elif self.testing == 3:
+            self.sha = '67b1e23'
+            self.before = '63fa247'
             self.diff = self.client.get_specific_diff(self.before, self.sha)
         else:
             self.diff = self.client.get_last_diff()
@@ -819,9 +825,9 @@ class TodoParser:
 
             # parse before and after todos
             with file_before as f:
-                todos_before = extract_todos_from_file(f.read(), self.testing)
+                todos_before = extract_todos_from_file(f.read(), self.testing, self.include_todo_after_code_line)
             with file_after as f:
-                todos_now = extract_todos_from_file(f.read(), self.testing)
+                todos_now = extract_todos_from_file(f.read(), self.testing, self.include_todo_after_code_line)
 
             # iterate over hunks and lines
             for hunk in file:
@@ -848,8 +854,8 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
         testing (bool, optional): Set True for Testing. Defaults to False.
 
     Returns:
-        Union[bool, str]: Either a bool, when line is not a todo line, or a
-            str, when line is a todo line.
+        str: Either an empty string (bool('') = False), when line is not a
+            todo line, or a str, when line is a todo line. # todo: +SKIP.
 
     """
     if testing == 2 and line.value == 'I will add many.':
@@ -857,19 +863,19 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
         raise Exception("STOP")
     # check if line has been added or removed
     if line.is_context:
-        return False
+        return ''
     elif line.is_added:
         todos = todos_now
     else:
         todos = todos_before
 
     # check whether line can be a todo line
-    if re.match(INLINE_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+    if re.search(INLINE_TODO_PATTERN, line.value, re.MULTILINE | re.IGNORECASE) and not TODO_SKIP_SUBSTRING in line.value:
         stripped_line = strip_line(line.value.replace('#', '', 1))
-    elif re.match(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE) and not TODO_SKIP_SUBSTRING in line.value:
+    elif re.search(DOCSTRING_TODO_PATTERN, line.value, re.MULTILINE | re.IGNORECASE) and not TODO_SKIP_SUBSTRING in line.value:
         stripped_line = strip_line(line.value.replace('*', '', 1), with_todo=False)
     else:
-        return False
+        return ''
 
     # get the complete block
     # and build complete issue
@@ -879,10 +885,10 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
         block = todos[index]
         return block
     else:
-        return False
+        return ''
 
 
-def extract_todos_from_file(file, testing=0):
+def extract_todos_from_file(file, testing=0, include_todo_after_code_line=True):
     """Parses a file and extracts todos in google-style formatted docstrings.
 
     Args:
@@ -927,12 +933,18 @@ def extract_todos_from_file(file, testing=0):
                 todos.extend(block)
 
     # get all comments lines starting with hash
-    comments_lines = list(
-        map(
-            lambda x: x.strip().replace('#', '', 1),
-            filter(
-                lambda y: True if y.strip().startswith('#') else False,
-                file.splitlines())))
+    if not include_todo_after_code_line:
+        comments_lines = list(
+            map(
+                lambda x: x.strip().replace('#', '', 1),
+                filter(
+                    lambda y: True if y.strip().startswith('#') else False,
+                    file.splitlines())))
+    else:
+        comments_lines = []
+        for line in file.splitlines():
+            if '# todo' in line.lower():
+                comments_lines.append(line.split('#', 1)[-1].strip().replace('#', '', 1))
 
     # iterate over them.
     for i, comment_line in enumerate(comments_lines):
@@ -982,7 +994,7 @@ def strip_line(line, with_whitespace=True, with_todo=True):
     else:
         line = line.strip().lstrip('#')
     if with_todo:
-        return re.sub(r'(?i)todo(\s|\:)', '', line).strip()
+        return re.split(r'(?i)todo(\s|\:)', line, 1, re.IGNORECASE | re.MULTILINE)[-1].strip()
     else:
         return line
 

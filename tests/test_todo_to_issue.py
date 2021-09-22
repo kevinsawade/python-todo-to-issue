@@ -40,6 +40,17 @@ class TestTodoToIssue(unittest.TestCase):
             del os.environ['INPUT_SHA']
         print("\nDeleting environment token.")
 
+    def test_after_code_todos(self):
+        from main import TodoParser, LineStatus
+        os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] = 'false'
+        parser = TodoParser(testing=3)
+        issues = parser.issues
+        self.assertEqual(len(issues), 1)
+        os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] = 'true'
+        parser = TodoParser(testing=3)
+        issues = parser.issues
+        self.assertEqual(len(issues), 4)
+
     def test_read_issues(self):
         from main import GitHubClient
         client = GitHubClient(testing=1)
