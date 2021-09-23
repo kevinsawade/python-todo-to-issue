@@ -31,3 +31,7 @@ inputs:
     description: "For testing purposes. Let's the workflow run unittests"
     required: false
     default: false
+  INCLUDE_TODO_AFTER_CODE_LINE:
+    description: "Whether todos that are after a code line and not at the start of lines should be considered.
+    required: false
+    default: false
