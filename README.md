@@ -80,6 +80,35 @@ def myfunc(arg1):
     return 'Hello' + arg1
 ```
 
+## Todos after code
+
+If you write your todos after code lines like so:
+
+```python
+
+a = str(1) # todo: This line is bad code
+b = '2' # todo (kevinsawade): This line is better.
+```
+
+You can add these after-code-todos with an additional option to the yaml file:
+
+```yaml
+- name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCLUDE_TODO_AFTER_CODE_LINE: ${{ true }}
+```
+
+## Skipping todos
+
+If you want todos to not be raised as issues: Add `todo: +SKIP` somewhere in the line.
+
+```python
+print(a)
+# todo: Print more info todo: +SKIP
+```
+
 # Documentation
 
 Visit the documentation under https://kevinsawade.github.io/python-todo-to-issue/index.html

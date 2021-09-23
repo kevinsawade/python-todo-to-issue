@@ -2,6 +2,18 @@
 
 Dateformat: yyyy-mm-dd
 
+[1.0.3] - 2021-09-22
+
+# Fixed skipping of todos
+
+## Changed
+
+Todos previously could be skipped with `# todo: +SKIP`, but from now on, this will be done by `todo: +SKIP`. This was done because all todos are comments anyways.
+
+## Added
+
+Added info about the skipping and todo_after_code feature to README.md
+
 [1.0.2] - 2021-09-22
 
 # Todos from anywhere in lines

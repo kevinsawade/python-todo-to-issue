@@ -147,7 +147,7 @@ return 'Hello!' + arg1
 Excluding Todos from being turned into issues
 ---------------------------------------------
 
-To skip todos you can add ``# todo: +SKIP`` after the todo-line. This one is not
+To skip todos you can add ``todo: +SKIP`` after the todo-line. This one is not
 case insensitive and only works if you use it verbose.
 
 Classes and Functions
@@ -179,7 +179,7 @@ TODO_CHARS_PATTERN = '[*#]'
 # INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\:|\s)(\s|\().*'
 INLINE_TODO_PATTERN = r'\s*#\s(?i)todo(\S|\s)(\s|\S|\().*'
 DOCSTRING_TODO_PATTERN = r'\s*\*\s*(\(.*|.*)'
-TODO_SKIP_SUBSTRING = '# todo: +SKIP'
+TODO_SKIP_SUBSTRING = 'todo: +SKIP'
 
 
 ################################################################################
@@ -707,7 +707,7 @@ class TodoParser:
     """Class that parses git diffs and looks for todo strings.
 
     First things first, the Todos can be skipped with a syntax similar to doctest.
-    Adding a comment with # todo: +SKIP to the line skips the todo. The example
+    Adding 'todo: +SKIP' to the line skips the todo. The example
     todos which follow now all contain this SKIP command, because we don't want
     this class to raise issues in the explanatory section. Here are examples of
     how to put todos that will be picked up by this parser:
@@ -715,18 +715,18 @@ class TodoParser:
     Examples:
         A single commented line starting with todo (case insensitive).::
 
-            # todo: This needs to be looked into. # todo: +SKIP
+            # todo: This needs to be looked into. todo: +SKIP
 
         Using parentheses, you can assign people to todos. If these people are
         part of the github repo, they will be assigned to the issue, that is
         raised from this todo. Please use their github username::
 
-            # todo (tensorflower-gardener): Tensorflow's bot should fix this. # todo: +SKIP
+            # todo (tensorflower-gardener): Tensorflow's bot should fix this. todo: +SKIP
 
         With extended syntax you can add existing labels and exisitng milestones
         to your todos.::
 
-            # todo: This is the title of the todo. # todo: +SKIP
+            # todo: This is the title of the todo. todo: +SKIP
             #  Further text is indented by a single space. It will appear
             #  In the body of the issue. You can add assignees, and labels
             #  with this syntax. The `todo` label will automatically
@@ -745,9 +745,9 @@ class TodoParser:
                     arg1: A thing.
 
                 Todo:
-                    * Single-line Todo. Add more documentation. # todo: +SKIP
-                    * (kevinsawade) We should also add some actual code. # todo: +SKIP
-                    * Multi-line todos should follow google-styleguide. # todo: +SKIP
+                    * Single-line Todo. Add more documentation. todo: +SKIP
+                    * (kevinsawade) We should also add some actual code. todo: +SKIP
+                    * Multi-line todos should follow google-styleguide. todo: +SKIP
                         This means a tab should be used indentation inside
                         the docstrings. This will form the body of the issue.
                         Assignees and labels can be added the same way:
@@ -843,7 +843,7 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
     """Two cases: Line starts with any combination of # Todo, or line starts with
     asterisk and is inside a napoleon docstring todo header.
 
-    Also filter out # todo: +SKIP.
+    Also filter out todo: +SKIP.
 
     Args:
         line (unidiff.Line): A line instance.
@@ -855,7 +855,7 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
 
     Returns:
         str: Either an empty string (bool('') = False), when line is not a
-            todo line, or a str, when line is a todo line. # todo: +SKIP.
+            todo line, or a str, when line is a todo line. todo: +SKIP.
 
     """
     if testing == 2 and line.value == 'I will add many.':
@@ -888,14 +888,14 @@ def is_todo_line(line, todos_before, todos_now, testing=0):
         return ''
 
 
-def extract_todos_from_file(file, testing=0, include_todo_after_code_line=True):
+def extract_todos_from_file(file, testing=0, include_todo_after_code_line=False):
     """Parses a file and extracts todos in google-style formatted docstrings.
 
     Args:
         file (str): Contents of file.
 
     Keyword Args:
-        testing (bool, optional): If set to True todos containing `# todo: +SKIP`
+        testing (bool, optional): If set to True todos containing `todo: +SKIP`
             will be disregarded. Defaults to False.
 
     Returns:
@@ -948,9 +948,10 @@ def extract_todos_from_file(file, testing=0, include_todo_after_code_line=True):
 
     # iterate over them.
     for i, comment_line in enumerate(comments_lines):
+        print(comment_line, not testing and TODO_SKIP_SUBSTRING in comment_line)
+        if not testing and TODO_SKIP_SUBSTRING in comment_line:
+            continue
         if comment_line.lower().strip().startswith('todo'):
-            if not testing and TODO_SKIP_SUBSTRING in comment_line:
-                continue
             block = [strip_line(comment_line)]
             in_block = True
             j = i + 1

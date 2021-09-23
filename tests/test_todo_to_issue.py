@@ -144,4 +144,7 @@ class TestTodoToIssue(unittest.TestCase):
         with open('main.py', 'r') as f:
             todos = extract_todos_from_file(f.read().split('# Globals\n')[1])
         self.assertEqual(todos, [])
+        with open('main.py', 'r') as f:
+            todos = extract_todos_from_file(f.read().split('# Globals\n')[1], include_todo_after_code_line=True)
+        self.assertEqual(len(todos), 2)
 
