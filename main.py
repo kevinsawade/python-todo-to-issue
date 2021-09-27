@@ -1039,7 +1039,15 @@ def main(testing):
         else:
             print("Tests were successful")
     else:
+        if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
+            INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+        else:
+            INCLUDE_TODO_AFTER_CODE_LINE = False
         print("Running python-todo-to-issue")
+        if INCLUDE_TODO_AFTER_CODE_LINE:
+            print("Checking todos that occur after code lines")
+        else:
+            print("Not Checking todos that occur after code lines")
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
