@@ -1175,12 +1175,10 @@ def main(testing):
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
-                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
-            else:
-                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
-        else:
-            INCLUDE_TODO_AFTER_CODE_LINE = False
+            print(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;])
+            print(type(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
+            print(dir(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
+            print(help(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
         print(&#34;Running python-todo-to-issue&#34;)
         if INCLUDE_TODO_AFTER_CODE_LINE:
             print(&#34;Checking todos that occur after code lines&#34;)
@@ -1199,6 +1197,9 @@ def main(testing):
                 status_code = client.create_issue(issue)
                 if status_code is None:
                     pass
+                elif isinstance(status_code, tuple):
+                    print(f&#34;Issue update status code is {status_code[0].status_code}&#34;)
+                    print(f&#34;Issue close status code is {status_code[1].status_code}&#34;)
                 else:
                     if status_code.status_code == 201:
                         print(&#39;Issue created&#39;)
@@ -1208,6 +1209,9 @@ def main(testing):
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
+                elif isinstance(status_code, tuple):
+                    print(f&#34;Issue update status code is {status_code[0].status_code}&#34;)
+                    print(f&#34;Issue close status code is {status_code[1].status_code}&#34;)
                 else:
                     if status_code.status_code == 201:
                         print(&#39;Issue closed&#39;)
@@ -1520,12 +1524,10 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
-                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
-            else:
-                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
-        else:
-            INCLUDE_TODO_AFTER_CODE_LINE = False
+            print(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;])
+            print(type(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
+            print(dir(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
+            print(help(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]))
         print(&#34;Running python-todo-to-issue&#34;)
         if INCLUDE_TODO_AFTER_CODE_LINE:
             print(&#34;Checking todos that occur after code lines&#34;)
@@ -1544,6 +1546,9 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
                 status_code = client.create_issue(issue)
                 if status_code is None:
                     pass
+                elif isinstance(status_code, tuple):
+                    print(f&#34;Issue update status code is {status_code[0].status_code}&#34;)
+                    print(f&#34;Issue close status code is {status_code[1].status_code}&#34;)
                 else:
                     if status_code.status_code == 201:
                         print(&#39;Issue created&#39;)
@@ -1553,6 +1558,9 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
+                elif isinstance(status_code, tuple):
+                    print(f&#34;Issue update status code is {status_code[0].status_code}&#34;)
+                    print(f&#34;Issue close status code is {status_code[1].status_code}&#34;)
                 else:
                     if status_code.status_code == 201:
                         print(&#39;Issue closed&#39;)
