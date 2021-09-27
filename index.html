@@ -921,7 +921,10 @@ class TodoParser:
         self.sha = os.environ[&#39;INPUT_SHA&#39;]
         self.before = os.environ[&#39;INPUT_BEFORE&#39;]
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
+                self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
+            else:
+                self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
         else:
             self.include_todo_after_code_line = False
 
@@ -1172,7 +1175,10 @@ def main(testing):
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
+            else:
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
         else:
             INCLUDE_TODO_AFTER_CODE_LINE = False
         print(&#34;Running python-todo-to-issue&#34;)
@@ -1191,16 +1197,22 @@ def main(testing):
             print(f&#34;Processing issue {issue}.&#34;)
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code.status_code == 201:
-                    print(&#39;Issue created&#39;)
+                if status_code is None:
+                    pass
                 else:
-                    print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
+                    if status_code.status_code == 201:
+                        print(&#39;Issue created&#39;)
+                    else:
+                        print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
             elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
                 status_code = client.close_issue(issue)
-                if status_code.status_code == 201:
-                    print(&#39;Issue closed&#39;)
+                if status_code is None:
+                    pass
                 else:
-                    print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
+                    if status_code.status_code == 201:
+                        print(&#39;Issue closed&#39;)
+                    else:
+                        print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)
@@ -1508,7 +1520,10 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
+            else:
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
         else:
             INCLUDE_TODO_AFTER_CODE_LINE = False
         print(&#34;Running python-todo-to-issue&#34;)
@@ -1527,16 +1542,22 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
             print(f&#34;Processing issue {issue}.&#34;)
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code.status_code == 201:
-                    print(&#39;Issue created&#39;)
+                if status_code is None:
+                    pass
                 else:
-                    print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
+                    if status_code.status_code == 201:
+                        print(&#39;Issue created&#39;)
+                    else:
+                        print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
             elif issue.status == LineStatus.DELETED and os.getenv(&#39;INPUT_CLOSE_ISSUES&#39;) == &#39;true&#39;:
                 status_code = client.close_issue(issue)
-                if status_code.status_code == 201:
-                    print(&#39;Issue closed&#39;)
+                if status_code is None:
+                    pass
                 else:
-                    print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
+                    if status_code.status_code == 201:
+                        print(&#39;Issue closed&#39;)
+                    else:
+                        print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)</code></pre>
@@ -2655,7 +2676,10 @@ instantiation.</p></div>
         self.sha = os.environ[&#39;INPUT_SHA&#39;]
         self.before = os.environ[&#39;INPUT_BEFORE&#39;]
         if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            if isinstance(os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;], str):
+                self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] in [&#39;true&#39;, &#39;True&#39;]
+            else:
+                self.include_todo_after_code_line = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;]
         else:
             self.include_todo_after_code_line = False
 
