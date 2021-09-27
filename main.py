@@ -788,11 +788,11 @@ class TodoParser:
         self.repo = os.environ['INPUT_REPO']
         self.sha = os.environ['INPUT_SHA']
         self.before = os.environ['INPUT_BEFORE']
-        if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
-            if isinstance(os.environ['INCLUDE_TODO_AFTER_CODE_LINE'], str):
-                self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] in ['true', 'True']
+        if 'INPUT_INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
+            if isinstance(os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'], str):
+                self.include_todo_after_code_line = os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] in ['true', 'True']
             else:
-                self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE']
+                self.include_todo_after_code_line = os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE']
         else:
             self.include_todo_after_code_line = False
 
@@ -1042,13 +1042,10 @@ def main(testing):
         else:
             print("Tests were successful")
     else:
-        if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
-            print(os.environ['INCLUDE_TODO_AFTER_CODE_LINE'])
-            print(type(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
-            print(dir(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
-            print(help(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
-        print(os.environ)
-        print("Running python-todo-to-issue")
+        if 'INPUT_INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
+            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+        else:
+            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = False
         if INCLUDE_TODO_AFTER_CODE_LINE:
             print("Checking todos that occur after code lines")
         else:

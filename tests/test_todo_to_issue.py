@@ -42,11 +42,11 @@ class TestTodoToIssue(unittest.TestCase):
 
     def test_after_code_todos(self):
         from main import TodoParser, LineStatus
-        os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] = 'false'
+        os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] = 'false'
         parser = TodoParser(testing=3)
         issues = parser.issues
         self.assertEqual(len(issues), 1)
-        os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] = 'true'
+        os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] = 'true'
         parser = TodoParser(testing=3)
         issues = parser.issues
         self.assertEqual(len(issues), 4)

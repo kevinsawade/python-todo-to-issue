@@ -2,6 +2,19 @@
 
 Dateformat: yyyy-mm-dd
 
+[1.0.4] - 2021-09-27
+
+# Todos after code-lines working.
+
+## Changed
+
+The arg can be set in the yaml as `${{ true }}`, `true` or `True` and the `GitHubClient` class checks accordingly.
+Fixed a mistake in `action.yaml`
+
+## Added
+
+Workflow now prints, whether it runs in after-code-todo mode or not.
+
 [1.0.3] - 2021-09-22
 
 # Fixed skipping of todos
