@@ -1047,6 +1047,7 @@ def main(testing):
             print(type(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
             print(dir(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
             print(help(os.environ['INCLUDE_TODO_AFTER_CODE_LINE']))
+        print(os.environ)
         print("Running python-todo-to-issue")
         if INCLUDE_TODO_AFTER_CODE_LINE:
             print("Checking todos that occur after code lines")
