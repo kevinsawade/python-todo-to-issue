@@ -788,7 +788,10 @@ class TodoParser:
         self.repo = os.environ['INPUT_REPO']
         self.sha = os.environ['INPUT_SHA']
         self.before = os.environ['INPUT_BEFORE']
-        self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+        if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
+            self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+        else:
+            self.include_todo_after_code_line = False
 
         # get before and current hash
         if self.testing == 1:
