@@ -1175,10 +1175,10 @@ def main(testing):
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            todo_after_code_line = os.environ[&#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
         else:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = False
-        if INCLUDE_TODO_AFTER_CODE_LINE:
+            todo_after_code_line = False
+        if todo_after_code_line:
             print(&#34;Checking todos that occur after code lines&#34;)
         else:
             print(&#34;Not Checking todos that occur after code lines&#34;)
@@ -1522,10 +1522,10 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
             print(&#34;Tests were successful&#34;)
     else:
         if &#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+            todo_after_code_line = os.environ[&#39;INPUT_INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
         else:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = False
-        if INCLUDE_TODO_AFTER_CODE_LINE:
+            todo_after_code_line = False
+        if todo_after_code_line:
             print(&#34;Checking todos that occur after code lines&#34;)
         else:
             print(&#34;Not Checking todos that occur after code lines&#34;)
