@@ -1043,10 +1043,10 @@ def main(testing):
             print("Tests were successful")
     else:
         if 'INPUT_INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+            todo_after_code_line = os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
         else:
-            INPUT_INCLUDE_TODO_AFTER_CODE_LINE = False
-        if INCLUDE_TODO_AFTER_CODE_LINE:
+            todo_after_code_line = False
+        if todo_after_code_line:
             print("Checking todos that occur after code lines")
         else:
             print("Not Checking todos that occur after code lines")
