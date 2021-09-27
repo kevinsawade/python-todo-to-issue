@@ -1171,7 +1171,15 @@ def main(testing):
         else:
             print(&#34;Tests were successful&#34;)
     else:
+        if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
+            INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+        else:
+            INCLUDE_TODO_AFTER_CODE_LINE = False
         print(&#34;Running python-todo-to-issue&#34;)
+        if INCLUDE_TODO_AFTER_CODE_LINE:
+            print(&#34;Checking todos that occur after code lines&#34;)
+        else:
+            print(&#34;Not Checking todos that occur after code lines&#34;)
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
@@ -1499,7 +1507,15 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
         else:
             print(&#34;Tests were successful&#34;)
     else:
+        if &#39;INCLUDE_TODO_AFTER_CODE_LINE&#39; in os.environ:
+            INCLUDE_TODO_AFTER_CODE_LINE = os.environ[&#39;INCLUDE_TODO_AFTER_CODE_LINE&#39;] == &#39;true&#39;
+        else:
+            INCLUDE_TODO_AFTER_CODE_LINE = False
         print(&#34;Running python-todo-to-issue&#34;)
+        if INCLUDE_TODO_AFTER_CODE_LINE:
+            print(&#34;Checking todos that occur after code lines&#34;)
+        else:
+            print(&#34;Not Checking todos that occur after code lines&#34;)
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
