@@ -789,7 +789,10 @@ class TodoParser:
         self.sha = os.environ['INPUT_SHA']
         self.before = os.environ['INPUT_BEFORE']
         if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
-            self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+            if isinstance(os.environ['INCLUDE_TODO_AFTER_CODE_LINE'], str):
+                self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] in ['true', 'True']
+            else:
+                self.include_todo_after_code_line = os.environ['INCLUDE_TODO_AFTER_CODE_LINE']
         else:
             self.include_todo_after_code_line = False
 
@@ -1040,7 +1043,10 @@ def main(testing):
             print("Tests were successful")
     else:
         if 'INCLUDE_TODO_AFTER_CODE_LINE' in os.environ:
-            INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] == 'true'
+            if isinstance(os.environ['INCLUDE_TODO_AFTER_CODE_LINE'], str):
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INCLUDE_TODO_AFTER_CODE_LINE'] in ['true', 'True']
+            else:
+                INCLUDE_TODO_AFTER_CODE_LINE = os.environ['INCLUDE_TODO_AFTER_CODE_LINE']
         else:
             INCLUDE_TODO_AFTER_CODE_LINE = False
         print("Running python-todo-to-issue")
@@ -1059,16 +1065,22 @@ def main(testing):
             print(f"Processing issue {issue}.")
             if issue.status == LineStatus.ADDED:
                 status_code = client.create_issue(issue)
-                if status_code.status_code == 201:
-                    print('Issue created')
+                if status_code is None:
+                    pass
                 else:
-                    print(f'Issue could not be created. The status code is {status_code}')
+                    if status_code.status_code == 201:
+                        print('Issue created')
+                    else:
+                        print(f'Issue could not be created. The status code is {status_code}')
             elif issue.status == LineStatus.DELETED and os.getenv('INPUT_CLOSE_ISSUES') == 'true':
                 status_code = client.close_issue(issue)
-                if status_code.status_code == 201:
-                    print('Issue closed')
+                if status_code is None:
+                    pass
                 else:
-                    print(f'Issue could not be closed. The status code is {status_code}')
+                    if status_code.status_code == 201:
+                        print('Issue closed')
+                    else:
+                        print(f'Issue could not be closed. The status code is {status_code}')
             # Stagger the requests to be on the safe side.
             sleep(1)
         print("Finished working through the issues.")
