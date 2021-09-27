@@ -32,6 +32,6 @@ inputs:
     required: false
     default: false
   INCLUDE_TODO_AFTER_CODE_LINE:
-    description: "Whether todos that are after a code line and not at the start of lines should be considered.
+    description: "Whether todos that are after a code line and not at the start of lines should be considered."
     required: false
     default: false
