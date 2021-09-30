@@ -2,6 +2,14 @@
 
 Dateformat: yyyy-mm-dd
 
+[1.0.5] - 2021-09-30
+
+# Status Code Error Fixed
+
+## Bugfixes
+
+The status codes returned if issues already exist are a tuple of two ints. However, the `main()` function tries to access `status_code[0].status_code`. This will not work; obviously. I fixed that error and prepared a new release.
+
 [1.0.4] - 2021-09-27
 
 # Todos after code-lines working.

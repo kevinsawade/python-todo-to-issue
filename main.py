@@ -1064,8 +1064,8 @@ def main(testing):
                 if status_code is None:
                     pass
                 elif isinstance(status_code, tuple):
-                    print(f"Issue update status code is {status_code[0].status_code}")
-                    print(f"Issue close status code is {status_code[1].status_code}")
+                    print(f"Issue update status code is {status_code[0]}")
+                    print(f"Issue close status code is {status_code[1]}")
                 else:
                     if status_code.status_code == 201:
                         print('Issue created')
@@ -1076,8 +1076,8 @@ def main(testing):
                 if status_code is None:
                     pass
                 elif isinstance(status_code, tuple):
-                    print(f"Issue update status code is {status_code[0].status_code}")
-                    print(f"Issue close status code is {status_code[1].status_code}")
+                    print(f"Issue update status code is {status_code[0]}")
+                    print(f"Issue close status code is {status_code[1]}")
                 else:
                     if status_code.status_code == 201:
                         print('Issue closed')
