@@ -1098,7 +1098,7 @@ def main(testing):
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
-                else:
+                if isinstance(status_code, tuple):
                     if status_code[0] == 201:
                         print('Issue closed')
                     else:
@@ -1107,15 +1107,11 @@ def main(testing):
                         print('Added close comment to issue')
                     else:
                         print(f"Could not add a comment to issue. The status code is {status_code[1]}")
-                # elif isinstance(status_code, tuple):
-                #     print(f"Issue update status code is {status_code[0]}")
-                #     print(f"Issue close status code is {status_code[1]}")
-                # else:
-                #     if status_code.status_code == 201:
-                #         print('Issue closed')
-                #     else:
-                #         print(f'Issue could not be closed. The status code is {status_code}')
-            # Stagger the requests to be on the safe side.
+                else:
+                    if status_code == 201:
+                        print('Issue closed')
+                    else:
+                        print(f"Could not close issue. The status code is {status_code}")
             sleep(1)
         print("Finished working through the issues.")
 
