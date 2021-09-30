@@ -1,4 +1,5 @@
 ![Unittests](https://github.com/kevinsawade/python-todo-to-issue/actions/workflows/unittests.yml/badge.svg)
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/kevinsawade/5989424e030f59c478f353d5b9da91c2/raw/test.json)
 
 # python-todo-to-issue
 
@@ -33,6 +34,8 @@ jobs:
         uses: kevinsawade/python-todo-to-issue@latest
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # you can let your own bot create issues by supplying:
+          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}
 ```
 
 ## Write Todos
@@ -79,6 +82,10 @@ def myfunc(arg1):
     """
     return 'Hello' + arg1
 ```
+
+## Let your own bot create the issues.
+
+Please refer to the documentation on https://kevinsawade.github.io/python-todo-to-issue/index.html for this use case.
 
 ## Todos after code
 

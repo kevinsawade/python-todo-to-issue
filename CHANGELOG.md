@@ -2,6 +2,15 @@
 
 Dateformat: yyyy-mm-dd
 
+[1.0.6] - 2021-09-30
+
+# Better Documentation and Coverage
+
+## Changes
+
+- The README.md was updated and the main docstring of the `main()` function.
+- Added coverage bagde to readme and coverage report to webpage. Need to exclude the tests directory at some later point.
+
 [1.0.5] - 2021-09-30
 
 # Status Code Error Fixed

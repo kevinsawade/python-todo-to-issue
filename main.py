@@ -87,7 +87,6 @@ jobs:
 
 All your todos will be converted to issues, once you push to github.
 
-
 What is regarded as a ToDo?
 ---------------------------
 
@@ -149,6 +148,33 @@ Excluding Todos from being turned into issues
 
 To skip todos you can add ``todo: +SKIP`` after the todo-line. This one is not
 case insensitive and only works if you use it verbose.
+
+Todos after code lines
+----------------------
+
+If you write your todos after code lines like so:
+
+```python
+
+a = str(1) # todo: This line is bad code
+b = '2' # todo (kevinsawade): This line is better.
+```
+
+You can add these after-code-todos with an additional
+`INCLUDE_TODO_AFTER_CODE_LINE` option to the yaml file:
+
+```yaml
+- name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCLUDE_TODO_AFTER_CODE_LINE: ${{ true }}
+```
+
+Coverage Report
+---------------
+
+Access the coverage report under: https://kevinsawade.github.io/python-todo-to-issue/htmlcov/index.html
 
 Classes and Functions
 ---------------------
@@ -574,7 +600,7 @@ class GitHubClient():
         new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
                                           data=json.dumps(new_issue_body))
 
-        return new_issue_request
+        return new_issue_request.status_code
 
     def close_issue(self, issue):
         """Check to see if this issue can be found on GitHub and if so close it.
@@ -609,7 +635,7 @@ class GitHubClient():
                 update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
                                                      data=json.dumps(body))
                 return update_issue_request.status_code, close_issue_request.status_code
-        return None
+        return
 
 
 class ToDo:
@@ -1047,9 +1073,9 @@ def main(testing):
         else:
             todo_after_code_line = False
         if todo_after_code_line:
-            print("Checking todos that occur after code lines")
+            print("Checking todos that occur after code lines.")
         else:
-            print("Not Checking todos that occur after code lines")
+            print("Not Checking todos that occur after code lines.")
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
@@ -1063,11 +1089,8 @@ def main(testing):
                 status_code = client.create_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f"Issue update status code is {status_code[0]}")
-                    print(f"Issue close status code is {status_code[1]}")
                 else:
-                    if status_code.status_code == 201:
+                    if status_code == 201:
                         print('Issue created')
                     else:
                         print(f'Issue could not be created. The status code is {status_code}')
@@ -1075,14 +1098,23 @@ def main(testing):
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f"Issue update status code is {status_code[0]}")
-                    print(f"Issue close status code is {status_code[1]}")
                 else:
-                    if status_code.status_code == 201:
+                    if status_code[0] == 201:
                         print('Issue closed')
                     else:
-                        print(f'Issue could not be closed. The status code is {status_code}')
+                        print(f"Could not close issue. The status code is {status_code[0]}")
+                    if status_code[1] == 201:
+                        print('Added close comment to issue')
+                    else:
+                        print(f"Could not add a comment to issue. The status code is {status_code[1]}")
+                # elif isinstance(status_code, tuple):
+                #     print(f"Issue update status code is {status_code[0]}")
+                #     print(f"Issue close status code is {status_code[1]}")
+                # else:
+                #     if status_code.status_code == 201:
+                #         print('Issue closed')
+                #     else:
+                #         print(f'Issue could not be closed. The status code is {status_code}')
             # Stagger the requests to be on the safe side.
             sleep(1)
         print("Finished working through the issues.")

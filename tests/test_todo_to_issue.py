@@ -40,6 +40,39 @@ class TestTodoToIssue(unittest.TestCase):
             del os.environ['INPUT_SHA']
         print("\nDeleting environment token.")
 
+    def test_status_code_problems(self):
+        """What methods/function return status codes?
+        
+        * GitHubClient:
+            * create_issue() resturns a request.
+            * close_issue() returns a tuple of ints.
+        """
+        from main import GitHubClient, Issue
+        client = GitHubClient()
+        issue = Issue(testing=1)
+        status_code = client.close_issue(issue)
+
+        # copied code from main.py
+        # I know it's bad sorry.
+        if status_code is None:
+            pass
+        else:
+            if status_code[0] == 201:
+                print('Issue closed')
+            else:
+                print(f"Could not close issue. The status code is {status_code[0]}")
+            if status_code[1] == 201:
+                print('Added close comment to issue')
+            else:
+                print(f"Could not add a comment to issue. The status code is {status_code[1]}")
+        self.assertIsInstance(status_code, tuple)
+        self.assertEqual(status_code, (404, 404))
+        client.token = 'wrong_token'
+        client.issues_url = f'https://api.github.com/repos/kevinsawade/non-existent-repo/issues'
+        status_code = client.create_issue(issue)
+        self.assertIsInstance(status_code, int)
+        self.assertEqual(status_code, 404)
+
     def test_after_code_todos(self):
         from main import TodoParser, LineStatus
         os.environ['INPUT_INCLUDE_TODO_AFTER_CODE_LINE'] = 'false'
@@ -67,10 +100,14 @@ class TestTodoToIssue(unittest.TestCase):
         from main import GitHubClient, Issue
         client = GitHubClient(testing=1)
         issue = Issue(testing=1)
-        client.create_issue(issue)
+        status_code = client.create_issue(issue)
+        self.assertIsInstance(status_code, int)
+        self.assertEqual(status_code, 201)
         client = GitHubClient(testing=1)
         self.assertTrue(any([issue['title'] == 'TEST AUTO ISSUE' for issue in client.existing_issues]))
         client.close_issue(issue)
+        self.assertIsInstance(status_code, tuple)
+        self.assertEqual(status_code, (201, 201))
         client = GitHubClient(testing=1)
         self.assertTrue(all([issue['title'] != 'TEST AUTO ISSUE' for issue in client.existing_issues]))
 

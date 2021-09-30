@@ -3,3 +3,4 @@ sphinxcontrib-napoleon
 unidiff
 pdoc3
 requests
+coverage
