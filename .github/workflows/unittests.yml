@@ -64,7 +64,7 @@ jobs:
           fi
           echo $COLOR
           echo "::set-env name=CoLoR::$COLOR"
-          coverage html
+          coverage html --omit="*/tests*,*__init__*,*Users*"
           mv htmlcov/ docs/build/
 
       - name: Create Awesome Badge
