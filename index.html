@@ -122,6 +122,22 @@ return 'Hello!' + arg1
 <h2 id="excluding-todos-from-being-turned-into-issues">Excluding Todos From Being Turned Into Issues</h2>
 <p>To skip todos you can add <code>todo: +SKIP</code> after the todo-line. This one is not
 case insensitive and only works if you use it verbose.</p>
+<h2 id="todos-after-code-lines">Todos After Code Lines</h2>
+<p>If you write your todos after code lines like so:</p>
+<pre><code class="language-python">
+a = str(1) # todo: This line is bad code
+b = '2' # todo (kevinsawade): This line is better.
+</code></pre>
+<p>You can add these after-code-todos with an additional
+<code>INCLUDE_TODO_AFTER_CODE_LINE</code> option to the yaml file:</p>
+<pre><code class="language-yaml">- name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCLUDE_TODO_AFTER_CODE_LINE: ${{ true }}
+</code></pre>
+<h2 id="coverage-report">Coverage Report</h2>
+<p>Access the coverage report under: <a href="https://kevinsawade.github.io/python-todo-to-issue/htmlcov/index.html">https://kevinsawade.github.io/python-todo-to-issue/htmlcov/index.html</a></p>
 <h2 id="classes-and-functions">Classes And Functions</h2>
 <p>The remainder of this page contains the functions and classes used to run this
 action. These functions and classes contain their own documentation which you
@@ -219,7 +235,6 @@ jobs:
 
 All your todos will be converted to issues, once you push to github.
 
-
 What is regarded as a ToDo?
 ---------------------------
 
@@ -281,6 +296,33 @@ Excluding Todos from being turned into issues
 
 To skip todos you can add ``todo: +SKIP`` after the todo-line. This one is not
 case insensitive and only works if you use it verbose.
+
+Todos after code lines
+----------------------
+
+If you write your todos after code lines like so:
+
+```python
+
+a = str(1) # todo: This line is bad code
+b = &#39;2&#39; # todo (kevinsawade): This line is better.
+```
+
+You can add these after-code-todos with an additional
+`INCLUDE_TODO_AFTER_CODE_LINE` option to the yaml file:
+
+```yaml
+- name: Create Issues ✔️
+        uses: kevinsawade/python-todo-to-issue@latest
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCLUDE_TODO_AFTER_CODE_LINE: ${{ true }}
+```
+
+Coverage Report
+---------------
+
+Access the coverage report under: https://kevinsawade.github.io/python-todo-to-issue/htmlcov/index.html
 
 Classes and Functions
 ---------------------
@@ -706,7 +748,7 @@ class GitHubClient():
         new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
                                           data=json.dumps(new_issue_body))
 
-        return new_issue_request
+        return new_issue_request.status_code
 
     def close_issue(self, issue):
         &#34;&#34;&#34;Check to see if this issue can be found on GitHub and if so close it.
@@ -741,7 +783,7 @@ class GitHubClient():
                 update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
                                                      data=json.dumps(body))
                 return update_issue_request.status_code, close_issue_request.status_code
-        return None
+        return
 
 
 class ToDo:
@@ -1179,9 +1221,9 @@ def main(testing):
         else:
             todo_after_code_line = False
         if todo_after_code_line:
-            print(&#34;Checking todos that occur after code lines&#34;)
+            print(&#34;Checking todos that occur after code lines.&#34;)
         else:
-            print(&#34;Not Checking todos that occur after code lines&#34;)
+            print(&#34;Not Checking todos that occur after code lines.&#34;)
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
@@ -1195,11 +1237,8 @@ def main(testing):
                 status_code = client.create_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f&#34;Issue update status code is {status_code[0]}&#34;)
-                    print(f&#34;Issue close status code is {status_code[1]}&#34;)
                 else:
-                    if status_code.status_code == 201:
+                    if status_code == 201:
                         print(&#39;Issue created&#39;)
                     else:
                         print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
@@ -1207,14 +1246,23 @@ def main(testing):
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f&#34;Issue update status code is {status_code[0]}&#34;)
-                    print(f&#34;Issue close status code is {status_code[1]}&#34;)
                 else:
-                    if status_code.status_code == 201:
+                    if status_code[0] == 201:
                         print(&#39;Issue closed&#39;)
                     else:
-                        print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
+                        print(f&#34;Could not close issue. The status code is {status_code[0]}&#34;)
+                    if status_code[1] == 201:
+                        print(&#39;Added close comment to issue&#39;)
+                    else:
+                        print(f&#34;Could not add a comment to issue. The status code is {status_code[1]}&#34;)
+                # elif isinstance(status_code, tuple):
+                #     print(f&#34;Issue update status code is {status_code[0]}&#34;)
+                #     print(f&#34;Issue close status code is {status_code[1]}&#34;)
+                # else:
+                #     if status_code.status_code == 201:
+                #         print(&#39;Issue closed&#39;)
+                #     else:
+                #         print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)
@@ -1526,9 +1574,9 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
         else:
             todo_after_code_line = False
         if todo_after_code_line:
-            print(&#34;Checking todos that occur after code lines&#34;)
+            print(&#34;Checking todos that occur after code lines.&#34;)
         else:
-            print(&#34;Not Checking todos that occur after code lines&#34;)
+            print(&#34;Not Checking todos that occur after code lines.&#34;)
         from pprint import pprint
         client = GitHubClient()
         issues = client.existing_issues
@@ -1542,11 +1590,8 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
                 status_code = client.create_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f&#34;Issue update status code is {status_code[0]}&#34;)
-                    print(f&#34;Issue close status code is {status_code[1]}&#34;)
                 else:
-                    if status_code.status_code == 201:
+                    if status_code == 201:
                         print(&#39;Issue created&#39;)
                     else:
                         print(f&#39;Issue could not be created. The status code is {status_code}&#39;)
@@ -1554,14 +1599,23 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
                 status_code = client.close_issue(issue)
                 if status_code is None:
                     pass
-                elif isinstance(status_code, tuple):
-                    print(f&#34;Issue update status code is {status_code[0]}&#34;)
-                    print(f&#34;Issue close status code is {status_code[1]}&#34;)
                 else:
-                    if status_code.status_code == 201:
+                    if status_code[0] == 201:
                         print(&#39;Issue closed&#39;)
                     else:
-                        print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
+                        print(f&#34;Could not close issue. The status code is {status_code[0]}&#34;)
+                    if status_code[1] == 201:
+                        print(&#39;Added close comment to issue&#39;)
+                    else:
+                        print(f&#34;Could not add a comment to issue. The status code is {status_code[1]}&#34;)
+                # elif isinstance(status_code, tuple):
+                #     print(f&#34;Issue update status code is {status_code[0]}&#34;)
+                #     print(f&#34;Issue close status code is {status_code[1]}&#34;)
+                # else:
+                #     if status_code.status_code == 201:
+                #         print(&#39;Issue closed&#39;)
+                #     else:
+                #         print(f&#39;Issue could not be closed. The status code is {status_code}&#39;)
             # Stagger the requests to be on the safe side.
             sleep(1)
         print(&#34;Finished working through the issues.&#34;)</code></pre>
@@ -1935,7 +1989,7 @@ testing (bool, optional): Whether class is used during testing.</p></div>
         new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
                                           data=json.dumps(new_issue_body))
 
-        return new_issue_request
+        return new_issue_request.status_code
 
     def close_issue(self, issue):
         &#34;&#34;&#34;Check to see if this issue can be found on GitHub and if so close it.
@@ -1970,7 +2024,7 @@ testing (bool, optional): Whether class is used during testing.</p></div>
                 update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
                                                      data=json.dumps(body))
                 return update_issue_request.status_code, close_issue_request.status_code
-        return None</code></pre>
+        return</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -2070,7 +2124,7 @@ issue (Issue): An instance of the <code><a title="main.Issue" href="#main.Issue"
             update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
                                                  data=json.dumps(body))
             return update_issue_request.status_code, close_issue_request.status_code
-    return None</code></pre>
+    return</code></pre>
 </details>
 </dd>
 <dt id="main.GitHubClient.create_issue"><code class="name flex">
@@ -2135,7 +2189,7 @@ issue (Issue): An instance of the <code><a title="main.Issue" href="#main.Issue"
     new_issue_request = requests.post(url=self.issues_url, headers=self.issue_headers,
                                       data=json.dumps(new_issue_body))
 
-    return new_issue_request</code></pre>
+    return new_issue_request.status_code</code></pre>
 </details>
 </dd>
 <dt id="main.GitHubClient.get_file_at_commit"><code class="name flex">
@@ -2748,6 +2802,8 @@ instantiation.</p></div>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#what-is-regarded-as-a-todo">What is regarded as a ToDo?</a></li>
 <li><a href="#excluding-todos-from-being-turned-into-issues">Excluding Todos from being turned into issues</a></li>
+<li><a href="#todos-after-code-lines">Todos after code lines</a></li>
+<li><a href="#coverage-report">Coverage Report</a></li>
 <li><a href="#classes-and-functions">Classes and Functions</a></li>
 </ul>
 </li>
