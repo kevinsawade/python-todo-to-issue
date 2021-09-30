@@ -52,8 +52,8 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         run: |
           coverage run -m unittest discover -s tests
-          PERCENT=$( coverage report -m | tail -1 | awk '{print $4}' )
-          COV=$( coverage report -m | tail -1 | awk '{print $4}' | sed 's/%//g' )
+          PERCENT=$( coverage report -m --omit="*/tests*,*__init__*,*Users*" | tail -1 | awk '{print $4}' )
+          COV=$( coverage report -m --omit="*/tests*,*__init__*,*Users*" | tail -1 | awk '{print $4}' | sed 's/%//g' )
           echo $COV
           echo "::set-env name=Percent::$PERCENT"
           if [[ "$COV" -le 50 ]] ; then
