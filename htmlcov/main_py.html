@@ -99,96 +99,96 @@
     <p id="t45" class="pln"><span class="n"><a href="#t45">45</a></span><span class="t"><span class="str">------------</span>&nbsp;</span><span class="r"></span></p>
     <p id="t46" class="pln"><span class="n"><a href="#t46">46</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t47" class="pln"><span class="n"><a href="#t47">47</a></span><span class="t"><span class="str">This repo offers a GitHub action, that can be integrated into your GitHub workflows.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t48" class="pln"><span class="n"><a href="#t48">48</a></span><span class="t"><span class="str">If you are confident with github actions, you can follow the quickstart on that</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t49" class="pln"><span class="n"><a href="#t49">49</a></span><span class="t"><span class="str">page to quickly set up the latest version of this action. Otherwise you can follow</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t50" class="pln"><span class="n"><a href="#t50">50</a></span><span class="t"><span class="str">these instructions:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t51" class="pln"><span class="n"><a href="#t51">51</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t52" class="pln"><span class="n"><a href="#t52">52</a></span><span class="t"><span class="str">- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue-action.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t53" class="pln"><span class="n"><a href="#t53">53</a></span><span class="t"><span class="str">- If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: https://github.com/settings/tokens</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t54" class="pln"><span class="n"><a href="#t54">54</a></span><span class="t"><span class="str">- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like CUSTOM_ISSUE_TOKEN.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t55" class="pln"><span class="n"><a href="#t55">55</a></span><span class="t"><span class="str">- Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t56" class="pln"><span class="n"><a href="#t56">56</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t57" class="pln"><span class="n"><a href="#t57">57</a></span><span class="t"><span class="str">```yaml</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t58" class="pln"><span class="n"><a href="#t58">58</a></span><span class="t"><span class="str">name: Todo-to-Issue</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t60" class="pln"><span class="n"><a href="#t60">60</a></span><span class="t"><span class="str">on:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t61" class="pln"><span class="n"><a href="#t61">61</a></span><span class="t"><span class="str">  push:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t62" class="pln"><span class="n"><a href="#t62">62</a></span><span class="t"><span class="str">    branches: [ main ]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t63" class="pln"><span class="n"><a href="#t63">63</a></span><span class="t"><span class="str">  pull_request:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t64" class="pln"><span class="n"><a href="#t64">64</a></span><span class="t"><span class="str">    branches: [ main ]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t65" class="pln"><span class="n"><a href="#t65">65</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t66" class="pln"><span class="n"><a href="#t66">66</a></span><span class="t"><span class="str">jobs:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t67" class="pln"><span class="n"><a href="#t67">67</a></span><span class="t"><span class="str">  todo-to-issue:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t68" class="pln"><span class="n"><a href="#t68">68</a></span><span class="t"><span class="str">    # The type of runner that the job will run on</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t69" class="pln"><span class="n"><a href="#t69">69</a></span><span class="t"><span class="str">    runs-on: ubuntu-latest</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t70" class="pln"><span class="n"><a href="#t70">70</a></span><span class="t"><span class="str">    strategy:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t71" class="pln"><span class="n"><a href="#t71">71</a></span><span class="t"><span class="str">      matrix:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t72" class="pln"><span class="n"><a href="#t72">72</a></span><span class="t"><span class="str">        python-version: [3.9]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t73" class="pln"><span class="n"><a href="#t73">73</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t74" class="pln"><span class="n"><a href="#t74">74</a></span><span class="t"><span class="str">    steps:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t75" class="pln"><span class="n"><a href="#t75">75</a></span><span class="t"><span class="str">      - name: Checkout &#128718;&#65039;</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t76" class="pln"><span class="n"><a href="#t76">76</a></span><span class="t"><span class="str">        uses: actions/checkout@v2</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t77" class="pln"><span class="n"><a href="#t77">77</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t78" class="pln"><span class="n"><a href="#t78">78</a></span><span class="t"><span class="str">      - name: Create Issues &#10004;&#65039;</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t79" class="pln"><span class="n"><a href="#t79">79</a></span><span class="t"><span class="str">        uses: kevinsawade/python-todo-to-issue@latest</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t80" class="pln"><span class="n"><a href="#t80">80</a></span><span class="t"><span class="str">        with:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t81" class="pln"><span class="n"><a href="#t81">81</a></span><span class="t"><span class="str">          # GitHub Bot will open the issues:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t82" class="pln"><span class="n"><a href="#t82">82</a></span><span class="t"><span class="str">          TOKEN: ${{ secrets.GITHUB_TOKEN }}</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t83" class="pln"><span class="n"><a href="#t83">83</a></span><span class="t"><span class="str">          # Provide a custom secret</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t84" class="pln"><span class="n"><a href="#t84">84</a></span><span class="t"><span class="str">          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t85" class="pln"><span class="n"><a href="#t85">85</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t86" class="pln"><span class="n"><a href="#t86">86</a></span><span class="t"><span class="str">```</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t87" class="pln"><span class="n"><a href="#t87">87</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t88" class="pln"><span class="n"><a href="#t88">88</a></span><span class="t"><span class="str">All your todos will be converted to issues, once you push to github.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t89" class="pln"><span class="n"><a href="#t89">89</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t90" class="pln"><span class="n"><a href="#t90">90</a></span><span class="t"><span class="str">What is regarded as a ToDo?</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t91" class="pln"><span class="n"><a href="#t91">91</a></span><span class="t"><span class="str">---------------------------</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t92" class="pln"><span class="n"><a href="#t92">92</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t93" class="pln"><span class="n"><a href="#t93">93</a></span><span class="t"><span class="str">First of all: Only todos from commits are used as issues. If you have old Todos</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t94" class="pln"><span class="n"><a href="#t94">94</a></span><span class="t"><span class="str">in your module, you need to remove them, commit and then include them again.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t95" class="pln"><span class="n"><a href="#t95">95</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t96" class="pln"><span class="n"><a href="#t96">96</a></span><span class="t"><span class="str">Todos are searched for in comments which start with ``# Todo:``. You can expand</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t97" class="pln"><span class="n"><a href="#t97">97</a></span><span class="t"><span class="str">these comments with the assignee of the issue. For this you put the github</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t98" class="pln"><span class="n"><a href="#t98">98</a></span><span class="t"><span class="str">username of a maintainer, developer or owner of a repo in parentheses. You can</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t99" class="pln"><span class="n"><a href="#t99">99</a></span><span class="t"><span class="str">also write multi-line todos, by indenting them with extra spaces. Using this</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t100" class="pln"><span class="n"><a href="#t100">100</a></span><span class="t"><span class="str">multi-line syntax, you can add labels and milestone to a issue.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t101" class="pln"><span class="n"><a href="#t101">101</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t102" class="pln"><span class="n"><a href="#t102">102</a></span><span class="t"><span class="str">```python</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t103" class="pln"><span class="n"><a href="#t103">103</a></span><span class="t"><span class="str"># todo: This is a simple in-line todo. This will be the title of the issue.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t104" class="pln"><span class="n"><a href="#t104">104</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t105" class="pln"><span class="n"><a href="#t105">105</a></span><span class="t"><span class="str"># todo (kevinsawade): I will fix this weird contraption.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t106" class="pln"><span class="n"><a href="#t106">106</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t107" class="pln"><span class="n"><a href="#t107">107</a></span><span class="t"><span class="str"># Todo: This is the title of a mutli-line issue.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t108" class="pln"><span class="n"><a href="#t108">108</a></span><span class="t"><span class="str">#  This is the body of the multi-line issue. Here, you can specify</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t109" class="pln"><span class="n"><a href="#t109">109</a></span><span class="t"><span class="str">#  What needs to be done to fix this issue. Issues are automatically</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t110" class="pln"><span class="n"><a href="#t110">110</a></span><span class="t"><span class="str">#  closed, once the issue is removed from the file. You can set assignees,</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t111" class="pln"><span class="n"><a href="#t111">111</a></span><span class="t"><span class="str">#  labels and milestone like so:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t112" class="pln"><span class="n"><a href="#t112">112</a></span><span class="t"><span class="str">#  assignees: kevinsawade, github_user3</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t113" class="pln"><span class="n"><a href="#t113">113</a></span><span class="t"><span class="str">#  labels: devel, bug</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t114" class="pln"><span class="n"><a href="#t114">114</a></span><span class="t"><span class="str">#  milestone: release</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t115" class="pln"><span class="n"><a href="#t115">115</a></span><span class="t"><span class="str">```</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t116" class="pln"><span class="n"><a href="#t116">116</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t117" class="pln"><span class="n"><a href="#t117">117</a></span><span class="t"><span class="str">Besides these in-line Todos, Todos from google-style formatted docstrings will</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t118" class="pln"><span class="n"><a href="#t118">118</a></span><span class="t"><span class="str">also be picked up. The general style is the same. Indentation is done via</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t119" class="pln"><span class="n"><a href="#t119">119</a></span><span class="t"><span class="str">4 spaces. Assignees can be put in parentheses or as a line in multi-line todos.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t120" class="pln"><span class="n"><a href="#t120">120</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t121" class="pln"><span class="n"><a href="#t121">121</a></span><span class="t"><span class="str">```python</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t122" class="pln"><span class="n"><a href="#t122">122</a></span><span class="t"><span class="str">def myfunc(arg1):</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t123" class="pln"><span class="n"><a href="#t123">123</a></span><span class="t"><span class="str">    \"\"\"This is the overview docstring.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t124" class="pln"><span class="n"><a href="#t124">124</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t125" class="pln"><span class="n"><a href="#t125">125</a></span><span class="t"><span class="str">    This is more detailed info to the function `myfunc`.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t126" class="pln"><span class="n"><a href="#t126">126</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t127" class="pln"><span class="n"><a href="#t127">127</a></span><span class="t"><span class="str">    Args:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t128" class="pln"><span class="n"><a href="#t128">128</a></span><span class="t"><span class="str">        arg1 (str): Argument `arg1` should be of type `str`.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t129" class="pln"><span class="n"><a href="#t129">129</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t130" class="pln"><span class="n"><a href="#t130">130</a></span><span class="t"><span class="str">    Todo:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t131" class="pln"><span class="n"><a href="#t131">131</a></span><span class="t"><span class="str">        * Single-line todos are introduced as a single bullet-point.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t132" class="pln"><span class="n"><a href="#t132">132</a></span><span class="t"><span class="str">        * This line becomes the title of the github issue.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t133" class="pln"><span class="n"><a href="#t133">133</a></span><span class="t"><span class="str">        * (kevinsawade) Assignees are put into parentheses.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t134" class="pln"><span class="n"><a href="#t134">134</a></span><span class="t"><span class="str">        * Titles for multi-line todos are also bullet-points.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t135" class="pln"><span class="n"><a href="#t135">135</a></span><span class="t"><span class="str">            But the body is indented according to google's styleguide.</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t136" class="pln"><span class="n"><a href="#t136">136</a></span><span class="t"><span class="str">            Assignees, labels and milestones are added similar to the in-line</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t137" class="pln"><span class="n"><a href="#t137">137</a></span><span class="t"><span class="str">            comments todos.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t48" class="pln"><span class="n"><a href="#t48">48</a></span><span class="t"><span class="str">If you are confident with GitHub actions, you can follow the quickstart on this projects &lt;a href="https://github.com/kevinsawade/python-todo-to-issue/blob/main/README.md">README.md&lt;/a>.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t49" class="pln"><span class="n"><a href="#t49">49</a></span><span class="t"><span class="str">page to quickly set up the this action. Otherwise you can follow these instructions:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t50" class="pln"><span class="n"><a href="#t50">50</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t51" class="pln"><span class="n"><a href="#t51">51</a></span><span class="t"><span class="str">- Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue-action.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t52" class="pln"><span class="n"><a href="#t52">52</a></span><span class="t"><span class="str">- If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: https://github.com/settings/tokens</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t53" class="pln"><span class="n"><a href="#t53">53</a></span><span class="t"><span class="str">- Go to the settings of the repo you want to use this action in and add the token as a new repository secret. Give it a descriptive name, like CUSTOM_ISSUE_TOKEN.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t54" class="pln"><span class="n"><a href="#t54">54</a></span><span class="t"><span class="str">- Create a .yml file at .github/workflows/todo-to-issue.yml with this syntax:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t55" class="pln"><span class="n"><a href="#t55">55</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t56" class="pln"><span class="n"><a href="#t56">56</a></span><span class="t"><span class="str">```yaml</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t57" class="pln"><span class="n"><a href="#t57">57</a></span><span class="t"><span class="str">name: Todo-to-Issue</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t58" class="pln"><span class="n"><a href="#t58">58</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t"><span class="str">on:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t60" class="pln"><span class="n"><a href="#t60">60</a></span><span class="t"><span class="str">  push:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t61" class="pln"><span class="n"><a href="#t61">61</a></span><span class="t"><span class="str">    branches: [ main ]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t62" class="pln"><span class="n"><a href="#t62">62</a></span><span class="t"><span class="str">  pull_request:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t63" class="pln"><span class="n"><a href="#t63">63</a></span><span class="t"><span class="str">    branches: [ main ]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t64" class="pln"><span class="n"><a href="#t64">64</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t65" class="pln"><span class="n"><a href="#t65">65</a></span><span class="t"><span class="str">jobs:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t66" class="pln"><span class="n"><a href="#t66">66</a></span><span class="t"><span class="str">  todo-to-issue:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t67" class="pln"><span class="n"><a href="#t67">67</a></span><span class="t"><span class="str">    # The type of runner that the job will run on</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t68" class="pln"><span class="n"><a href="#t68">68</a></span><span class="t"><span class="str">    runs-on: ubuntu-latest</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t69" class="pln"><span class="n"><a href="#t69">69</a></span><span class="t"><span class="str">    strategy:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t70" class="pln"><span class="n"><a href="#t70">70</a></span><span class="t"><span class="str">      matrix:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t71" class="pln"><span class="n"><a href="#t71">71</a></span><span class="t"><span class="str">        python-version: [3.9]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t72" class="pln"><span class="n"><a href="#t72">72</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t73" class="pln"><span class="n"><a href="#t73">73</a></span><span class="t"><span class="str">    steps:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t74" class="pln"><span class="n"><a href="#t74">74</a></span><span class="t"><span class="str">      - name: Checkout &#128718;&#65039;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t75" class="pln"><span class="n"><a href="#t75">75</a></span><span class="t"><span class="str">        uses: actions/checkout@v2</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t76" class="pln"><span class="n"><a href="#t76">76</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t77" class="pln"><span class="n"><a href="#t77">77</a></span><span class="t"><span class="str">      - name: Create Issues &#10004;&#65039;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t78" class="pln"><span class="n"><a href="#t78">78</a></span><span class="t"><span class="str">        uses: kevinsawade/python-todo-to-issue@latest</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t79" class="pln"><span class="n"><a href="#t79">79</a></span><span class="t"><span class="str">        with:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t80" class="pln"><span class="n"><a href="#t80">80</a></span><span class="t"><span class="str">          # GitHub Bot will open the issues:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t81" class="pln"><span class="n"><a href="#t81">81</a></span><span class="t"><span class="str">          TOKEN: ${{ secrets.GITHUB_TOKEN }}</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t82" class="pln"><span class="n"><a href="#t82">82</a></span><span class="t"><span class="str">          # Provide a custom secret</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t83" class="pln"><span class="n"><a href="#t83">83</a></span><span class="t"><span class="str">          # TOKEN: ${{ secrets.CUSTOM_ISSUE_TOKEN }}</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t84" class="pln"><span class="n"><a href="#t84">84</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t85" class="pln"><span class="n"><a href="#t85">85</a></span><span class="t"><span class="str">```</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t86" class="pln"><span class="n"><a href="#t86">86</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t87" class="pln"><span class="n"><a href="#t87">87</a></span><span class="t"><span class="str">All your todos will be converted to issues, once you push to github.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t88" class="pln"><span class="n"><a href="#t88">88</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t89" class="pln"><span class="n"><a href="#t89">89</a></span><span class="t"><span class="str">What is regarded as a Todo?</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t90" class="pln"><span class="n"><a href="#t90">90</a></span><span class="t"><span class="str">---------------------------</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t91" class="pln"><span class="n"><a href="#t91">91</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t92" class="pln"><span class="n"><a href="#t92">92</a></span><span class="t"><span class="str">First of all: Only Todos from commits are used as issues. If you have old Todos</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t93" class="pln"><span class="n"><a href="#t93">93</a></span><span class="t"><span class="str">in your module, you need to remove them, commit and then include them again.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t94" class="pln"><span class="n"><a href="#t94">94</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t95" class="pln"><span class="n"><a href="#t95">95</a></span><span class="t"><span class="str">Todos are searched for in comments which start with ``# Todo:``. You can expand</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t96" class="pln"><span class="n"><a href="#t96">96</a></span><span class="t"><span class="str">these comments with the assignee of the issue. For this you put the github</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t97" class="pln"><span class="n"><a href="#t97">97</a></span><span class="t"><span class="str">username of a maintainer, developer or owner of a repo in parentheses. You can</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t98" class="pln"><span class="n"><a href="#t98">98</a></span><span class="t"><span class="str">also write multi-line todos, by indenting them with extra spaces. Using this</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t99" class="pln"><span class="n"><a href="#t99">99</a></span><span class="t"><span class="str">multi-line syntax, you can add labels and milestone to an issue.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t100" class="pln"><span class="n"><a href="#t100">100</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t101" class="pln"><span class="n"><a href="#t101">101</a></span><span class="t"><span class="str">```python</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t102" class="pln"><span class="n"><a href="#t102">102</a></span><span class="t"><span class="str"># todo: This is a simple in-line todo. This will be the title of the issue.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t103" class="pln"><span class="n"><a href="#t103">103</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t104" class="pln"><span class="n"><a href="#t104">104</a></span><span class="t"><span class="str"># todo (kevinsawade): I will fix this weird contraption.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t105" class="pln"><span class="n"><a href="#t105">105</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t106" class="pln"><span class="n"><a href="#t106">106</a></span><span class="t"><span class="str"># Todo: This is the title of a mutli-line issue.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t107" class="pln"><span class="n"><a href="#t107">107</a></span><span class="t"><span class="str">#  This is the body of the multi-line issue. Here, you can specify</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t108" class="pln"><span class="n"><a href="#t108">108</a></span><span class="t"><span class="str">#  What needs to be done to fix this issue. Issues are automatically</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t109" class="pln"><span class="n"><a href="#t109">109</a></span><span class="t"><span class="str">#  closed, once the Todo is removed from the file. You can set assignees,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t110" class="pln"><span class="n"><a href="#t110">110</a></span><span class="t"><span class="str">#  labels and milestone like so:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t111" class="pln"><span class="n"><a href="#t111">111</a></span><span class="t"><span class="str">#  assignees: kevinsawade, github_user3</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t112" class="pln"><span class="n"><a href="#t112">112</a></span><span class="t"><span class="str">#  labels: devel, bug</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t113" class="pln"><span class="n"><a href="#t113">113</a></span><span class="t"><span class="str">#  milestone: release</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t114" class="pln"><span class="n"><a href="#t114">114</a></span><span class="t"><span class="str">```</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t115" class="pln"><span class="n"><a href="#t115">115</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t116" class="pln"><span class="n"><a href="#t116">116</a></span><span class="t"><span class="str">Besides these in-line Todos, Todos from google-style formatted docstrings will</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t117" class="pln"><span class="n"><a href="#t117">117</a></span><span class="t"><span class="str">also be picked up. The general style is the same. Indentation is done via</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t118" class="pln"><span class="n"><a href="#t118">118</a></span><span class="t"><span class="str">4 spaces. Assignees can be put in parentheses or as an extra line in multi-line Todos.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t119" class="pln"><span class="n"><a href="#t119">119</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t120" class="pln"><span class="n"><a href="#t120">120</a></span><span class="t"><span class="str">```python</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t121" class="pln"><span class="n"><a href="#t121">121</a></span><span class="t"><span class="str">def myfunc(arg1):</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t122" class="pln"><span class="n"><a href="#t122">122</a></span><span class="t"><span class="str">    \"\"\"This is the overview docstring.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t123" class="pln"><span class="n"><a href="#t123">123</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t124" class="pln"><span class="n"><a href="#t124">124</a></span><span class="t"><span class="str">    This is more detailed info to the function `myfunc`.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t125" class="pln"><span class="n"><a href="#t125">125</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t126" class="pln"><span class="n"><a href="#t126">126</a></span><span class="t"><span class="str">    Args:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t127" class="pln"><span class="n"><a href="#t127">127</a></span><span class="t"><span class="str">        arg1 (str): Argument `arg1` should be of type `str`.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t128" class="pln"><span class="n"><a href="#t128">128</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t129" class="pln"><span class="n"><a href="#t129">129</a></span><span class="t"><span class="str">    Todo:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t130" class="pln"><span class="n"><a href="#t130">130</a></span><span class="t"><span class="str">        * Single-line Todos are introduced as a single bullet-point.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t131" class="pln"><span class="n"><a href="#t131">131</a></span><span class="t"><span class="str">        * This line becomes the title of the GitHub issue.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t132" class="pln"><span class="n"><a href="#t132">132</a></span><span class="t"><span class="str">        * (kevinsawade) Assignees are put into parentheses.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t133" class="pln"><span class="n"><a href="#t133">133</a></span><span class="t"><span class="str">        * Titles for multi-line Todos are also bullet-points.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t134" class="pln"><span class="n"><a href="#t134">134</a></span><span class="t"><span class="str">            But the body is indented according to google's styleguide.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t135" class="pln"><span class="n"><a href="#t135">135</a></span><span class="t"><span class="str">            Assignees, labels and milestones are added similar to the in-line</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t136" class="pln"><span class="n"><a href="#t136">136</a></span><span class="t"><span class="str">            Todos. Once the Todo has been removed from the file, the issue</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t137" class="pln"><span class="n"><a href="#t137">137</a></span><span class="t"><span class="str">            is closed.</span>&nbsp;</span><span class="r"></span></p>
     <p id="t138" class="pln"><span class="n"><a href="#t138">138</a></span><span class="t"><span class="str">            assignees: kevinsawade, github_user2</span>&nbsp;</span><span class="r"></span></p>
     <p id="t139" class="pln"><span class="n"><a href="#t139">139</a></span><span class="t"><span class="str">            labels: devel, bug</span>&nbsp;</span><span class="r"></span></p>
     <p id="t140" class="pln"><span class="n"><a href="#t140">140</a></span><span class="t"><span class="str">            milestone: alpha</span>&nbsp;</span><span class="r"></span></p>
@@ -206,7 +206,7 @@
     <p id="t152" class="pln"><span class="n"><a href="#t152">152</a></span><span class="t"><span class="str">Todos after code lines</span>&nbsp;</span><span class="r"></span></p>
     <p id="t153" class="pln"><span class="n"><a href="#t153">153</a></span><span class="t"><span class="str">----------------------</span>&nbsp;</span><span class="r"></span></p>
     <p id="t154" class="pln"><span class="n"><a href="#t154">154</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t155" class="pln"><span class="n"><a href="#t155">155</a></span><span class="t"><span class="str">If you write your todos after code lines like so:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t155" class="pln"><span class="n"><a href="#t155">155</a></span><span class="t"><span class="str">If you write your Todos after code lines like so:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t156" class="pln"><span class="n"><a href="#t156">156</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t157" class="pln"><span class="n"><a href="#t157">157</a></span><span class="t"><span class="str">```python</span>&nbsp;</span><span class="r"></span></p>
     <p id="t158" class="pln"><span class="n"><a href="#t158">158</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -234,8 +234,8 @@
     <p id="t180" class="pln"><span class="n"><a href="#t180">180</a></span><span class="t"><span class="str">---------------------</span>&nbsp;</span><span class="r"></span></p>
     <p id="t181" class="pln"><span class="n"><a href="#t181">181</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t182" class="pln"><span class="n"><a href="#t182">182</a></span><span class="t"><span class="str">The remainder of this page contains the functions and classes used to run this</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t183" class="pln"><span class="n"><a href="#t183">183</a></span><span class="t"><span class="str">action. These functions and classes contain their own documentation which you</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t184" class="pln"><span class="n"><a href="#t184">184</a></span><span class="t"><span class="str">can use if you only want to use some parts of this code.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t183" class="pln"><span class="n"><a href="#t183">183</a></span><span class="t"><span class="str">action. These functions and classes contain their own documentation which might</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t184" class="pln"><span class="n"><a href="#t184">184</a></span><span class="t"><span class="str">help in debugging/ reusing parts of this code.</span>&nbsp;</span><span class="r"></span></p>
     <p id="t185" class="pln"><span class="n"><a href="#t185">185</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t186" class="pln"><span class="n"><a href="#t186">186</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t187" class="pln"><span class="n"><a href="#t187">187</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -1182,8 +1182,8 @@
 <div id="footer">
     <div class="content">
         <p>
-            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.5</a>,
-            created at 2021-09-30 10:07 +0000
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v6.0.2</a>,
+            created at 2021-10-22 10:41 +0000
         </p>
     </div>
 </div>
