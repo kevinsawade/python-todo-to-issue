@@ -45,9 +45,8 @@ Installation
 ------------
 
 This repo offers a GitHub action, that can be integrated into your GitHub workflows.
-If you are confident with github actions, you can follow the quickstart on that
-page to quickly set up the latest version of this action. Otherwise you can follow
-these instructions:
+If you are confident with GitHub actions, you can follow the quickstart on this projects <a href="https://github.com/kevinsawade/python-todo-to-issue/blob/main/README.md">README.md</a>.
+page to quickly set up the this action. Otherwise you can follow these instructions:
 
 - Visit the GitHub marketplace and find the latest version of this action: https://github.com/marketplace/actions/python-todo-to-issue-action.
 - If you want to have a dedicated bot open the issues you have to create a token with the issue scope on your tokens page: https://github.com/settings/tokens
@@ -87,17 +86,17 @@ jobs:
 
 All your todos will be converted to issues, once you push to github.
 
-What is regarded as a ToDo?
+What is regarded as a Todo?
 ---------------------------
 
-First of all: Only todos from commits are used as issues. If you have old Todos
+First of all: Only Todos from commits are used as issues. If you have old Todos
 in your module, you need to remove them, commit and then include them again.
 
 Todos are searched for in comments which start with ``# Todo:``. You can expand
 these comments with the assignee of the issue. For this you put the github
 username of a maintainer, developer or owner of a repo in parentheses. You can
 also write multi-line todos, by indenting them with extra spaces. Using this
-multi-line syntax, you can add labels and milestone to a issue.
+multi-line syntax, you can add labels and milestone to an issue.
 
 ```python
 # todo: This is a simple in-line todo. This will be the title of the issue.
@@ -107,7 +106,7 @@ multi-line syntax, you can add labels and milestone to a issue.
 # Todo: This is the title of a mutli-line issue.
 #  This is the body of the multi-line issue. Here, you can specify
 #  What needs to be done to fix this issue. Issues are automatically
-#  closed, once the issue is removed from the file. You can set assignees,
+#  closed, once the Todo is removed from the file. You can set assignees,
 #  labels and milestone like so:
 #  assignees: kevinsawade, github_user3
 #  labels: devel, bug
@@ -116,7 +115,7 @@ multi-line syntax, you can add labels and milestone to a issue.
 
 Besides these in-line Todos, Todos from google-style formatted docstrings will
 also be picked up. The general style is the same. Indentation is done via
-4 spaces. Assignees can be put in parentheses or as a line in multi-line todos.
+4 spaces. Assignees can be put in parentheses or as an extra line in multi-line Todos.
 
 ```python
 def myfunc(arg1):
@@ -128,13 +127,14 @@ def myfunc(arg1):
         arg1 (str): Argument `arg1` should be of type `str`.
 
     Todo:
-        * Single-line todos are introduced as a single bullet-point.
-        * This line becomes the title of the github issue.
+        * Single-line Todos are introduced as a single bullet-point.
+        * This line becomes the title of the GitHub issue.
         * (kevinsawade) Assignees are put into parentheses.
-        * Titles for multi-line todos are also bullet-points.
+        * Titles for multi-line Todos are also bullet-points.
             But the body is indented according to google's styleguide.
             Assignees, labels and milestones are added similar to the in-line
-            comments todos.
+            Todos. Once the Todo has been removed from the file, the issue
+            is closed.
             assignees: kevinsawade, github_user2
             labels: devel, bug
             milestone: alpha
@@ -152,7 +152,7 @@ case insensitive and only works if you use it verbose.
 Todos after code lines
 ----------------------
 
-If you write your todos after code lines like so:
+If you write your Todos after code lines like so:
 
 ```python
 
@@ -180,8 +180,8 @@ Classes and Functions
 ---------------------
 
 The remainder of this page contains the functions and classes used to run this
-action. These functions and classes contain their own documentation which you
-can use if you only want to use some parts of this code.
+action. These functions and classes contain their own documentation which might
+help in debugging/ reusing parts of this code.
 
 
 
