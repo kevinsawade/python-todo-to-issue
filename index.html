@@ -707,7 +707,7 @@ class GitHubClient():
         # truncate issue title if too long
         title = issue.title
         if len(title) &gt; 80:
-            title = tile[:80] + &#39;...&#39;
+            title = title[:80] + &#39;...&#39;
 
         # define url to line
         url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
@@ -1940,7 +1940,7 @@ testing (bool, optional): Whether class is used during testing.</p></div>
         # truncate issue title if too long
         title = issue.title
         if len(title) &gt; 80:
-            title = tile[:80] + &#39;...&#39;
+            title = title[:80] + &#39;...&#39;
 
         # define url to line
         url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
@@ -2140,7 +2140,7 @@ issue (Issue): An instance of the <code><a title="main.Issue" href="#main.Issue"
     # truncate issue title if too long
     title = issue.title
     if len(title) &gt; 80:
-        title = tile[:80] + &#39;...&#39;
+        title = title[:80] + &#39;...&#39;
 
     # define url to line
     url_to_line = f&#39;https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}&#39;
