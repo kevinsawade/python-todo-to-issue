@@ -1057,7 +1057,7 @@ def run_tests_from_main():
     return result
 
 
-def main(testing):
+def main(testing): # pragma: no cover
     if testing or os.getenv('INPUT_TESTING') == 'true':
         if not os.path.isfile('tests/test_todo_to_issue.py'):
             raise Exception("Please switch the TESTING argument in your workflow.yml file to 'false'. Tests will only run in the python-todo-to-issue repository.")
