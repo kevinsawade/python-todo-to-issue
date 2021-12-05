@@ -559,7 +559,7 @@ class GitHubClient():
         # truncate issue title if too long
         title = issue.title
         if len(title) > 80:
-            title = tile[:80] + '...'
+            title = title[:80] + '...'
 
         # define url to line
         url_to_line = f'https://github.com/{self.repo}/blob/{self.sha}/{issue.file_name}#L{issue.start_line}'
