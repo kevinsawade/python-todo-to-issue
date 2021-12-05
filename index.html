@@ -1205,7 +1205,7 @@ def run_tests_from_main():
     return result
 
 
-def main(testing):
+def main(testing): # pragma: no cover
     if testing or os.getenv(&#39;INPUT_TESTING&#39;) == &#39;true&#39;:
         if not os.path.isfile(&#39;tests/test_todo_to_issue.py&#39;):
             raise Exception(&#34;Please switch the TESTING argument in your workflow.yml file to &#39;false&#39;. Tests will only run in the python-todo-to-issue repository.&#34;)
@@ -1554,7 +1554,7 @@ todo line, or a str, when line is a todo line. todo: +SKIP.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def main(testing):
+<pre><code class="python">def main(testing): # pragma: no cover
     if testing or os.getenv(&#39;INPUT_TESTING&#39;) == &#39;true&#39;:
         if not os.path.isfile(&#39;tests/test_todo_to_issue.py&#39;):
             raise Exception(&#34;Please switch the TESTING argument in your workflow.yml file to &#39;false&#39;. Tests will only run in the python-todo-to-issue repository.&#34;)
