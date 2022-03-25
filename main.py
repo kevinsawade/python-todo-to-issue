@@ -774,7 +774,7 @@ class TodoParser:
                     * Single-line Todo. Add more documentation. todo: +SKIP
                     * (kevinsawade) We should also add some actual code. todo: +SKIP
                     * Multi-line todos should follow google-styleguide. todo: +SKIP
-                        This means a tab should be used indentation inside
+                        This means a tab should be used as indentation inside
                         the docstrings. This will form the body of the issue.
                         Assignees and labels can be added the same way:
                         assignees: github_user2, user3
